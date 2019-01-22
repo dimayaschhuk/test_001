@@ -9,7 +9,7 @@ class TestController extends Controller
 
     public function setWebHook()
     {
-        $url = 'https://www.dimayashchuk.icu/';
+        $url = 'https://www.dimayashchuk.icu';
         $result = $this->sendTelegramData('setwebhook', [
             'query' => ['url' => $url . '/' . \Telegram::getAccessToken()],
         ]);
