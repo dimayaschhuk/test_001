@@ -14,7 +14,7 @@ class TelegramController extends Controller
 
         $response = \Telegram::sendMessage([
             'chat_id' => $telegramUser['from']['id'],
-            'text' => 'Hello World',
+            'text' => 'qqqqqq',
         ]);
         $response->getMessageId();
 
