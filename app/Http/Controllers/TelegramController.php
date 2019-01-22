@@ -12,16 +12,30 @@ class TelegramController extends Controller
         $telegramUser=\Telegram::getWebhookUpdates()['message'];
         $text=$telegramUser['text'];
 
+        session()->put($telegramUser['from']['id'],'');
+        if(session()->has($telegramUser['from']['id'])){
+            session()->get($telegramUser['from']['id']);
+        }
+
         if($text=='Защита культур'){
             $response = \Telegram::sendMessage([
                 'chat_id' => $telegramUser['from']['id'],
-                'text' => 'Защита культур',
+                'text' => 'Введіть назву або перші букви культур',
             ]);
             $response->getMessageId();
+        }
+        if($text=='/start'){
+            Telegram::commandsHandler(TRUE);
         }
 
 
 
-        Telegram::commandsHandler(TRUE);
+
+    }
+
+    public function getFlow(){
+        return [
+            ''
+        ];
     }
 }
