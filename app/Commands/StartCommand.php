@@ -23,10 +23,7 @@ class StartCommand extends Command
        $telegramUser=\Telegram::getWebhookUpdates()['message'];
 
         $keyboard = [
-            ['7', '8', '9'],
-            ['4', '5', '6'],
-            ['1', '2', '3'],
-            ['0']
+            ['Продукты', 'Защита культур'],
         ];
 
         $reply_markup = \Telegram::replyKeyboardMarkup([

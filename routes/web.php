@@ -15,9 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post(\Telegram::getAccessToken(),function (){
-    \Telegram::commandsHandler(TRUE);
-});
+Route::post(\Telegram::getAccessToken(),'TestController@webhook');
 
 Route::get('/set', 'TestController@setWebHook');
 Route::get('/get', 'TestController@getWebHookInfo');
