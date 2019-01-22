@@ -24,6 +24,25 @@ class TelegramController extends Controller
             ]);
             $response->getMessageId();
         }
+
+        if($text=='Продукты'){
+            $keyboard = [
+                ['йцу', 'куй'],
+            ];
+
+            $reply_markup = \Telegram::replyKeyboardMarkup([
+                'keyboard' => $keyboard,
+                'resize_keyboard' => true,
+                'one_time_keyboard' => true
+            ]);
+
+            $response = \Telegram::sendMessage([
+                'chat_id' => $telegramUser['from']['id'],
+
+                'reply_markup' => $reply_markup
+            ]);
+            $messageId = $response->getMessageId();
+        }
         if($text=='/start'){
             Telegram::commandsHandler(TRUE);
         }
