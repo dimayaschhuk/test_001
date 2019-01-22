@@ -10,9 +10,14 @@ class TelegramController extends Controller
 {
     public function webhook(){
         $telegramUser=\Telegram::getWebhookUpdates()['message'];
+        
 
-        $SendMessageCommand= new SendMessageCommand();
-        $SendMessageCommand->handle('ff');
+        $response = \Telegram::sendMessage([
+            'chat_id' => $telegramUser['from']['id'],
+            'text' => 'Hello World',
+        ]);
+        $response->getMessageId();
+
 
         Telegram::commandsHandler(TRUE);
     }
