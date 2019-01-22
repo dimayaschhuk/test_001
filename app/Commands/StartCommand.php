@@ -14,7 +14,7 @@ use Telegram\Bot\Commands\Command;
 class StartCommand extends Command
 {
     protected $name = 'start';
-    protected $description = 'start command';
+    protected $description = 'startcccc command';
 
     public function handle($arguments)
     {
@@ -34,7 +34,7 @@ class StartCommand extends Command
 
         $response = \Telegram::sendMessage([
             'chat_id' => $telegramUser['from']['id'],
-            'text' => 'Hello World',
+
             'reply_markup' => $reply_markup
         ]);
         $messageId = $response->getMessageId();
