@@ -15,7 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post(\Telegram::getAccessToken(),'TestController@webhook');
+Route::post(\Telegram::getAccessToken(),function (){
+    app('App\Http\Controllers\TelegramController')->webhook();
+});
 
 Route::get('/set', 'TestController@setWebHook');
 Route::get('/get', 'TestController@getWebHookInfo');
