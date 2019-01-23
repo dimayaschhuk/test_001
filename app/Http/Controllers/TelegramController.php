@@ -20,7 +20,7 @@ class TelegramController extends Controller
             $data = Cache::get($telegramUser['from']['id']);
             if ($data['flow'] == 'testFlow') {
                 $method = next_method($data);
-                $this->test($chatId,'next method: '.$method);
+//                $this->test($chatId,'next method: '.$method);
                 if ($method == 'testMethod') {
                     $this->testMethod($chatId,$text);
                 }
@@ -80,7 +80,7 @@ class TelegramController extends Controller
             ['Культура'],
         ];
 
-        $reply_markup = \Telegram::replyKeyboardMarkup([
+        $reply_markup = \Telegram::forceReply([
             'keyboard'          => $keyboard,
             'resize_keyboard'   => TRUE,
             'one_time_keyboard' => TRUE,
