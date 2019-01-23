@@ -83,7 +83,7 @@ class TelegramController extends Controller
         $reply_markup = \Telegram::forceReply([
             'keyboard'          => $keyboard,
             'resize_keyboard'   => TRUE,
-            'one_time_keyboard' => TRUE,
+            'one_time_keyboard' => FALSE,
         ]);
 
         $response = \Telegram::sendMessage([
