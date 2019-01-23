@@ -11,15 +11,16 @@ class TelegramController extends Controller
 {
     public function webhook()
     {
+        session_start();
         $telegramUser = \Telegram::getWebhookUpdates()['message'];
 
-        if (session($telegramUser['from']['id'])) {
+        if (isset($_SESSION[$telegramUser['from']['id']])) {
             $response = \Telegram::sendMessage([
                 'chat_id' => $telegramUser['from']['id'],
-                'text'    => (string)session($telegramUser['from']['id']),
+                'text'    => (string)session($_SESSION[$telegramUser['from']['id']]),
             ]);
         } else {
-            session([$telegramUser['from']['id'] => 'value']);
+            $_SESSION[$telegramUser['from']['id']] = 'test';
             $response = \Telegram::sendMessage([
                 'chat_id' => $telegramUser['from']['id'],
                 'text'    => 'welcome',
