@@ -22,23 +22,23 @@ class TelegramController extends Controller
                 $method = next_method($data);
 //                $this->test($chatId,'next method: '.$method);
                 if ($method == 'testMethod') {
-                    $this->testMethod($chatId,$text);
+                    $this->testMethod($chatId, $text);
                 }
                 if ($method == 'testMetho') {
-                    $this->testMetho($chatId,$text);
+                    $this->testMetho($chatId, $text);
                 }
                 if ($method == 'testMeth') {
-                    $this->testMeth($chatId,$text);
+                    $this->testMeth($chatId, $text);
                 }
-            }else{
-                $this->test($chatId,'not testFlow');
+            } else {
+                $this->test($chatId, 'not testFlow');
             }
         } else {
             $value = ['flow' => 'testFlow', 'method' => 'welcome'];
             Cache::put($telegramUser['from']['id'], $value, 1);
             $response = \Telegram::sendMessage([
-                'chat_id'      => $telegramUser['from']['id'],
-                'text'         => 'Добро рожаловть',
+                'chat_id' => $telegramUser['from']['id'],
+                'text'    => 'Добро рожаловть',
             ]);
             $response->getMessageId();
             $keyboard = [
@@ -47,7 +47,7 @@ class TelegramController extends Controller
             $reply_markup = \Telegram::replyKeyboardHide([
                 'keyboard'          => $keyboard,
                 'resize_keyboard'   => TRUE,
-                'one_time_keyboard' => TRUE,
+                'one_time_keyboard' => FALSE,
             ]);
             $response = \Telegram::sendMessage([
                 'chat_id'      => $chatId,
@@ -60,19 +60,19 @@ class TelegramController extends Controller
 
     }
 
-    public function testMethod($chatId,$text)
+    public function testMethod($chatId, $text)
     {
         $value = ['flow' => 'testFlow', 'method' => 'testMethod'];
         Cache::put($chatId, $value, 1);
         $response = \Telegram::sendMessage([
-            'chat_id'      => $chatId,
-            'text'         => 'Введіть назву культури або перші букви',
+            'chat_id' => $chatId,
+            'text'    => 'Введіть назву культури або перші букви',
         ]);
 
         $response->getMessageId();
     }
 
-    public function testMetho($chatId,$text)
+    public function testMetho($chatId, $text)
     {
         $value = ['flow' => 'testFlow', 'method' => 'testMetho'];
         Cache::put($chatId, $value, 1);
@@ -95,18 +95,18 @@ class TelegramController extends Controller
         $response->getMessageId();
     }
 
-    public function testMeth($chatId,$text)
+    public function testMeth($chatId, $text)
     {
         $value = ['flow' => 'testFlow', 'method' => 'testMeth'];
         Cache::put($chatId, $value, 1);
         $keyboard = [
-            ['Група1','Група2'],
+            ['Група1', 'Група2'],
         ];
 
         $reply_markup = \Telegram::replyKeyboardMarkup([
             'keyboard'          => $keyboard,
             'resize_keyboard'   => TRUE,
-            'one_time_keyboard' => TRUE,
+            'one_time_keyboard' => FALSE,
         ]);
 
         $response = \Telegram::sendMessage([
@@ -120,12 +120,13 @@ class TelegramController extends Controller
 
 
 
-    public function test($chatId,$text)
+
+    public function test($chatId, $text)
     {
 
         $response = \Telegram::sendMessage([
-            'chat_id'      => $chatId,
-            'text'         => 'test: '.$text,
+            'chat_id' => $chatId,
+            'text'    => 'test: ' . $text,
         ]);
 
         $response->getMessageId();
