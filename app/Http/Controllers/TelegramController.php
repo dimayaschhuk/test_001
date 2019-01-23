@@ -21,7 +21,7 @@ class TelegramController extends Controller
             $data = Cache::get($telegramUser['from']['id']);
             if ($data['flow'] == 'testFlow') {
                 $method = next_method($data);
-                $this->test($chatId,(string)$method);
+                $this->test($chatId,'next method: '.$method);
                 if ($method == 'testMethod') {
                     $this->testMethod($chatId,$text);
                 }
@@ -42,17 +42,14 @@ class TelegramController extends Controller
                 'text'         => 'Добро рожаловть',
             ]);
             $response->getMessageId();
-
             $keyboard = [
                 ['Продукты', 'Защита культур'],
             ];
-
             $reply_markup = \Telegram::replyKeyboardMarkup([
                 'keyboard'          => $keyboard,
                 'resize_keyboard'   => TRUE,
                 'one_time_keyboard' => TRUE,
             ]);
-
             $response = \Telegram::sendMessage([
                 'chat_id'      => $chatId,
                 'text'         => 'Виберіть гілку',
