@@ -20,7 +20,7 @@ class TelegramController extends Controller
 
 
         if (Cache::has($telegramUser['from']['id'])) {
-            $value = Cache::get('key');
+            $value = Cache::get($telegramUser['from']['id']);
             $response = \Telegram::sendMessage([
                 'chat_id' => $telegramUser['from']['id'],
                 'text'    => (string)$value,
