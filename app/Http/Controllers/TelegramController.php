@@ -9,31 +9,32 @@ use Telegram;
 
 class TelegramController extends Controller
 {
-    public function webhook(){
-       $request= new Request();
-        
-        $telegramUser=\Telegram::getWebhookUpdates()['message'];
+    public function webhook()
+    {
+        $request = new Request();
+
+        $telegramUser = \Telegram::getWebhookUpdates()['message'];
+        if($request->session()->has($telegramUser['from']['id'])){
+            $response = \Telegram::sendMessage([
+                'chat_id' => $telegramUser['from']['id'],
+                'text' => $request->session()->get($telegramUser['from']['id']),
+            ]);
+            $response->getMessageId();
+        }else{
 
             $response = \Telegram::sendMessage([
                 'chat_id' => $telegramUser['from']['id'],
-                'text' => 'Введіть назву або перші букви культур',
+                'text' => 'welcome',
             ]);
             $response->getMessageId();
-//        if($request->session()->has($telegramUser['from']['id'])){
-//            $response = \Telegram::sendMessage([
-//                'chat_id' => $telegramUser['from']['id'],
-//                'text' => 'fff',
-//            ]);
-//            $response->getMessageId();
-//        }else{
+            $request->session($telegramUser['from']['id'],'вже є');
+        }
+//        $response = \Telegram::sendMessage([
+//            'chat_id' => $telegramUser['from']['id'],
+//            'text'    => 'Введіть назву або перші букви культур',
+//        ]);
+//        $response->getMessageId();
 //
-//            $response = \Telegram::sendMessage([
-//                'chat_id' => $telegramUser['from']['id'],
-//                'text' => 'welcome',
-//            ]);
-//            $response->getMessageId();
-//            $request->session($telegramUser['from']['id'],'вже є');
-//        }
 //        if($text=='Защита культур'){
 
 //        }
@@ -61,13 +62,12 @@ class TelegramController extends Controller
 //        }
 
 
-
-
     }
 
-    public function getFlow(){
+    public function getFlow()
+    {
         return [
-            ''
+            '',
         ];
     }
 }
