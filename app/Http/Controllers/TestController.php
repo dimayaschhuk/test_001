@@ -13,16 +13,16 @@ class TestController extends Controller
         $result = $this->sendTelegramData('setwebhook', [
             'query' => ['url' => $url . '/' . \Telegram::getAccessToken()],
         ]);
-        $request->session('ee', 'reeeee');
+        $request->session()->put('q','q');
 
-        dd($result, $request->session('ee'));
+        dd($result, $request->session()->get('q'));
     }
 
     public function getWebHookInfo(Request $request)
     {
         $result = $this->sendTelegramData('getWebhookInfo');
 
-        dd($result, $request->session('ee'));
+        dd($result, $request->session()->get('q'));
     }
 
     public function sendTelegramData($route = '', $params = [], $method = 'POST')
