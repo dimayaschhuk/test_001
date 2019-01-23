@@ -14,9 +14,9 @@ class TelegramController extends Controller
     {
         $telegramUser = \Telegram::getWebhookUpdates()['message'];
         $chatId = $telegramUser['from']['id'];
-//        $text = $telegramUser['text'];
+        $text = $telegramUser['text'];
 
-        $this->testMethod($chatId,'ff');
+        $this->testMethod($chatId,$text);
 //        if (Cache::has($telegramUser['from']['id'])) {
 //            $data = Cache::get($telegramUser['from']['id']);
 //            if ($data['flow'] == 'testFlow') {
