@@ -17,47 +17,47 @@ class TelegramController extends Controller
 //        $text = $telegramUser['text'];
 
         $this->testMethod($chatId,'ff');
-        if (Cache::has($telegramUser['from']['id'])) {
-            $data = Cache::get($telegramUser['from']['id']);
-            if ($data['flow'] == 'testFlow') {
-                $method = next_method($data);
-                if ($method == 'testMethod') {
-                    $this->testMethod($chatId,$text);
-                }
-                if ($method == 'testMetho') {
-                    $this->testMetho($chatId,$text);
-                }
-                if ($method == 'testMeth') {
-                    $this->testMeth($chatId,$text);
-                }
-            }
-        } else {
-            $value = ['flow' => 'testFlow', 'method' => 'welcome'];
-            Cache::put($telegramUser['from']['id'], $value, 10);
-            $response = \Telegram::sendMessage([
-                'chat_id'      => $telegramUser['from']['id'],
-                'text'         => 'Добро рожаловть',
-            ]);
-            $response->getMessageId();
-
-            $keyboard = [
-                ['Продукты', 'Защита культур'],
-            ];
-
-            $reply_markup = \Telegram::replyKeyboardMarkup([
-                'keyboard'          => $keyboard,
-                'resize_keyboard'   => TRUE,
-                'one_time_keyboard' => TRUE,
-            ]);
-
-            $response = \Telegram::sendMessage([
-                'chat_id'      => $chatId,
-                'text'         => 'Виберіть гілку',
-                'reply_markup' => $reply_markup,
-            ]);
-        }
-
-        $response->getMessageId();
+//        if (Cache::has($telegramUser['from']['id'])) {
+//            $data = Cache::get($telegramUser['from']['id']);
+//            if ($data['flow'] == 'testFlow') {
+//                $method = next_method($data);
+//                if ($method == 'testMethod') {
+//                    $this->testMethod($chatId,$text);
+//                }
+//                if ($method == 'testMetho') {
+//                    $this->testMetho($chatId,$text);
+//                }
+//                if ($method == 'testMeth') {
+//                    $this->testMeth($chatId,$text);
+//                }
+//            }
+//        } else {
+//            $value = ['flow' => 'testFlow', 'method' => 'welcome'];
+//            Cache::put($telegramUser['from']['id'], $value, 10);
+//            $response = \Telegram::sendMessage([
+//                'chat_id'      => $telegramUser['from']['id'],
+//                'text'         => 'Добро рожаловть',
+//            ]);
+//            $response->getMessageId();
+//
+//            $keyboard = [
+//                ['Продукты', 'Защита культур'],
+//            ];
+//
+//            $reply_markup = \Telegram::replyKeyboardMarkup([
+//                'keyboard'          => $keyboard,
+//                'resize_keyboard'   => TRUE,
+//                'one_time_keyboard' => TRUE,
+//            ]);
+//
+//            $response = \Telegram::sendMessage([
+//                'chat_id'      => $chatId,
+//                'text'         => 'Виберіть гілку',
+//                'reply_markup' => $reply_markup,
+//            ]);
+//        }
+//
+//        $response->getMessageId();
     }
 
     public function testMethod($chatId,$text)
