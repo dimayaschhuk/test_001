@@ -18,21 +18,21 @@ class TelegramController extends Controller
             'text' => 'fff',
         ]);
         $response->getMessageId();
-        if($request->session()->has($telegramUser['from']['id'])){
-            $response = \Telegram::sendMessage([
-                'chat_id' => $telegramUser['from']['id'],
-                'text' => 'fff',
-            ]);
-            $response->getMessageId();
-        }else{
-
-            $response = \Telegram::sendMessage([
-                'chat_id' => $telegramUser['from']['id'],
-                'text' => 'welcome',
-            ]);
-            $response->getMessageId();
-            $request->session($telegramUser['from']['id'],'вже є');
-        }
+//        if($request->session()->has($telegramUser['from']['id'])){
+//            $response = \Telegram::sendMessage([
+//                'chat_id' => $telegramUser['from']['id'],
+//                'text' => 'fff',
+//            ]);
+//            $response->getMessageId();
+//        }else{
+//
+//            $response = \Telegram::sendMessage([
+//                'chat_id' => $telegramUser['from']['id'],
+//                'text' => 'welcome',
+//            ]);
+//            $response->getMessageId();
+//            $request->session($telegramUser['from']['id'],'вже є');
+//        }
 //        if($text=='Защита культур'){
 //            $response = \Telegram::sendMessage([
 //                'chat_id' => $telegramUser['from']['id'],
