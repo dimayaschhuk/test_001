@@ -44,7 +44,7 @@ class TelegramController extends Controller
             $keyboard = [
                 ['Продукты', 'Защита культур'],
             ];
-            $reply_markup = \Telegram::replyKeyboardMarkup([
+            $reply_markup = \Telegram::replyKeyboardHide([
                 'keyboard'          => $keyboard,
                 'resize_keyboard'   => TRUE,
                 'one_time_keyboard' => TRUE,
