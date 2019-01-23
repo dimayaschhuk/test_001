@@ -12,6 +12,11 @@ class TelegramController extends Controller
         $telegramUser=\Telegram::getWebhookUpdates()['message'];
         $text=$telegramUser['text'];
 
+        $response = \Telegram::sendMessage([
+            'chat_id' => $telegramUser['from']['id'],
+            'text' => $telegramUser['from']['id'],
+        ]);
+        $response->getMessageId();
         if(session()->has($telegramUser['from']['id'])){
             $response = \Telegram::sendMessage([
                 'chat_id' => $telegramUser['from']['id'],
