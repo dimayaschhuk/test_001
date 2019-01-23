@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Commands\SendMessageCommand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Telegram;
 
 
@@ -11,22 +12,27 @@ class TelegramController extends Controller
 {
     public function webhook()
     {
-        session_start();
         $telegramUser = \Telegram::getWebhookUpdates()['message'];
 
-        if (isset($_SESSION[$telegramUser['from']['id']])) {
+
+
+
+
+
+        if (Cache::has($telegramUser['from']['id'])) {
+            $value = Cache::get('key');
             $response = \Telegram::sendMessage([
                 'chat_id' => $telegramUser['from']['id'],
-                'text'    => (string)session($_SESSION[$telegramUser['from']['id']]),
+                'text'    => (string)$value,
             ]);
-        } else {
-            $_SESSION[$telegramUser['from']['id']] = 'test';
+        }else{
+            $value = 'Chat_id:'.$telegramUser['from']['id'];
+            Cache::put($telegramUser['from']['id'],$value,10);
             $response = \Telegram::sendMessage([
                 'chat_id' => $telegramUser['from']['id'],
-                'text'    => 'welcome',
+                'text'    => 'ffffff',
             ]);
         }
-
 
         $response->getMessageId();
 //        if($request->session()->has($telegramUser['from']['id'])){
