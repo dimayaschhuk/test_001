@@ -17,7 +17,7 @@ class TelegramController extends Controller
         if($request->session()->has($telegramUser['from']['id'])){
             $response = \Telegram::sendMessage([
                 'chat_id' => $telegramUser['from']['id'],
-                'text' => $request->session()->get($telegramUser['from']['id']),
+                'text' => 'fff',
             ]);
             $response->getMessageId();
         }else{
