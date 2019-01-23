@@ -16,7 +16,6 @@ class TelegramController extends Controller
         $chatId = $telegramUser['from']['id'];
         $text = $telegramUser['text'];
 
-        $this->testMethod($chatId,$text);
         if (Cache::has($telegramUser['from']['id'])) {
             $data = Cache::get($telegramUser['from']['id']);
             if ($data['flow'] == 'testFlow') {
