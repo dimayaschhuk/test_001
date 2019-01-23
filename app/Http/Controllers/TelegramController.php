@@ -9,15 +9,16 @@ use Telegram;
 
 class TelegramController extends Controller
 {
-    public function webhook(Request $request){
+    public function webhook(){
+       $request= new Request();
+        
         $telegramUser=\Telegram::getWebhookUpdates()['message'];
-        $text=$telegramUser['text'];
 
-        $response = \Telegram::sendMessage([
-            'chat_id' => $telegramUser['from']['id'],
-            'text' => 'fff',
-        ]);
-        $response->getMessageId();
+            $response = \Telegram::sendMessage([
+                'chat_id' => $telegramUser['from']['id'],
+                'text' => 'Введіть назву або перші букви культур',
+            ]);
+            $response->getMessageId();
 //        if($request->session()->has($telegramUser['from']['id'])){
 //            $response = \Telegram::sendMessage([
 //                'chat_id' => $telegramUser['from']['id'],
@@ -34,11 +35,7 @@ class TelegramController extends Controller
 //            $request->session($telegramUser['from']['id'],'вже є');
 //        }
 //        if($text=='Защита культур'){
-//            $response = \Telegram::sendMessage([
-//                'chat_id' => $telegramUser['from']['id'],
-//                'text' => 'Введіть назву або перші букви культур',
-//            ]);
-//            $response->getMessageId();
+
 //        }
 //
 //        if($text=='Продукты'){
