@@ -11,19 +11,22 @@ class TelegramController extends Controller
 {
     public function webhook()
     {
-        $value = session('key');
-
-        // Specifying a default value...
-        $value = session('key', 'default');
-
-        // Store a piece of data in the session...
-        session(['key' => 'value']);
-
         $telegramUser = \Telegram::getWebhookUpdates()['message'];
-        $response = \Telegram::sendMessage([
-            'chat_id' => $telegramUser['from']['id'],
-            'text' => 'welcome',
-        ]);
+
+        if (session($telegramUser['from']['id'])) {
+            $response = \Telegram::sendMessage([
+                'chat_id' => $telegramUser['from']['id'],
+                'text'    => (string)session($telegramUser['from']['id']),
+            ]);
+        } else {
+            session([$telegramUser['from']['id'] => 'value']);
+            $response = \Telegram::sendMessage([
+                'chat_id' => $telegramUser['from']['id'],
+                'text'    => 'welcome',
+            ]);
+        }
+
+
         $response->getMessageId();
 //        if($request->session()->has($telegramUser['from']['id'])){
 //            $response = \Telegram::sendMessage([
