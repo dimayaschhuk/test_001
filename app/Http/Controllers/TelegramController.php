@@ -47,7 +47,7 @@ class TelegramController extends Controller
             $reply_markup = \Telegram::replyKeyboardHide([
                 'keyboard'          => $keyboard,
                 'resize_keyboard'   => TRUE,
-                'one_time_keyboard' => FALSE,
+                'one_time_keyboard' => TRUE,
             ]);
             $response = \Telegram::sendMessage([
                 'chat_id'      => $chatId,
@@ -83,7 +83,7 @@ class TelegramController extends Controller
         $reply_markup = \Telegram::forceReply([
             'keyboard'          => $keyboard,
             'resize_keyboard'   => TRUE,
-            'one_time_keyboard' => FALSE,
+            'one_time_keyboard' => TRUE,
         ]);
 
         $response = \Telegram::sendMessage([
@@ -106,7 +106,7 @@ class TelegramController extends Controller
         $reply_markup = \Telegram::replyKeyboardMarkup([
             'keyboard'          => $keyboard,
             'resize_keyboard'   => TRUE,
-            'one_time_keyboard' => FALSE,
+            'one_time_keyboard' => TRUE,
         ]);
 
         $response = \Telegram::sendMessage([
