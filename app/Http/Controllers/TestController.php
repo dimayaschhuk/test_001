@@ -7,22 +7,22 @@ use Illuminate\Http\Request;
 class TestController extends Controller
 {
 
-    public function setWebHook()
+    public function setWebHook(Request $request)
     {
         $url = 'https://www.dimayashchuk.icu';
         $result = $this->sendTelegramData('setwebhook', [
             'query' => ['url' => $url . '/' . \Telegram::getAccessToken()],
         ]);
-        session('ee', 'reeeee');
+        $request->session('ee', 'reeeee');
 
-        dd($result, session('ee'));
+        dd($result, $request->session('ee'));
     }
 
-    public function getWebHookInfo()
+    public function getWebHookInfo(Request $request)
     {
         $result = $this->sendTelegramData('getWebhookInfo');
 
-        dd($result, session('ee'));
+        dd($result, $request->session('ee'));
     }
 
     public function sendTelegramData($route = '', $params = [], $method = 'POST')
@@ -32,4 +32,6 @@ class TestController extends Controller
 
         return (string)$result->getBody();
     }
+
+
 }
