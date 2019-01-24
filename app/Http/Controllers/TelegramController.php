@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\BaseModels\Culture;
 use App\BaseModels\Problem;
+use App\BaseModels\ProblemGroup;
 use App\Commands\SendMessageCommand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -110,7 +111,7 @@ class TelegramController extends Controller
     {
         $value = ['flow' => 'testFlow', 'method' => 'chooseGroup'];
         Cache::put($chatId, $value, 1);
-        $keyboard = get_keyboard(Problem::all()->pluck('name')->toArray());
+        $keyboard = get_keyboard(ProblemGroup::all()->pluck('name')->toArray());
 
 
         $reply_markup = \Telegram::replyKeyboardMarkup([
