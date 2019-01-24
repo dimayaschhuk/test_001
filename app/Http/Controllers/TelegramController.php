@@ -80,7 +80,7 @@ class TelegramController extends Controller
 
         $keyboard=get_keyboard(Culture::where('name','LIKE', "%{$text}%")->pluck('name')->toArray());
 
-        $reply_markup = \Telegram::forceReply([
+        $reply_markup = \Telegram::replyKeyboardMarkup([
             'keyboard'          => $keyboard,
             'resize_keyboard'   => TRUE,
             'one_time_keyboard' => TRUE,
