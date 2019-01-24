@@ -38,13 +38,13 @@ class TelegramController extends Controller
                 }
 
                 if ($method == 'sendTextProblemGroup') {
-                    $this->selectCulture($chatId, $text);
+                    $this->sendTextProblemGroup($chatId, $text);
                 }
                 if ($method == 'selectProblemGroup') {
-                    $this->selectCulture($chatId, $text);
+                    $this->selectProblemGroup($chatId, $text);
                 }
                 if ($method == 'sendTextProblem') {
-                    $this->selectCulture($chatId, $text);
+                    $this->sendTextProblem($chatId, $text);
                 }
 
             } else {
