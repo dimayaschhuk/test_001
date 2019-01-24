@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Culture extends Model
 {
-    protected $table = 'admin_role_translations';
+    protected $table = 'pd_Culture';
 
     public $fillable = [
         'name',
