@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BaseModels\Culture;
 use App\Commands\SendMessageCommand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -21,11 +22,11 @@ class TelegramController extends Controller
             if ($data['flow'] == 'testFlow') {
                 $method = next_method($data);
 //                $this->test($chatId,'next method: '.$method);
-                if ($method == 'testMethod') {
-                    $this->testMethod($chatId, $text);
+                if ($method == 'sendTextEnterNameCulture') {
+                    $this->sendTextEnterNameCulture($chatId, $text);
                 }
-                if ($method == 'testMetho') {
-                    $this->testMetho($chatId, $text);
+                if ($method == 'searchCulture') {
+                    $this->searchCulture($chatId, $text);
                 }
                 if ($method == 'testMeth') {
                     $this->testMeth($chatId, $text);
@@ -60,9 +61,9 @@ class TelegramController extends Controller
 
     }
 
-    public function testMethod($chatId, $text)
+    public function sendTextEnterNameCulture($chatId, $text)
     {
-        $value = ['flow' => 'testFlow', 'method' => 'testMethod'];
+        $value = ['flow' => 'testFlow', 'method' => 'sendTextEnterNameCulture'];
         Cache::put($chatId, $value, 1);
         $response = \Telegram::sendMessage([
             'chat_id' => $chatId,
@@ -72,13 +73,12 @@ class TelegramController extends Controller
         $response->getMessageId();
     }
 
-    public function testMetho($chatId, $text)
+    public function searchCulture($chatId, $text)
     {
-        $value = ['flow' => 'testFlow', 'method' => 'testMetho'];
+        $value = ['flow' => 'testFlow', 'method' => 'searchCulture'];
         Cache::put($chatId, $value, 1);
-        $keyboard = [
-            ['Культура'],
-        ];
+
+        $keyboard=get_keyboard(Culture::where('name','LIKE', "%{$text}%")->pluck('name')->toArray());
 
         $reply_markup = \Telegram::forceReply([
             'keyboard'          => $keyboard,
