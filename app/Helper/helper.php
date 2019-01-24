@@ -7,7 +7,7 @@ if (!function_exists('getFlow')) {
                 'welcome',
                 'sendTextEnterNameCulture',
                 'searchCulture',
-                'testMeth',
+                'chooseGroup',
                 'testMet',
                 'testMe',
                 'testM',

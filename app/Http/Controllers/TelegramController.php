@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\BaseModels\Culture;
+use App\BaseModels\Problem;
 use App\Commands\SendMessageCommand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -28,8 +29,8 @@ class TelegramController extends Controller
                 if ($method == 'searchCulture') {
                     $this->searchCulture($chatId, $text);
                 }
-                if ($method == 'testMeth') {
-                    $this->testMeth($chatId, $text);
+                if ($method == 'chooseGroup') {
+                    $this->chooseGroup($chatId, $text);
                 }
             } else {
                 $this->test($chatId, 'not testFlow');
@@ -78,7 +79,12 @@ class TelegramController extends Controller
         $value = ['flow' => 'testFlow', 'method' => 'searchCulture'];
         Cache::put($chatId, $value, 1);
 
-        $keyboard=get_keyboard(Culture::where('name','LIKE', "%{$text}%")->pluck('name')->toArray());
+        if (count(Culture::where('name', 'LIKE', "%{$text}%")->pluck('name')->toArray()) === 1) {
+            $this->chooseGroup($chatId, $text);
+            exit;
+        }
+
+        $keyboard = get_keyboard(Culture::where('name', 'LIKE', "%{$text}%")->pluck('name')->toArray());
 
         $reply_markup = \Telegram::replyKeyboardMarkup([
             'keyboard'          => $keyboard,
@@ -95,13 +101,12 @@ class TelegramController extends Controller
         $response->getMessageId();
     }
 
-    public function testMeth($chatId, $text)
+    public function chooseGroup($chatId, $text)
     {
-        $value = ['flow' => 'testFlow', 'method' => 'testMeth'];
+        $value = ['flow' => 'testFlow', 'method' => 'chooseGroup'];
         Cache::put($chatId, $value, 1);
-        $keyboard = [
-            ['Група1', 'Група2'],
-        ];
+        $keyboard = get_keyboard(Problem::all()->pluck('name')->toArray());
+
 
         $reply_markup = \Telegram::replyKeyboardMarkup([
             'keyboard'          => $keyboard,
@@ -117,8 +122,6 @@ class TelegramController extends Controller
 
         $response->getMessageId();
     }
-
-
 
 
     public function test($chatId, $text)
