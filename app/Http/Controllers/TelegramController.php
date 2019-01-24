@@ -84,6 +84,11 @@ class TelegramController extends Controller
             exit;
         }
 
+        if (count(Culture::where('name', 'LIKE', "%{$text}%")->pluck('name')->toArray()) === 0) {
+            $this->sendTextEnterNameCulture($chatId, $text);
+            exit;
+        }
+
         $keyboard = get_keyboard(Culture::where('name', 'LIKE', "%{$text}%")->pluck('name')->toArray());
 
         $reply_markup = \Telegram::replyKeyboardMarkup([
