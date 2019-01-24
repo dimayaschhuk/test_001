@@ -1,15 +1,19 @@
 <?php
+
+use Illuminate\Support\Facades\Cache;
+
 if (!function_exists('getFlow')) {
     function getFlow()
     {
         return [
             'testFlow' => [
                 'welcome',
-                'sendTextEnterNameCulture',
+                'sendTextCulture',
                 'searchCulture',
-                'chooseGroup',
-                'testMet',
-                'testMe',
+                'selectCulture',
+                'sendTextProblemGroup',
+                'selectProblemGroup',
+                'sendTextProblem',
                 'testM',
                 'test',
             ],

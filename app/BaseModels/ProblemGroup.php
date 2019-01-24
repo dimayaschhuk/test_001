@@ -3,6 +3,7 @@
 namespace App\BaseModels;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class ProblemGroup extends Model
 {
@@ -11,4 +12,9 @@ class ProblemGroup extends Model
     public $fillable = [
         'name',
     ];
+
+    public function problems()
+    {
+        return $this->hasMany(Problem::class, 'groupId');
+    }
 }
