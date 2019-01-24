@@ -87,7 +87,7 @@ class TelegramController extends Controller
         ]);
         $response->getMessageId();
 
-        $value = ['flow' => 'testFlow', 'method' => 'sendTextEnterNameCulture'];
+        $value = ['flow' => 'testFlow', 'method' => 'sendTextCulture'];
         Cache::put($chatId, $value, self::TIME_CACHE);
     }
 
@@ -118,10 +118,6 @@ class TelegramController extends Controller
             'reply_markup' => $reply_markup,
         ]);
         $response->getMessageId();
-        $data = Cache::get($chatId);
-        $data['method'] = 'searchCulture';
-        Cache::put($chatId, $data, self::TIME_CACHE);
-
     }
 
     public function selectCulture($chatId, $text)
