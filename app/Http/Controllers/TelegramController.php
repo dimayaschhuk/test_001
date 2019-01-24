@@ -101,7 +101,7 @@ class TelegramController extends Controller
             exit;
         }
 
-        if (Culture::where('name', 'LIKE', "%{$text}%")->count() == 0) {
+        if (Culture::where('name', 'LIKE', "%{$text}%")->count() === 0) {
             $this->sendTextEnterNameCulture($chatId, $text);
             exit;
         }
@@ -118,6 +118,9 @@ class TelegramController extends Controller
             'reply_markup' => $reply_markup,
         ]);
         $response->getMessageId();
+        $data = Cache::get($chatId);
+        $data['method'] = 'searchCulture';
+        Cache::put($chatId, $data, self::TIME_CACHE);
 
     }
 
