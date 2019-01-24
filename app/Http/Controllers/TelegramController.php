@@ -132,7 +132,7 @@ class TelegramController extends Controller
 
     public function sendTextProblemGroup($chatId, $text)
     {
-        $this->test($chatId, 'teeeeeest');
+//        $this->test($chatId, 'teeeeeest');
         if (Problem::where('name', $text)->count() === 1) {
             $this->selectProblem($chatId, $text);
             exit;
