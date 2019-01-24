@@ -33,6 +33,8 @@ if (!function_exists('get_keyboard')) {
         $countButtons = count($keyboard);
         if ($countButtons > 3) {
             $keyboard = array_chunk($keyboard, 3);
+        }else{
+            return [$keyboard];
         }
 
         return $keyboard;
