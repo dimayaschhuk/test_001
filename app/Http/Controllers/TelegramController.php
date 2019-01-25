@@ -173,7 +173,7 @@ class TelegramController extends Controller
 
     public function sendTextProblem($chatId, $text)
     {
-        $this->test($chatId, 'йййй');
+//        $this->test($chatId, 'йййй');
         $data = Cache::get($chatId);
         $problemGroup = $data['problemGroup'];
 
