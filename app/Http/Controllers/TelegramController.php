@@ -20,7 +20,7 @@ class TelegramController extends Controller
         $telegramUser = \Telegram::getWebhookUpdates()['message'];
         $chatId = $telegramUser['from']['id'];
         $text = $telegramUser['text'];
-
+        $this->test($chatId, $chatId);
         if (Cache::has($telegramUser['from']['id'])) {
             $data = Cache::get($telegramUser['from']['id']);
             if ($data['flow'] == 'testFlow') {
@@ -200,7 +200,7 @@ class TelegramController extends Controller
         ]);
         $response = \Telegram::sendMessage([
             'chat_id'      => $chatId,
-            'text'         => 'Введіть назву проблеми або виберіть із списка якa вам підходить',
+            'text'         => 'Введіть назву проблеми або виберіть із списка групу в яку входить ваша проблема',
             'reply_markup' => $reply_markup,
         ]);
         $response->getMessageId();
