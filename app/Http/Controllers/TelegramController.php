@@ -131,7 +131,7 @@ class TelegramController extends Controller
 
         $data = Cache::get($chatId);
         $data['method'] = 'selectCulture';
-        $data['culture'] = Culture::where('name', $text)->first();
+        $data['culture'] = $text;
         Cache::put($chatId, $data, self::TIME_CACHE);
 
         $this->sendTextProblemGroup($chatId, $text);
@@ -178,7 +178,7 @@ class TelegramController extends Controller
 
         $data = Cache::get($chatId);
         $data['method'] = 'selectProblemGroup';
-        $data['problemGroup'] = ProblemGroup::where('name', $text)->first();
+        $data['problemGroup'] = $text;
         Cache::put($chatId, $data, self::TIME_CACHE);
         $this->sendTextProblem($chatId, $text);
     }
@@ -189,7 +189,7 @@ class TelegramController extends Controller
     {
         $this->test($chatId, 'sendTextProblem');
         $data = Cache::get($chatId);
-        $problemGroup = $data['problemGroup'];
+        $problemGroup = ProblemGroup::where('name',$data['problemGroup'])->firs();
 
 
         $keyboard = get_keyboard($problemGroup->problems->pluck('name')->toArray());
