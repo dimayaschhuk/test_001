@@ -37,12 +37,14 @@ class TelegramController extends Controller
                     $this->selectCulture($chatId, $text);
                 }
 
+
                 if ($method == 'sendTextProblemGroup') {
                     $this->sendTextProblemGroup($chatId, $text);
                 }
                 if ($method == 'selectProblemGroup') {
                     $this->selectProblemGroup($chatId, $text);
                 }
+
                 if ($method == 'sendTextProblem') {
                     $this->sendTextProblem($chatId, $text);
                 }
@@ -81,6 +83,7 @@ class TelegramController extends Controller
     //отправляєм 'Введіть назву культури або перші букви'
     public function sendTextCulture($chatId, $text)
     {
+        $this->test($chatId, 'sendTextCulture');
         $response = \Telegram::sendMessage([
             'chat_id' => $chatId,
             'text'    => 'Введіть назву культури або перші букви',
@@ -96,6 +99,8 @@ class TelegramController extends Controller
     //если не находим не одной отправляем на sendTextEnterNameCulture('Введіть назву культури або перші букви')
     public function searchCulture($chatId, $text)
     {
+        $this->test($chatId, 'searchCulture');
+
         if (Culture::where('name', $text)->count() === 1) {
             $this->selectCulture($chatId, $text);
             exit;
@@ -122,6 +127,8 @@ class TelegramController extends Controller
 
     public function selectCulture($chatId, $text)
     {
+        $this->test($chatId, 'selectCulture');
+
         $data = Cache::get($chatId);
         $data['method'] = 'selectCulture';
         $data['culture'] = Culture::where('name', $text)->first();
@@ -130,9 +137,12 @@ class TelegramController extends Controller
         $this->sendTextProblemGroup($chatId, $text);
     }
 
+
+
     public function sendTextProblemGroup($chatId, $text)
     {
-//        $this->test($chatId, 'teeeeeest');
+        $this->test($chatId, 'sendTextProblemGroup');
+
         if (Problem::where('name', $text)->count() === 1) {
             $this->selectProblem($chatId, $text);
             exit;
@@ -164,6 +174,8 @@ class TelegramController extends Controller
 
     public function selectProblemGroup($chatId, $text)
     {
+        $this->test($chatId, 'selectProblemGroup');
+
         $data = Cache::get($chatId);
         $data['method'] = 'selectProblemGroup';
         $data['problemGroup'] = ProblemGroup::where('name', $text)->first();
@@ -171,9 +183,11 @@ class TelegramController extends Controller
         $this->sendTextProblem($chatId, $text);
     }
 
+
+    
     public function sendTextProblem($chatId, $text)
     {
-//        $this->test($chatId, 'йййй');
+        $this->test($chatId, 'sendTextProblem');
         $data = Cache::get($chatId);
         $problemGroup = $data['problemGroup'];
 
