@@ -157,21 +157,27 @@ class TelegramController extends Controller
 
     public function sendTextProblem($chatId, $text)
     {
-        $data = Cache::get($chatId);
-        $this->test($chatId, 'sendTextProblem');
-        $this->test($chatId, (string)$data['problemGroup']);
-        $this->test($chatId, (string)$text);
-        $this->test($chatId, (string)ProblemGroup::where('name', $data['problemGroup'])->count());
 
+        if (Problem::where('name', $text)->count() === 1) {
+            $this->selectProblem($chatId, $text);
+            exit;
+        }
+
+
+        if (Problem::where('name', 'LIKE', "%{$text}%")->count() !== 0) {
+            $this->searchProblem($chatId, $text);
+            exit;
+        }
+
+
+        $data = Cache::get($chatId);
+        $problems=ProblemGroup::where('name', $data['problemGroup'])->first()->problems;
+        $keyboard = get_keyboard($problems->pluck('name')->toArray());
+        send_keyboard($chatId, $keyboard, 'виберіть назву проблеми');
     }
 
     public function searchProblem($chatId, $text)
     {
-        $this->test($chatId, 'searchProblem');
-        $data = Cache::get($chatId);
-        $data['method'] = 'searchProblem';
-        Cache::put($chatId, $data, self::TIME_CACHE);
-
         $keyboard = get_keyboard(Problem::where('name', 'LIKE', "%{$text}%")->pluck('name')->toArray());
         send_keyboard($chatId, $keyboard, 'Виберіть із списка проблему яка вам підходить');
     }
@@ -179,6 +185,7 @@ class TelegramController extends Controller
     public function selectProblem($chatId, $text)
     {
         $this->test($chatId, 'selectProblem');
+        $this->test($chatId, 'problem: '.$text);
         $data = Cache::get($chatId);
         $data['method'] = 'selectProblem';
         if (empty($data['problem'])) {
