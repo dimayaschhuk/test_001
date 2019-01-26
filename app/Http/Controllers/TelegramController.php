@@ -116,7 +116,6 @@ class TelegramController extends Controller
         if (empty($data['culture'])) {
             $data['culture'] = $text;
         }
-
         Cache::put($chatId, $data, self::TIME_CACHE);
 
         $this->sendTextProblemGroup($chatId, $text);
@@ -125,9 +124,7 @@ class TelegramController extends Controller
 
     public function sendTextProblemGroup($chatId, $text)
     {
-//        $data = Cache::get($chatId);
-//        $data['method'] = 'sendTextProblemGroup';
-//        Cache::put($chatId, $data, self::TIME_CACHE);
+
         if (Problem::where('name', $text)->count() === 1) {
             $this->selectProblem($chatId, $text);
             exit;
@@ -180,6 +177,27 @@ class TelegramController extends Controller
 //            'reply_markup' => $reply_markup,
 //        ]);
 //        $response->getMessageId();
+    }
+
+    public function searchProblem($chatId, $text)
+    {
+        $data = Cache::get($chatId);
+        $data['method'] = 'searchProblem';
+        Cache::put($chatId, $data, self::TIME_CACHE);
+
+        $keyboard = get_keyboard(ProblemGroup::where('name', 'LIKE', "%{$text}%")->pluck('name')->toArray());
+        send_keyboard($chatId, $keyboard, 'Виберіть із списка проблему яка вам підходить');
+    }
+
+    public function selectProblem($chatId, $text)
+    {
+
+        $data = Cache::get($chatId);
+        $data['method'] = 'selectProblem';
+        if (empty($data['problem'])) {
+            $data['problem'] = $text;
+        }
+        Cache::put($chatId, $data, self::TIME_CACHE);
     }
 
 
