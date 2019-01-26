@@ -79,7 +79,7 @@ class Culture extends Model
     }
 
 
-    public function checkProblem($nameProblem)
+    public function checkProblem($nameProblem = '')
     {
         return in_array($nameProblem, $this->getProblemNames());
     }
