@@ -126,34 +126,22 @@ class TelegramController extends Controller
         $culture = Culture::find($data['culture_id']);
 
 
-
-
-        send_text($chatId, 'start checkProblem');
-        send_text($chatId, $text);
         if ($culture->checkProblem($text)) {
-            send_text($chatId,'checkProblem');
-//            $this->selectProblem($chatId, $text);
+            $this->selectProblem($chatId, $text);
             exit;
         }
-        send_text($chatId,'end checkProblem');
-
-
-
 
 
         if ($culture->checkProblemGroup($text)) {
-            $this->test($chatId,'checkProblemGroup');
             $this->selectProblemGroup($chatId, $text);
             exit;
         }
 
-        $this->test($chatId,'end checkProblemGroup');
         if ($culture->checkLIKEProblem($text)) {
-            $this->test($chatId,'checkLIKEProblem');
             $this->searchProblem($chatId, $text);
             exit;
         }
-        $this->test($chatId,'end checkLIKEProblem');
+
         $keyboard = get_keyboard($culture->getProblemGroupNames());
         send_keyboard($chatId, $keyboard, 'Введіть назву проблеми або виберіть із списка групу в яку входить ваша проблема');
     }
