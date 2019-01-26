@@ -172,7 +172,7 @@ class TelegramController extends Controller
         $data['method'] = 'searchProblem';
         Cache::put($chatId, $data, self::TIME_CACHE);
 
-        $keyboard = get_keyboard(ProblemGroup::where('name', 'LIKE', "%{$text}%")->pluck('name')->toArray());
+        $keyboard = get_keyboard(Problem::where('name', 'LIKE', "%{$text}%")->pluck('name')->toArray());
         send_keyboard($chatId, $keyboard, 'Виберіть із списка проблему яка вам підходить');
     }
 
