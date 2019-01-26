@@ -129,6 +129,7 @@ class TelegramController extends Controller
 
 
         send_text($chatId, 'start checkProblem');
+        send_text($chatId, $text);
         if ($culture->checkProblem($text)) {
             send_text($chatId,'checkProblem');
 //            $this->selectProblem($chatId, $text);
