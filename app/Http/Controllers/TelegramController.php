@@ -145,9 +145,7 @@ class TelegramController extends Controller
         }
 
         $keyboard = get_keyboard($culture->getProblemGroupNames());
-        send_keyboard($chatId, $keyboard,
-            'Введіть назву проблеми або виберіть із списка групу в яку входить ваша проблема');
-        $this->test($chatId,'end sendTextProblemGroup');
+        send_keyboard($chatId, $keyboard, 'Введіть назву проблеми або виберіть із списка групу в яку входить ваша проблема');
     }
 
     public function selectProblemGroup($chatId, $text)
