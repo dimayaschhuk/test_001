@@ -49,6 +49,19 @@ class TelegramController extends Controller
                 if ($method == 'sendTextProblem') {
                     $this->sendTextProblem($chatId, $text);
                 }
+                if ($method == 'searchProblem') {
+                    $this->searchProblem($chatId, $text);
+                }
+                if ($method == 'selectProblem') {
+                    $this->selectProblem($chatId, $text);
+                }
+
+                if ($method == 'searchProduct') {
+                    $this->searchProduct($chatId, $text);
+                }
+                if ($method == 'selectProduct') {
+                    $this->selectProduct($chatId, $text);
+                }
 
             } else {
                 $this->test($chatId, 'not testFlow');
@@ -222,7 +235,6 @@ class TelegramController extends Controller
         $data['method'] = 'selectProduct';
         $data['product_id'] = Product::where('name', $text)->value('id');
         Cache::put($chatId, $data, self::TIME_CACHE);
-        $this->test($chatId, 'selectProduct');
         $this->test($chatId, 'Product: ' . $text);
 
     }
