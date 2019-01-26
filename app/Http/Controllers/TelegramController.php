@@ -143,9 +143,17 @@ class TelegramController extends Controller
             exit;
         }
 
-        $keyboard = get_keyboard($culture->getProblemGroupNames());
-        send_keyboard($chatId, $keyboard,
-            'Введіть назву проблеми або виберіть із списка групу в яку входить ваша проблема');
+        if(empty($culture->getProblemGroupNames())){
+            send_text($chatId,'До даної культури немає продуктів');
+            $data = Cache::get($chatId);
+            $data['method'] = 'welcome';
+            Cache::put($chatId, $data, self::TIME_CACHE);
+            $this->sendTextCulture($chatId, $text);
+        }else{
+            $keyboard = get_keyboard($culture->getProblemGroupNames());
+            send_keyboard($chatId, $keyboard, 'Введіть назву проблеми або виберіть із списка групу в яку входить ваша проблема');
+        }
+
     }
 
     public function selectProblemGroup($chatId, $text)
