@@ -83,12 +83,7 @@ class TelegramController extends Controller
     //отправляєм 'Введіть назву культури або перші букви'
     public function sendTextCulture($chatId, $text)
     {
-//        $this->test($chatId, 'sendTextCulture');
-        $response = \Telegram::sendMessage([
-            'chat_id' => $chatId,
-            'text'    => 'Введіть назву культури або перші букви',
-        ]);
-        $response->getMessageId();
+        send_text($chatId, 'Введіть назву культури або перші букви');
 
         $value = ['flow' => 'testFlow', 'method' => 'sendTextCulture'];
         Cache::put($chatId, $value, self::TIME_CACHE);
@@ -99,7 +94,6 @@ class TelegramController extends Controller
     //если не находим не одной отправляем на sendTextEnterNameCulture('Введіть назву культури або перші букви')
     public function searchCulture($chatId, $text)
     {
-//        $this->test($chatId, 'searchCulture');
 
         if (Culture::where('name', $text)->count() === 1) {
             $this->selectCulture($chatId, $text);
@@ -107,31 +101,23 @@ class TelegramController extends Controller
         }
 
         if (Culture::where('name', 'LIKE', "%{$text}%")->count() === 0) {
+            $this->test($chatId,'count() === 0');
             $this->sendTextEnterNameCulture($chatId, $text);
             exit;
         }
 
         $keyboard = get_keyboard(Culture::where('name', 'LIKE', "%{$text}%")->pluck('name')->toArray());
-        $reply_markup = \Telegram::replyKeyboardMarkup([
-            'keyboard'          => $keyboard,
-            'resize_keyboard'   => TRUE,
-            'one_time_keyboard' => TRUE,
-        ]);
-        $response = \Telegram::sendMessage([
-            'chat_id'      => $chatId,
-            'text'         => 'Виберіть із списка оду культуру яка вам найбільше підходить',
-            'reply_markup' => $reply_markup,
-        ]);
-        $response->getMessageId();
+        send_keyboard($chatId, $keyboard, 'Виберіть із списка оду культуру яка вам найбільше підходить');
     }
 
     public function selectCulture($chatId, $text)
     {
-//        $this->test($chatId, 'selectCulture');
-
         $data = Cache::get($chatId);
         $data['method'] = 'selectCulture';
-        $data['culture'] = $text;
+        if (empty($data['culture'])) {
+            $data['culture'] = $text;
+        }
+
         Cache::put($chatId, $data, self::TIME_CACHE);
 
         $this->sendTextProblemGroup($chatId, $text);
@@ -140,40 +126,30 @@ class TelegramController extends Controller
 
     public function sendTextProblemGroup($chatId, $text)
     {
-//        $this->test($chatId, 'sendTextProblemGroup');
-
+//        $data = Cache::get($chatId);
+//        $data['method'] = 'sendTextProblemGroup';
+//        Cache::put($chatId, $data, self::TIME_CACHE);
         if (Problem::where('name', $text)->count() === 1) {
             $this->selectProblem($chatId, $text);
             exit;
         }
 
-        if (Problem::where('name', 'LIKE', "%{$text}%")->count() != 0) {
+        if (Problem::where('name', 'LIKE', "%{$text}%")->count() !== 0) {
             $this->searchProblem($chatId, $text);
             exit;
         }
 
-        if (ProblemGroup::where('name', $text)->count() == 1) {
+        if (ProblemGroup::where('name', $text)->count() === 1) {
             $this->selectProblemGroup($chatId, $text);
             exit;
         }
 
         $keyboard = get_keyboard(ProblemGroup::all()->pluck('name')->toArray());
-        $reply_markup = \Telegram::replyKeyboardMarkup([
-            'keyboard'          => $keyboard,
-            'resize_keyboard'   => TRUE,
-            'one_time_keyboard' => TRUE,
-        ]);
-        $response = \Telegram::sendMessage([
-            'chat_id'      => $chatId,
-            'text'         => 'Введіть назву проблеми або виберіть із списка групу в яку входить ваша проблема',
-            'reply_markup' => $reply_markup,
-        ]);
-        $response->getMessageId();
+        send_keyboard($chatId, $keyboard, 'Введіть назву проблеми або виберіть із списка групу в яку входить ваша проблема');
     }
 
     public function selectProblemGroup($chatId, $text)
     {
-//
 
         $data = Cache::get($chatId);
         $data['method'] = 'selectProblemGroup';
@@ -186,24 +162,25 @@ class TelegramController extends Controller
     public function sendTextProblem($chatId, $text)
     {
         $data = Cache::get($chatId);
-        $problemGroup = ProblemGroup::where('name', $data['problemGroup'])->firs();
+//        $problemGroup = ProblemGroup::where('name', $data['problemGroup'])->firs();
         $this->test($chatId, 'sendTextProblem');
-        $this->test($chatId, $data['problemGroup']);
-        $this->test($chatId,  ProblemGroup::where('name', $data['problemGroup'])->count());
+        $this->test($chatId, (string)$data['problemGroup']);
+        $this->test($chatId, (string)$text);
+        $this->test($chatId, (string)ProblemGroup::where('name', $data['problemGroup'])->count());
 
 
-        $keyboard = get_keyboard($problemGroup->problems->pluck('name')->toArray());
-        $reply_markup = \Telegram::replyKeyboardMarkup([
-            'keyboard'          => $keyboard,
-            'resize_keyboard'   => TRUE,
-            'one_time_keyboard' => TRUE,
-        ]);
-        $response = \Telegram::sendMessage([
-            'chat_id'      => $chatId,
-            'text'         => 'Введіть назву проблеми або виберіть із списка групу в яку входить ваша проблема',
-            'reply_markup' => $reply_markup,
-        ]);
-        $response->getMessageId();
+//        $keyboard = get_keyboard($problemGroup->problems->pluck('name')->toArray());
+//        $reply_markup = \Telegram::replyKeyboardMarkup([
+//            'keyboard'          => $keyboard,
+//            'resize_keyboard'   => TRUE,
+//            'one_time_keyboard' => TRUE,
+//        ]);
+//        $response = \Telegram::sendMessage([
+//            'chat_id'      => $chatId,
+//            'text'         => 'Введіть назву проблеми або виберіть із списка групу в яку входить ваша проблема',
+//            'reply_markup' => $reply_markup,
+//        ]);
+//        $response->getMessageId();
     }
 
 

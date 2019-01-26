@@ -37,10 +37,39 @@ if (!function_exists('get_keyboard')) {
         $countButtons = count($keyboard);
         if ($countButtons > 3) {
             $keyboard = array_chunk($keyboard, 3);
-        }else{
+        } else {
             return [$keyboard];
         }
 
         return $keyboard;
+    }
+}
+
+if (!function_exists('send_text')) {
+    function send_text($chatId,$text = 'text')
+    {
+        $response = \Telegram::sendMessage([
+            'chat_id' => $chatId,
+            'text'    => $text,
+        ]);
+        $response->getMessageId();
+    }
+}
+
+
+if (!function_exists('send_keyboard')) {
+    function send_keyboard($chatId, $keyboard, $text = 'text')
+    {
+        $reply_markup = \Telegram::replyKeyboardMarkup([
+            'keyboard'          => $keyboard,
+            'resize_keyboard'   => TRUE,
+            'one_time_keyboard' => TRUE,
+        ]);
+        $response = \Telegram::sendMessage([
+            'chat_id'      => $chatId,
+            'text'         => $text,
+            'reply_markup' => $reply_markup,
+        ]);
+        $response->getMessageId();
     }
 }
