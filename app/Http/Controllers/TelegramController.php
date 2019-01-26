@@ -229,6 +229,7 @@ class TelegramController extends Controller
         $data = Cache::get($chatId);
         $culture = Culture::find($data['culture_id']);
         $this->test($chatId, $data['problem_id']);
+        $this->test($chatId, $culture->id);
         if ($culture->checkProduct($text,$data['problem_id'])) {
             $this->selectProduct($chatId, $text);
         }
