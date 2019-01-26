@@ -143,7 +143,8 @@ class TelegramController extends Controller
         }
 
         $keyboard = get_keyboard($culture->getProblemGroupNames());
-        send_keyboard($chatId, $keyboard, 'Введіть назву проблеми або виберіть із списка групу в яку входить ваша проблема');
+        send_keyboard($chatId, $keyboard,
+            'Введіть назву проблеми або виберіть із списка групу в яку входить ваша проблема');
     }
 
     public function selectProblemGroup($chatId, $text)
@@ -185,18 +186,18 @@ class TelegramController extends Controller
 
     public function selectProblem($chatId, $text)
     {
+        $this->test($chatId,'selectProblem');
         $data = Cache::get($chatId);
         $data['method'] = 'selectProblem';
-        if (empty($data['problem_id'])) {
-            $data['problem_id'] = Problem::where('name', $text)->value('id');
-        }
+        $data['problem_id'] = Problem::where('name', $text)->value('id');
         Cache::put($chatId, $data, self::TIME_CACHE);
         $this->searchProduct($chatId, $text);
     }
 
-//todo df
+
     public function searchProduct($chatId, $text)
     {
+        $this->test($chatId,'searchProduct');
         $data = Cache::get($chatId);
         $culture = Culture::find($data['culture_id']);
 
