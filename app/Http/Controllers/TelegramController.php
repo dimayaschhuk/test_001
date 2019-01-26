@@ -138,7 +138,6 @@ class TelegramController extends Controller
     }
 
 
-
     public function sendTextProblemGroup($chatId, $text)
     {
 //        $this->test($chatId, 'sendTextProblemGroup');
@@ -184,13 +183,13 @@ class TelegramController extends Controller
     }
 
 
-
     public function sendTextProblem($chatId, $text)
     {
-//        $this->test($chatId, 'sendTextProblem');
+//
         $data = Cache::get($chatId);
-        $problemGroup = ProblemGroup::where('name',$data['problemGroup'])->firs();
-
+        $problemGroup = ProblemGroup::where('name', $data['problemGroup'])->firs();
+        $test = count($problemGroup);
+        $this->test($chatId, 'count:'.$test);
 
         $keyboard = get_keyboard($problemGroup->problems->pluck('name')->toArray());
         $reply_markup = \Telegram::replyKeyboardMarkup([
