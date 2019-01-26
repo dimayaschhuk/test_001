@@ -36,7 +36,7 @@ class Culture extends Model
         }
         $productNames = [];
         $problemtTechnologies = Problem::find($problemId)->technologies;
-        foreach ($problemtTechnologies as $technology){
+        foreach ($problemtTechnologies as $technology) {
             $productNames[] = $technology->product->name;
         }
 
@@ -81,7 +81,9 @@ class Culture extends Model
 
     public function checkProblem($nameProblem)
     {
-//        return in_array($nameProblem, $this->getProblemNames());
+        if (in_array($nameProblem, $this->getProblemNames())) {
+            return TRUE;
+        }
         return FALSE;
     }
 
