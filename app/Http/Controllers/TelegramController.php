@@ -158,29 +158,16 @@ class TelegramController extends Controller
     public function sendTextProblem($chatId, $text)
     {
         $data = Cache::get($chatId);
-//        $problemGroup = ProblemGroup::where('name', $data['problemGroup'])->firs();
         $this->test($chatId, 'sendTextProblem');
         $this->test($chatId, (string)$data['problemGroup']);
         $this->test($chatId, (string)$text);
         $this->test($chatId, (string)ProblemGroup::where('name', $data['problemGroup'])->count());
 
-
-//        $keyboard = get_keyboard($problemGroup->problems->pluck('name')->toArray());
-//        $reply_markup = \Telegram::replyKeyboardMarkup([
-//            'keyboard'          => $keyboard,
-//            'resize_keyboard'   => TRUE,
-//            'one_time_keyboard' => TRUE,
-//        ]);
-//        $response = \Telegram::sendMessage([
-//            'chat_id'      => $chatId,
-//            'text'         => 'Введіть назву проблеми або виберіть із списка групу в яку входить ваша проблема',
-//            'reply_markup' => $reply_markup,
-//        ]);
-//        $response->getMessageId();
     }
 
     public function searchProblem($chatId, $text)
     {
+        $this->test($chatId, 'searchProblem');
         $data = Cache::get($chatId);
         $data['method'] = 'searchProblem';
         Cache::put($chatId, $data, self::TIME_CACHE);
@@ -191,7 +178,7 @@ class TelegramController extends Controller
 
     public function selectProblem($chatId, $text)
     {
-
+        $this->test($chatId, 'selectProblem');
         $data = Cache::get($chatId);
         $data['method'] = 'selectProblem';
         if (empty($data['problem'])) {
