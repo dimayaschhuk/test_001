@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BaseModels\Culture;
 use App\BaseModels\Problem;
 use App\BaseModels\ProblemGroup;
+use App\BaseModels\Product;
 use App\Commands\SendMessageCommand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -201,7 +202,7 @@ class TelegramController extends Controller
         $data = Cache::get($chatId);
         $culture = Culture::find($data['culture_id']);
 
-        if ($culture->checkProduct($text)) {
+        if ($culture->checkProduct($text,$data['problem_id'])) {
             $this->selectProduct($chatId, $text);
         }
 
@@ -211,14 +212,13 @@ class TelegramController extends Controller
 
     public function selectProduct($chatId, $text)
     {
+        $data = Cache::get($chatId);
+        $data['method'] = 'selectProduct';
+        $data['product_id'] = Product::where('name', $text)->value('id');
+        Cache::put($chatId, $data, self::TIME_CACHE);
         $this->test($chatId, 'selectProduct');
         $this->test($chatId, 'Product: ' . $text);
-//        $data = Cache::get($chatId);
-//        $data['method'] = 'selectProblem';
-//        if (empty($data['problem_id'])) {
-//            $data['problem_id'] = Problem::where('name', $text)->value('id');
-//        }
-//        Cache::put($chatId, $data, self::TIME_CACHE);
+
     }
 
 
