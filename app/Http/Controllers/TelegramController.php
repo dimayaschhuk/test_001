@@ -125,20 +125,20 @@ class TelegramController extends Controller
         $data = Cache::get($chatId);
         $culture = Culture::find($data['culture_id']);
 
-        $this->test($chatId,'start checkProblem');
-        $this->test($chatId,$culture->name);
+        send_text($chatId, 'start checkProblem');
         if ($culture->checkProblem($text)) {
-            $this->test($chatId,'checkProblem');
+            send_text($chatId,'checkProblem');
             $this->selectProblem($chatId, $text);
             exit;
         }
-        $this->test($chatId,'end checkProblem');
+        send_text($chatId,'end checkProblem');
 
         if ($culture->checkProblemGroup($text)) {
             $this->test($chatId,'checkProblemGroup');
             $this->selectProblemGroup($chatId, $text);
             exit;
         }
+
         $this->test($chatId,'end checkProblemGroup');
         if ($culture->checkLIKEProblem($text)) {
             $this->test($chatId,'checkLIKEProblem');
@@ -158,7 +158,6 @@ class TelegramController extends Controller
         Cache::put($chatId, $data, self::TIME_CACHE);
         $this->sendTextProblem($chatId, $text);
     }
-
 
     public function sendTextProblem($chatId, $text)
     {
