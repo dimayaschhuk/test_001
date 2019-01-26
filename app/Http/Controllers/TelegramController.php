@@ -111,6 +111,7 @@ class TelegramController extends Controller
 
     public function selectCulture($chatId, $text)
     {
+        $this->test($chatId, 'testt');
         $data = Cache::get($chatId);
         $data['method'] = 'selectCulture';
         if (empty($data['culture_id'])) {
