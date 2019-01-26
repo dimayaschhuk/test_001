@@ -111,20 +111,18 @@ class TelegramController extends Controller
 
     public function selectCulture($chatId, $text)
     {
-        $this->test($chatId, 'testt');
+
         $data = Cache::get($chatId);
         $data['method'] = 'selectCulture';
-        if (empty($data['culture_id'])) {
-            $data['culture_id'] = Culture::where('name', $text)->value('id');
-        }
+        $data['culture_id'] = Culture::where('name', $text)->value('id');
         Cache::put($chatId, $data, self::TIME_CACHE);
-
         $this->sendTextProblemGroup($chatId, $text);
     }
 
 
     public function sendTextProblemGroup($chatId, $text)
     {
+        $this->test($chatId, 'sendTextProblemGroup');
         $data = Cache::get($chatId);
         $culture = Culture::find($data['culture_id']);
 
