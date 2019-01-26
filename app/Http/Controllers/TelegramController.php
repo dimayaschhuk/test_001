@@ -14,7 +14,7 @@ use Telegram;
 
 class TelegramController extends Controller
 {
-    const TIME_CACHE = 5;
+    const TIME_CACHE = 3;
 
     public function webhook()
     {
@@ -205,16 +205,15 @@ class TelegramController extends Controller
 
     public function searchProduct($chatId, $text)
     {
-        $this->test($chatId,'searchProduct');
         $data = Cache::get($chatId);
         $culture = Culture::find($data['culture_id']);
 
         if ($culture->checkProduct($text,$data['problem_id'])) {
             $this->selectProduct($chatId, $text);
         }
-        $this->test($chatId,'end checkProduct');
+
         $keyboard = get_keyboard($culture->getProductsNames($data['problem_id']));
-        send_keyboard($chatId, $keyboard, 'searchProduct');
+        send_keyboard($chatId, $keyboard, 'searchProduct searchProduct');
     }
 
     public function selectProduct($chatId, $text)
