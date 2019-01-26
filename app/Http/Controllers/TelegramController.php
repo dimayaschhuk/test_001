@@ -101,8 +101,7 @@ class TelegramController extends Controller
         }
 
         if (Culture::where('name', 'LIKE', "%{$text}%")->count() === 0) {
-            $this->test($chatId,'count() === 0');
-            $this->sendTextEnterNameCulture($chatId, $text);
+            $this->sendTextCulture($chatId, $text);
             exit;
         }
 
