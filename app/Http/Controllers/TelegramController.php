@@ -131,19 +131,19 @@ class TelegramController extends Controller
             $this->selectProblem($chatId, $text);
             exit;
         }
-
+        $this->test($chatId,'end checkProblem');
         if ($culture->checkProblemGroup($text)) {
             $this->test($chatId,'checkProblemGroup');
             $this->selectProblemGroup($chatId, $text);
             exit;
         }
-
+        $this->test($chatId,'end checkProblemGroup');
         if ($culture->checkLIKEProblem($text)) {
             $this->test($chatId,'checkLIKEProblem');
             $this->searchProblem($chatId, $text);
             exit;
         }
-
+        $this->test($chatId,'end checkLIKEProblem');
         $keyboard = get_keyboard($culture->getProblemGroupNames());
         send_keyboard($chatId, $keyboard, 'Введіть назву проблеми або виберіть із списка групу в яку входить ваша проблема');
     }
