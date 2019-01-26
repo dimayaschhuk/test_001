@@ -81,7 +81,8 @@ class Culture extends Model
 
     public function checkProblem($nameProblem)
     {
-        return in_array($nameProblem, $this->getProblemNames());
+//        return in_array($nameProblem, $this->getProblemNames());
+        return FALSE;
     }
 
     public function checkProblemGroup($nameProblemGroup)
