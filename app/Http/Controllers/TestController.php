@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BaseModels\Culture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -22,6 +23,20 @@ class TestController extends Controller
     public function getWebHookInfo(Request $request)
     {
         $result = $this->sendTelegramData('getWebhookInfo');
+
+        $chatId = 563738410;
+        $text = 'соя';
+        $data['culture_id'] = Culture::where('name', $text)->value('id');
+        Cache::put($chatId, $data, 1);
+        $data = Cache::get($chatId);
+        $culture = Culture::find($data['culture_id']);
+
+        send_text($chatId, 'startее checkProblem');
+        if ($culture->checkProblem($text)) {
+            send_text($chatId,'checkProblem');
+            exit;
+        }
+        send_text($chatId,'endууу checkProblem');
 
         dd($result, Cache::get(563738410));
     }
