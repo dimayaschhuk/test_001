@@ -79,6 +79,11 @@ class Culture extends Model
     }
 
 
+    public function checkProduct($nameProduct, $problemId)
+    {
+        return in_array($nameProduct,$this->getProductsNames($problemId));
+    }
+
     public function checkProblem($nameProblem = '')
     {
         return in_array($nameProblem, $this->getProblemNames());

@@ -187,7 +187,6 @@ class TelegramController extends Controller
 
     public function selectProblem($chatId, $text)
     {
-        $this->test($chatId,'selectProblem');
         $data = Cache::get($chatId);
         $data['method'] = 'selectProblem';
         $data['problem_id'] = Problem::where('name', $text)->value('id');
