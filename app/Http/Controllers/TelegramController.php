@@ -122,21 +122,24 @@ class TelegramController extends Controller
 
     public function sendTextProblemGroup($chatId, $text)
     {
-        $this->test($chatId, 'sendTextProblemGroup');
+        $this->test($chatId,'sendTextProblemGroup');
         $data = Cache::get($chatId);
         $culture = Culture::find($data['culture_id']);
 
         if ($culture->checkProblem($text)) {
+            $this->test($chatId,'checkProblem');
             $this->selectProblem($chatId, $text);
             exit;
         }
 
         if ($culture->checkProblemGroup($text)) {
+            $this->test($chatId,'checkProblemGroup');
             $this->selectProblemGroup($chatId, $text);
             exit;
         }
 
         if ($culture->checkLIKEProblem($text)) {
+            $this->test($chatId,'checkLIKEProblem');
             $this->searchProblem($chatId, $text);
             exit;
         }
@@ -144,6 +147,7 @@ class TelegramController extends Controller
         $keyboard = get_keyboard($culture->getProblemGroupNames());
         send_keyboard($chatId, $keyboard,
             'Введіть назву проблеми або виберіть із списка групу в яку входить ваша проблема');
+        $this->test($chatId,'end sendTextProblemGroup');
     }
 
     public function selectProblemGroup($chatId, $text)
