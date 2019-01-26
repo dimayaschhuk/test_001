@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class TestController extends Controller
 {
@@ -22,7 +23,7 @@ class TestController extends Controller
     {
         $result = $this->sendTelegramData('getWebhookInfo');
 
-        dd($result, $request->session()->get('q'));
+        dd($result, Cache::get(563738410));
     }
 
     public function sendTelegramData($route = '', $params = [], $method = 'POST')
