@@ -212,7 +212,7 @@ class TelegramController extends Controller
         if ($culture->checkProduct($text,$data['problem_id'])) {
             $this->selectProduct($chatId, $text);
         }
-
+        $this->test($chatId,'end checkProduct');
         $keyboard = get_keyboard($culture->getProductsNames($data['problem_id']));
         send_keyboard($chatId, $keyboard, 'searchProduct');
     }
