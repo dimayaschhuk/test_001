@@ -15,4 +15,9 @@ class Problem extends Model
         'photo',
         'ord',
     ];
+
+    public function technologies()
+    {
+        return $this->belongsToMany(Technology::class, 'pd_VerminForCropProcessing','verminId','cropProcessingId');
+    }
 }

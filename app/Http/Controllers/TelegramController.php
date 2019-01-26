@@ -113,8 +113,8 @@ class TelegramController extends Controller
     {
         $data = Cache::get($chatId);
         $data['method'] = 'selectCulture';
-        if (empty($data['culture'])) {
-            $data['culture'] = $text;
+        if (empty($data['culture_id'])) {
+            $data['culture_id'] = Culture::where('name', $text)->value('id');
         }
         Cache::put($chatId, $data, self::TIME_CACHE);
 
@@ -124,32 +124,34 @@ class TelegramController extends Controller
 
     public function sendTextProblemGroup($chatId, $text)
     {
+        $data = Cache::get($chatId);
+        $culture = Culture::find($data['culture_id']);
 
-        if (Problem::where('name', $text)->count() === 1) {
+        if ($culture->checkProblem($text)) {
             $this->selectProblem($chatId, $text);
             exit;
         }
 
-        if (ProblemGroup::where('name', $text)->count() === 1) {
+        if ($culture->checkProblemGroup($text)) {
             $this->selectProblemGroup($chatId, $text);
             exit;
         }
 
-        if (Problem::where('name', 'LIKE', "%{$text}%")->count() !== 0) {
+        if ($culture->checkLIKEProblem($text)) {
             $this->searchProblem($chatId, $text);
             exit;
         }
 
-        $keyboard = get_keyboard(ProblemGroup::all()->pluck('name')->toArray());
-        send_keyboard($chatId, $keyboard, 'Введіть назву проблеми або виберіть із списка групу в яку входить ваша проблема');
+        $keyboard = get_keyboard($culture->getProblemGroupNames());
+        send_keyboard($chatId, $keyboard,
+            'Введіть назву проблеми або виберіть із списка групу в яку входить ваша проблема');
     }
 
     public function selectProblemGroup($chatId, $text)
     {
-
         $data = Cache::get($chatId);
         $data['method'] = 'selectProblemGroup';
-        $data['problemGroup'] = $text;
+        $data['problemGroup_id'] = ProblemGroup::where('name', $text)->value('id');
         Cache::put($chatId, $data, self::TIME_CACHE);
         $this->sendTextProblem($chatId, $text);
     }
@@ -157,41 +159,67 @@ class TelegramController extends Controller
 
     public function sendTextProblem($chatId, $text)
     {
+        $data = Cache::get($chatId);
+        $culture = Culture::find($data['culture_id']);
 
-        if (Problem::where('name', $text)->count() === 1) {
+        if ($culture->checkProblem($text)) {
             $this->selectProblem($chatId, $text);
             exit;
         }
 
-
-        if (Problem::where('name', 'LIKE', "%{$text}%")->count() !== 0) {
+        if ($culture->checkLIKEProblem($text)) {
             $this->searchProblem($chatId, $text);
             exit;
         }
 
-
-        $data = Cache::get($chatId);
-        $problems=ProblemGroup::where('name', $data['problemGroup'])->first()->problems;
-        $keyboard = get_keyboard($problems->pluck('name')->toArray());
+        $keyboard = get_keyboard($culture->getProblemNames($data['problemGroup_id']));
         send_keyboard($chatId, $keyboard, 'виберіть назву проблеми');
     }
 
     public function searchProblem($chatId, $text)
     {
-        $keyboard = get_keyboard(Problem::where('name', 'LIKE', "%{$text}%")->pluck('name')->toArray());
+        $data = Cache::get($chatId);
+        $culture = Culture::find($data['culture_id']);
+
+        $keyboard = get_keyboard($culture->getLIKEProblemNames($text));
         send_keyboard($chatId, $keyboard, 'Виберіть із списка проблему яка вам підходить');
     }
 
     public function selectProblem($chatId, $text)
     {
-        $this->test($chatId, 'selectProblem');
-        $this->test($chatId, 'problem: '.$text);
         $data = Cache::get($chatId);
         $data['method'] = 'selectProblem';
-        if (empty($data['problem'])) {
-            $data['problem'] = $text;
+        if (empty($data['problem_id'])) {
+            $data['problem_id'] = Problem::where('name', $text)->value('id');
         }
         Cache::put($chatId, $data, self::TIME_CACHE);
+        $this->searchProduct($chatId, $text);
+    }
+
+//todo df
+    public function searchProduct($chatId, $text)
+    {
+        $data = Cache::get($chatId);
+        $culture = Culture::find($data['culture_id']);
+
+        if ($culture->checkProduct($text)) {
+            $this->selectProduct($chatId, $text);
+        }
+
+        $keyboard = get_keyboard($culture->getProductsNames($data['problem_id']));
+        send_keyboard($chatId, $keyboard, 'searchProduct');
+    }
+
+    public function selectProduct($chatId, $text)
+    {
+        $this->test($chatId, 'selectProduct');
+        $this->test($chatId, 'Product: ' . $text);
+//        $data = Cache::get($chatId);
+//        $data['method'] = 'selectProblem';
+//        if (empty($data['problem_id'])) {
+//            $data['problem_id'] = Problem::where('name', $text)->value('id');
+//        }
+//        Cache::put($chatId, $data, self::TIME_CACHE);
     }
 
 
