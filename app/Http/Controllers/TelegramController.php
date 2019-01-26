@@ -122,16 +122,18 @@ class TelegramController extends Controller
 
     public function sendTextProblemGroup($chatId, $text)
     {
-        $this->test($chatId,'sendTextProblemGroup');
         $data = Cache::get($chatId);
         $culture = Culture::find($data['culture_id']);
 
+        $this->test($chatId,'start checkProblem');
+        $this->test($chatId,$culture->name);
         if ($culture->checkProblem($text)) {
             $this->test($chatId,'checkProblem');
             $this->selectProblem($chatId, $text);
             exit;
         }
         $this->test($chatId,'end checkProblem');
+
         if ($culture->checkProblemGroup($text)) {
             $this->test($chatId,'checkProblemGroup');
             $this->selectProblemGroup($chatId, $text);
