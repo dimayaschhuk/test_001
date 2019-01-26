@@ -130,13 +130,13 @@ class TelegramController extends Controller
             exit;
         }
 
-        if (Problem::where('name', 'LIKE', "%{$text}%")->count() !== 0) {
-            $this->searchProblem($chatId, $text);
+        if (ProblemGroup::where('name', $text)->count() === 1) {
+            $this->selectProblemGroup($chatId, $text);
             exit;
         }
 
-        if (ProblemGroup::where('name', $text)->count() === 1) {
-            $this->selectProblemGroup($chatId, $text);
+        if (Problem::where('name', 'LIKE', "%{$text}%")->count() !== 0) {
+            $this->searchProblem($chatId, $text);
             exit;
         }
 
