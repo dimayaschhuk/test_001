@@ -14,7 +14,7 @@ use Telegram;
 
 class TelegramController extends Controller
 {
-    const TIME_CACHE = 1;
+    const TIME_CACHE = 5;
 
     public function webhook()
     {
