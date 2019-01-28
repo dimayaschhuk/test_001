@@ -238,9 +238,8 @@ class TelegramController extends Controller
             $this->sendTextProblem($chatId, $text);
         } else {
             $keyboard = get_keyboard($culture->getProductsNames($data['problem_id']));
-            send_keyboard($chatId, $keyboard, 'searchProduct searchProduct');
+            send_keyboard($chatId, $keyboard, 'Для вирішення вашої проблеми підходять такі препарати');
         }
-
     }
 
     public function selectProduct($chatId, $text)
@@ -250,7 +249,8 @@ class TelegramController extends Controller
         $data['method'] = 'selectProduct';
         $data['product_id'] = Product::where('name', $text)->value('id');
         Cache::put($chatId, $data, self::TIME_CACHE);
-        $this->test($chatId, 'Product: ' . $text);
+        $keyboard = get_keyboard(['Применение на культр','Проблематика','Узнать больше','Описание','Цены и наличие']);
+        send_keyboard($chatId, $keyboard, 'що саме вас цікавить?');
 
     }
 
