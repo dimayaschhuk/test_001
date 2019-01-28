@@ -158,15 +158,16 @@ class TelegramController extends Controller
             exit;
         }
 
-        if(empty($culture->getProblemGroupNames())){
-            send_text($chatId,'До даної культури немає продуктів');
+        if (empty($culture->getProblemGroupNames())) {
+            send_text($chatId, 'До даної культури немає продуктів');
             $data = Cache::get($chatId);
             $data['method'] = 'welcome';
             Cache::put($chatId, $data, self::TIME_CACHE);
             $this->sendTextCulture($chatId, $text);
-        }else{
+        } else {
             $keyboard = get_keyboard($culture->getProblemGroupNames());
-            send_keyboard($chatId, $keyboard, 'Введіть назву проблеми або виберіть із списка групу в яку входить ваша проблема');
+            send_keyboard($chatId, $keyboard,
+                'Введіть назву проблеми або виберіть із списка групу в яку входить ваша проблема');
         }
 
     }
@@ -228,14 +229,18 @@ class TelegramController extends Controller
 //        $this->test($chatId, 'searchProduct');
         $data = Cache::get($chatId);
         $culture = Culture::find($data['culture_id']);
-        $this->test($chatId, $data['problem_id']);
-        $this->test($chatId, $culture->id);
-        if ($culture->checkProduct($text,$data['problem_id'])) {
+
+        if ($culture->checkProduct($text, $data['problem_id'])) {
             $this->selectProduct($chatId, $text);
         }
+        if (empty($culture->getProductsNames($data['problem_id']))) {
+            send_text($chatId,'Препаратів не знайдено виберіть іншу проблему');
+            $this->sendTextProblem($chatId, $text);
+        } else {
+            $keyboard = get_keyboard($culture->getProductsNames($data['problem_id']));
+            send_keyboard($chatId, $keyboard, 'searchProduct searchProduct');
+        }
 
-        $keyboard = get_keyboard($culture->getProductsNames($data['problem_id']));
-        send_keyboard($chatId, $keyboard, 'searchProduct searchProduct');
     }
 
     public function selectProduct($chatId, $text)
