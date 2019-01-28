@@ -47,9 +47,13 @@ class Culture extends Model
     {
         $problemGroupsNames = [];
         foreach ($this->technologies as $technology) {
-            $problemGroupsNames = array_merge($problemGroupsNames, $technology->problem_groups->pluck('name')->toArray());
+            foreach ($technology->problem_groups as $problem_group) {
+                if (!in_array($problem_group->name, $problemGroupsNames)) {
+                    $problemGroupsNames[] = $problem_group->name;
+                }
+            }
         }
-        $problemGroupsNames=array_unique($problemGroupsNames);
+
         return $problemGroupsNames;
     }
 
@@ -80,7 +84,7 @@ class Culture extends Model
 
     public function checkProduct($nameProduct, $problemId)
     {
-        return in_array($nameProduct,$this->getProductsNames($problemId));
+        return in_array($nameProduct, $this->getProductsNames($problemId));
     }
 
     public function checkProblem($nameProblem = '')
