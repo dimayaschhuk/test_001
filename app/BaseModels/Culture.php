@@ -47,10 +47,9 @@ class Culture extends Model
     {
         $problemGroupsNames = [];
         foreach ($this->technologies as $technology) {
-            $problemGroupsNames = array_merge($problemGroupsNames,
-                $technology->problem_groups->pluck('name')->toArray());
+            $problemGroupsNames = array_merge($problemGroupsNames, $technology->problem_groups->pluck('name')->toArray());
         }
-
+        $problemGroupsNames=array_unique($problemGroupsNames);
         return $problemGroupsNames;
     }
 
