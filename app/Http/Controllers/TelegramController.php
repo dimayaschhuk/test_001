@@ -21,12 +21,11 @@ class TelegramController extends Controller
         $telegramUser = \Telegram::getWebhookUpdates()['message'];
         $chatId = $telegramUser['from']['id'];
         $text = $telegramUser['text'];
-//        $this->test($chatId, $chatId);
+
         if (Cache::has($telegramUser['from']['id'])) {
             $data = Cache::get($telegramUser['from']['id']);
             if ($data['flow'] == 'testFlow') {
                 $method = next_method($data);
-//                $this->test($chatId,'next method: '.$method);
 
                 if ($method == 'sendTextCulture') {
                     $this->sendTextCulture($chatId, $text);
@@ -94,22 +93,16 @@ class TelegramController extends Controller
     }
 
 
-    //отправляєм 'Введіть назву культури або перші букви'
     public function sendTextCulture($chatId, $text)
     {
-//        $this->test($chatId, 'sendTextCulture');
         send_text($chatId, 'Введіть назву культури або перші букви');
 
         $value = ['flow' => 'testFlow', 'method' => 'sendTextCulture'];
         Cache::put($chatId, $value, self::TIME_CACHE);
     }
 
-    //если находим культуру chooseGroup(вибор групи проблем)
-    //если находим несколько культур придлагаем вибрать придлагаем вибрать из них одну
-    //если не находим не одной отправляем на sendTextEnterNameCulture('Введіть назву культури або перші букви')
     public function searchCulture($chatId, $text)
     {
-//        $this->test($chatId, 'searchCulture');
         if (Culture::where('name', $text)->count() === 1) {
             $this->selectCulture($chatId, $text);
             exit;
@@ -126,7 +119,6 @@ class TelegramController extends Controller
 
     public function selectCulture($chatId, $text)
     {
-//        $this->test($chatId, 'selectCulture');
         $data = Cache::get($chatId);
         $data['method'] = 'selectCulture';
         $data['culture_id'] = Culture::where('name', $text)->value('id');
@@ -137,7 +129,6 @@ class TelegramController extends Controller
 
     public function sendTextProblemGroup($chatId, $text)
     {
-//        $this->test($chatId, 'sendTextProblemGroup');
         $data = Cache::get($chatId);
         $culture = Culture::find($data['culture_id']);
 
@@ -174,7 +165,6 @@ class TelegramController extends Controller
 
     public function selectProblemGroup($chatId, $text)
     {
-//        $this->test($chatId, 'selectProblemGroup');
         $data = Cache::get($chatId);
         $data['method'] = 'selectProblemGroup';
         $data['problemGroup_id'] = ProblemGroup::where('name', $text)->value('id');
@@ -184,7 +174,6 @@ class TelegramController extends Controller
 
     public function sendTextProblem($chatId, $text)
     {
-//        $this->test($chatId, 'sendTextProblem');
         $data = Cache::get($chatId);
         $culture = Culture::find($data['culture_id']);
 
@@ -204,7 +193,6 @@ class TelegramController extends Controller
 
     public function searchProblem($chatId, $text)
     {
-//        $this->test($chatId, 'searchProblem');
         $data = Cache::get($chatId);
         $culture = Culture::find($data['culture_id']);
 
@@ -214,8 +202,6 @@ class TelegramController extends Controller
 
     public function selectProblem($chatId, $text)
     {
-//        $this->test($chatId, 'selectProblem');
-
         $data = Cache::get($chatId);
         $data['method'] = 'selectProblem';
         $data['problem_id'] = Problem::where('name', $text)->value('id');
@@ -223,10 +209,8 @@ class TelegramController extends Controller
         $this->searchProduct($chatId, $text);
     }
 
-
     public function searchProduct($chatId, $text)
     {
-//        $this->test($chatId, 'searchProduct');
         $data = Cache::get($chatId);
         $culture = Culture::find($data['culture_id']);
 
@@ -244,14 +228,15 @@ class TelegramController extends Controller
 
     public function selectProduct($chatId, $text)
     {
-//        $this->test($chatId, 'selectProduct');
         $data = Cache::get($chatId);
         $data['method'] = 'selectProduct';
         $data['product_id'] = Product::where('name', $text)->value('id');
         Cache::put($chatId, $data, self::TIME_CACHE);
-        $keyboard = get_keyboard(['Применение на культр','Проблематика','Узнать больше','Описание','Цены и наличие']);
-        send_keyboard($chatId, $keyboard, 'що саме вас цікавить?');
-
+        $keyboard=[
+            ['Применение на культр','Проблематика'],
+            ['Узнать больше','Описание','Цены и наличие']
+            ];
+        send_keyboard($chatId, $keyboard, 'Що саме вас цікавить?');
     }
 
 
