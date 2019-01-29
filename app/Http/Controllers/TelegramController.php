@@ -108,7 +108,7 @@ class TelegramController extends Controller
             exit;
         }
 
-        if (Culture::where('name', 'LIKE', "%{$text}")->count() === 0) {
+        if (Culture::where('name', 'LIKE', "%{$text}%")->count() === 0) {
             $this->sendTextCulture($chatId, $text);
             exit;
         }
@@ -187,8 +187,25 @@ class TelegramController extends Controller
             exit;
         }
 
-        $keyboard = get_keyboard($culture->getProblemNames($data['problemGroup_id']));
-        send_keyboard($chatId, $keyboard, 'виберіть назву проблеми');
+
+        if (empty($culture->getProblemNames($data['problemGroup_id']))) {
+            if($culture->getProblemNames()){
+                send_text($chatId, 'До даної культури немає проблем');
+                $data = Cache::get($chatId);
+                $data['method'] = 'welcome';
+                Cache::put($chatId, $data, self::TIME_CACHE);
+                $this->sendTextCulture($chatId, $text);
+            }
+            send_text($chatId, 'До даної культури немає проблем');
+            $this->sendTextProblemGroup($chatId, $text);
+        } else {
+            $keyboard = get_keyboard($culture->getProblemNames($data['problemGroup_id']));
+            send_keyboard($chatId, $keyboard, 'виберіть назву проблеми');
+        }
+
+
+
+
     }
 
     public function searchProblem($chatId, $text)
