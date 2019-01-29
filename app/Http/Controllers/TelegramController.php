@@ -233,6 +233,7 @@ class TelegramController extends Controller
 
         if ($culture->checkProduct($text, $data['problem_id'])) {
             $this->selectProduct($chatId, $text);
+            exit;
         }
         if (empty($culture->getProductsNames($data['problem_id']))) {
             send_text($chatId,'Препаратів не знайдено виберіть іншу проблему');
