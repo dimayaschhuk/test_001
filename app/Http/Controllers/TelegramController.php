@@ -244,13 +244,11 @@ class TelegramController extends Controller
             send_text($chatId, 'Препаратів не знайдено виберіть іншу проблему');
             $this->sendTextProblem($chatId, $text);
         } else {
-            send_text($chatId, 'else');
-            send_text($chatId, (string)count($culture->getProductsNames($data['problem_id'])));
-            $text='';
-            foreach ($culture->getProductsNames($data['problem_id']) as $name){
-                $text.= $name.";";
+            if (count($culture->getProductsNames($data['problem_id'])) === 1) {
+                send_text($chatId, 'Для вирішення даної проблему найдено тільки один препарат');
+                $this->selectProduct($chatId, $text);
+                exit;
             }
-            send_text($chatId, $text);
             $keyboard = get_keyboard($culture->getProductsNames($data['problem_id']));
             send_keyboard($chatId, $keyboard, 'Для вирішення вашої проблеми підходять такі препарати');
         }
