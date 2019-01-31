@@ -30,17 +30,22 @@ class Culture extends Model
 
     public function getProductsNames($problemId)
     {
-        $productAllNames = [];
-        foreach ($this->technologies as $technology) {
-            $productAllNames[] = $technology->product->name;
-        }
-        $productNames = [];
-        $problemtTechnologies = Problem::find($problemId)->technologies;
-        foreach ($problemtTechnologies as $technology) {
-            $productNames[] = $technology->product->name;
+        try{
+            $productAllNames = [];
+            foreach ($this->technologies as $technology) {
+                $productAllNames[] = $technology->product->name;
+            }
+            $productNames = [];
+            $problemTechnologies = Problem::find($problemId)->technologies;
+            foreach ($problemTechnologies as $technology) {
+                $productNames[] = $technology->product->name;
+            }
+
+            return array_intersect($productAllNames, $productNames);
+        }catch (\ErrorException $errorException){
+            return [];
         }
 
-        return array_intersect($productAllNames, $productNames);
     }
 
     public function getProblemGroupNames()

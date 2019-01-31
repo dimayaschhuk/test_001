@@ -241,7 +241,6 @@ class TelegramController extends Controller
         }
 
         if (empty($culture->getProductsNames($data['problem_id']))) {
-            send_text($chatId, 'empty($culture->getProductsNames($data[\'problem_id\']))');
             send_text($chatId, 'Препаратів не знайдено виберіть іншу проблему');
             $this->sendTextProblem($chatId, $text);
         } else {
