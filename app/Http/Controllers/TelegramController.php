@@ -245,6 +245,12 @@ class TelegramController extends Controller
             $this->sendTextProblem($chatId, $text);
         } else {
             send_text($chatId, 'else');
+            send_text($chatId, (string)count($culture->getProductsNames($data['problem_id'])));
+            $text='';
+            foreach ($culture->getProductsNames($data['problem_id']) as $name){
+                $text.= $name.";";
+            }
+            send_text($chatId, $text);
             $keyboard = get_keyboard($culture->getProductsNames($data['problem_id']));
             send_keyboard($chatId, $keyboard, 'Для вирішення вашої проблеми підходять такі препарати');
         }
