@@ -231,6 +231,7 @@ class TelegramController extends Controller
 
     public function searchProduct($chatId, $text)
     {
+        send_text($chatId, 'searchProduct');
         $data = Cache::get($chatId);
         $culture = Culture::find($data['culture_id']);
 
@@ -238,10 +239,13 @@ class TelegramController extends Controller
             $this->selectProduct($chatId, $text);
             exit;
         }
+
         if (empty($culture->getProductsNames($data['problem_id']))) {
+            send_text($chatId, 'empty($culture->getProductsNames($data[\'problem_id\']))');
             send_text($chatId, 'Препаратів не знайдено виберіть іншу проблему');
             $this->sendTextProblem($chatId, $text);
         } else {
+            send_text($chatId, 'else');
             $keyboard = get_keyboard($culture->getProductsNames($data['problem_id']));
             send_keyboard($chatId, $keyboard, 'Для вирішення вашої проблеми підходять такі препарати');
         }
