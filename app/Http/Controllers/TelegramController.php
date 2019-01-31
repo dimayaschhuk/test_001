@@ -176,7 +176,6 @@ class TelegramController extends Controller
 
     public function sendTextProblem($chatId, $text)
     {
-        send_text($chatId, 'sendTextProblem');
         $data = Cache::get($chatId);
         $culture = Culture::find($data['culture_id']);
 
@@ -211,7 +210,6 @@ class TelegramController extends Controller
 
     public function searchProblem($chatId, $text)
     {
-        send_text($chatId, 'searchProblem');
         $data = Cache::get($chatId);
         $culture = Culture::find($data['culture_id']);
 
@@ -221,7 +219,6 @@ class TelegramController extends Controller
 
     public function selectProblem($chatId, $text)
     {
-        send_text($chatId, 'selectProblem');
         $data = Cache::get($chatId);
         $data['method'] = 'selectProblem';
         $data['problem_id'] = Problem::where('name', $text)->value('id');
@@ -231,7 +228,6 @@ class TelegramController extends Controller
 
     public function searchProduct($chatId, $text)
     {
-        send_text($chatId, 'searchProduct');
         $data = Cache::get($chatId);
         $culture = Culture::find($data['culture_id']);
 
@@ -245,7 +241,7 @@ class TelegramController extends Controller
             $this->sendTextProblem($chatId, $text);
         } else {
             if (count($culture->getProductsNames($data['problem_id'])) === 1) {
-                send_text($chatId, 'Для вирішення даної проблему найдено тільки один препарат');
+                send_text($chatId, 'Для вирішення даної проблему найдено тільки один препарат: '.$culture->getProductsNames($data['problem_id'])[0]);
                 $this->selectProduct($chatId, $text);
                 exit;
             }
@@ -272,23 +268,28 @@ class TelegramController extends Controller
     {
         if ($text == 'Применение на культр') {
             $this->applicationToCulture($chatId, $text);
+            exit;
         }
 
         if ($text == 'Проблематика') {
             $this->getProblem($chatId, $text);
-        }
-
-        if ($text == 'Узнать больше') {
-
+            exit;
         }
 
         if ($text == 'Описание') {
             $this->getDescription($chatId, $text);
+            exit;
         }
 
         if ($text == 'Цены и наличие') {
             $this->getPrice($chatId, $text);
+            exit;
         }
+
+        if ($text == 'Узнать больше') {
+            exit;
+        }
+
 
         $keyboard = [
             ['Применение на культр', 'Проблематика'],
