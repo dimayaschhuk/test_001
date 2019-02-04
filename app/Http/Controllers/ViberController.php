@@ -57,7 +57,7 @@ class ViberController extends Controller
                             ->setText("I do not know )")
                     );
                 })
-                ->onText('|Test', function ($event) use ($bot, $botSender) {
+                ->onText('|test .*|si', function ($event) use ($bot, $botSender) {
                     Log::info('SEND message');
                     $bot->getClient()->sendMessage(
                         (new \Viber\Api\Message\Text())
