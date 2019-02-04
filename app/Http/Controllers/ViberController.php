@@ -62,7 +62,13 @@ class ViberController extends Controller
                 })
                 ->onText('|key .*|si', function ($event) use ($bot, $botSender) {
                     $keyboard = new Keyboard();
-                    $keyboard->setButtons(['test', 'test']);
+                    $button = new Keyboard\Button();
+                    $button->setBgColor('#FFFFFF');
+                    $button->setColumns(1);
+                    $button->setRows(1);
+                    $button->setText('button');
+                    $keyboard->setBgColor('#FFFFFF');
+                    $keyboard->setButtons([$button]);
                     $bot->getClient()->sendMessage(
                         (new \Viber\Api\Message\Text())
                             ->setSender($botSender)
