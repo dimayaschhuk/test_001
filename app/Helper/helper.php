@@ -75,3 +75,16 @@ if (!function_exists('send_keyboard')) {
         $response->getMessageId();
     }
 }
+
+
+if (!function_exists('send_text_viber')) {
+    function send_text_viber($bot,$botSender,$event,$text)
+    {
+        $bot->getClient()->sendMessage(
+            (new \Viber\Api\Message\Text())
+                ->setSender($botSender)
+                ->setReceiver($event->getSender()->getId())
+                ->setText($text)
+        );
+    }
+}
