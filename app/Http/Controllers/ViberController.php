@@ -17,9 +17,11 @@ class ViberController extends Controller
         try {
             dump('try');
             $client = new Client([ 'token' => $apiKey ]);
+            dump($client);
             $result = $client->setWebhook($webhookUrl);
-            echo "Success!\n";
             dd($result);
+            echo "Success!\n";
+
 
         } catch (\ErrorException $e) {
             echo "Error: ". $e->getError() ."\n";
