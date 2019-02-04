@@ -41,14 +41,14 @@ class ViberController extends Controller
         ]);
         try {
             $bot = new Bot(['token' => $apiKey]);
-
+            $bot->onText('','');
             $bot
                 ->onConversation(function ($event) use ($bot, $botSender) {
                     return (new \Viber\Api\Message\Text())
                         ->setSender($botSender)
                         ->setText("Чим я можу вам допомогти?");
                 })
-                ->onText('|whois .*|si', function ($event) use ($bot, $botSender) {
+                ->onText('*', function ($event) use ($bot, $botSender) {
                     Log::info('SEND message');
                     $bot->getClient()->sendMessage(
                         (new \Viber\Api\Message\Text())
@@ -57,15 +57,17 @@ class ViberController extends Controller
                             ->setText("I do not know )")
                     );
                 })
-                ->onText('|test .*|si', function ($event) use ($bot, $botSender) {
-                    $data['bot'] = $bot;
-                    $data['botSender'] = $botSender;
-                    $data['event'] = $event;
-                    $data['text'] = 'test';
-
-                    send_text_viber($data, 'test');
-
-                })
+//                ->onText('|test .*|si', function ($event) use ($bot, $botSender) {
+//
+//                    send_text_viber(
+//                        'viber',
+//                        [
+//                            'bot'       => $bot,
+//                            'botSender' => $botSender,
+//                            'event'     => $event,
+//                        ], 'test');
+//
+//                })
                 ->run();
         } catch (Exception $e) {
             Log::info('not send message');
