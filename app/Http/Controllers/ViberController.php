@@ -48,14 +48,14 @@ class ViberController extends Controller
                         ->setSender($botSender)
                         ->setText("Чим я можу вам допомогти?");
                 })
-                ->onText('|*', function ($event) use ($bot, $botSender) {
-                    $bot->getClient()->sendMessage(
-                        (new \Viber\Api\Message\Text())
-                            ->setSender($botSender)
-                            ->setReceiver($event->getSender()->getId())
-                            ->setText("I do not know )")
-                    );
-                })
+//                ->onText('|*', function ($event) use ($bot, $botSender) {
+//                    $bot->getClient()->sendMessage(
+//                        (new \Viber\Api\Message\Text())
+//                            ->setSender($botSender)
+//                            ->setReceiver($event->getSender()->getId())
+//                            ->setText("I do not know )")
+//                    );
+//                })
                 ->onText('[a-z]*', function ($event) use ($bot, $botSender) {
                     $bot->getClient()->sendMessage(
                         (new \Viber\Api\Message\Text())
