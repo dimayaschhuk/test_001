@@ -57,11 +57,12 @@ class ViberController extends Controller
 //                    );
 //                })
                 ->onText('(.*at)', function ($event) use ($bot, $botSender) {
+                    $text = $event->getMessage();
                     $bot->getClient()->sendMessage(
                         (new \Viber\Api\Message\Text())
                             ->setSender($botSender)
                             ->setReceiver($event->getSender()->getId())
-                            ->setText("test")
+                            ->setText($text)
                     );
                 })
 //                ->onText('|test .*|si', function ($event) use ($bot, $botSender) {
