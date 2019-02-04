@@ -30,14 +30,17 @@ class ViberController extends Controller
     }
 
     public function webHook(){
+        Log::info('start webHook');
+        Log::info('1111111111111111111111111111111111111');
         $apiKey = '492df57f7927d70b-bb1dffe5ee14eea0-4498222180f6797f';
 
         $botSender = new Sender([
             'name' => 'mySzrBot',
             'avatar' => 'http://chat.organic.mobimill.com/storage/app/public/10/1e7bc03379018d5cfd8a2bb60af3592a.jpg',
         ]);
-
+        Log::info('set $botSender');
         try {
+            Log::info('try send message');
             $bot = new Bot(['token' => $apiKey]);
             $bot
                 ->onConversation(function ($event) use ($bot, $botSender) {
@@ -46,6 +49,7 @@ class ViberController extends Controller
                         ->setText("Can i help you?");
                 })
                 ->onText('test', function ($event) use ($bot, $botSender) {
+                    Log::info('SEND message');
                     $bot->getClient()->sendMessage(
                         (new \Viber\Api\Message\Text())
                             ->setSender($botSender)
@@ -54,6 +58,7 @@ class ViberController extends Controller
                     );
                 })
                 ->run();
+            Log::info('SEND MESSAGE');
         } catch (Exception $e) {
             Log::info('not send message');
         }
