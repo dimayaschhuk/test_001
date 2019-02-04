@@ -13,7 +13,7 @@ class ViberController extends Controller
 
     public function setWebhook(){
         $apiKey = '492df57f7927d70b-bb1dffe5ee14eea0-4498222180f6797f';
-        $webhookUrl = 'https://www.dimayashchuk.icu/viber_bot'; //
+        $webhookUrl = 'https://www.dimayashchuk.icu/viberBot.php'; //
         try {
             dump('try');
             $client = new Client([ 'token' => $apiKey ]);
