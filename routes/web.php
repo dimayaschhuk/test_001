@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Cache;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -27,3 +29,8 @@ Route::get('/setWebHook', 'ViberController@setWebhook');
 
 Route::get('/set', 'TestController@setWebHook');
 Route::get('/get', 'TestController@getWebHookInfo');
+
+Route::get('/test', function (){
+    $data = Cache::get('testViber');
+    dd($data);
+});

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use http\Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Viber\Api\Event;
 use Viber\Api\Keyboard;
@@ -57,12 +58,12 @@ class ViberController extends Controller
 //                    );
 //                })
                 ->onText('(.*at)', function ($event) use ($bot, $botSender) {
-                    $text = $event->getMessage();
+                    Cache::put('testViber',  $event->getMessage(), 3);
                     $bot->getClient()->sendMessage(
                         (new \Viber\Api\Message\Text())
                             ->setSender($botSender)
                             ->setReceiver($event->getSender()->getId())
-                            ->setText($text)
+                            ->setText("ddddd")
                     );
                 })
 //                ->onText('|test .*|si', function ($event) use ($bot, $botSender) {
