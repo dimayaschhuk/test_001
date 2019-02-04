@@ -32,23 +32,19 @@ class ViberController extends Controller
         $apiKey = '492df57f7927d70b-bb1dffe5ee14eea0-4498222180f6797f';
 
         $botSender = new Sender([
-            'name' => 'Whois bot',
-            'avatar' => 'https://developers.viber.com/img/favicon.ico',
+            'name' => 'mySzrBot',
+            'avatar' => 'http://chat.organic.mobimill.com/storage/app/public/10/1e7bc03379018d5cfd8a2bb60af3592a.jpg',
         ]);
 
         try {
             $bot = new Bot(['token' => $apiKey]);
             $bot
                 ->onConversation(function ($event) use ($bot, $botSender) {
-                    // это событие будет вызвано, как только пользователь перейдет в чат
-                    // вы можете отправить "привествие", но не можете посылать более сообщений
                     return (new \Viber\Api\Message\Text())
                         ->setSender($botSender)
                         ->setText("Can i help you?");
                 })
-                ->onText('|whois .*|si', function ($event) use ($bot, $botSender) {
-                    // это событие будет вызвано если пользователь пошлет сообщение
-                    // которое совпадет с регулярным выражением
+                ->onText('test', function ($event) use ($bot, $botSender) {
                     $bot->getClient()->sendMessage(
                         (new \Viber\Api\Message\Text())
                             ->setSender($botSender)
