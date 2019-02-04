@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use http\Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Viber\Client;
 use Viber\Bot;
 use Viber\Api\Sender;
@@ -54,7 +55,7 @@ class ViberController extends Controller
                 })
                 ->run();
         } catch (Exception $e) {
-            // todo - log exceptions
+            Log::info('not send message');
         }
     }
 }
