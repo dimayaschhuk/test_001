@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use http\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Viber\Api\Event;
 use Viber\Api\Keyboard;
 use Viber\Client;
 use Viber\Bot;
@@ -39,8 +40,8 @@ class ViberController extends Controller
             'avatar' => 'http://chat.organic.mobimill.com/storage/app/public/10/1e7bc03379018d5cfd8a2bb60af3592a.jpg',
         ]);
         try {
-            Log::info('try send message');
             $bot = new Bot(['token' => $apiKey]);
+
             $bot
                 ->onConversation(function ($event) use ($bot, $botSender) {
                     return (new \Viber\Api\Message\Text())
@@ -57,25 +58,13 @@ class ViberController extends Controller
                     );
                 })
                 ->onText('|test .*|si', function ($event) use ($bot, $botSender) {
-                    send_text_viber($bot, $botSender, $event, 'test');
+                    $data['bot'] = $bot;
+                    $data['botSender'] = $botSender;
+                    $data['event'] = $event;
+                    $data['text'] = 'test';
 
-                })
-                ->onText('|key .*|si', function ($event) use ($bot, $botSender) {
-                    $keyboard = new Keyboard();
-                    $button = new Keyboard\Button();
-                    $button->setBgColor('#FFFFFF');
-                    $button->setColumns(1);
-                    $button->setRows(1);
-                    $button->setText('button');
-                    $keyboard->setBgColor('#FFFFFF');
-                    $keyboard->setButtons([$button]);
-                    $bot->getClient()->sendMessage(
-                        (new \Viber\Api\Message\Text())
-                            ->setSender($botSender)
-                            ->setReceiver($event->getSender()->getId())
-                            ->setText("I do not know )")
-                            ->setKeyboard($keyboard)
-                    );
+                    send_text_viber($data, 'test');
+
                 })
                 ->run();
         } catch (Exception $e) {

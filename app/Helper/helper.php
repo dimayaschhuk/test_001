@@ -48,7 +48,7 @@ if (!function_exists('get_keyboard')) {
 }
 
 if (!function_exists('send_text')) {
-    function send_text($chatId,$text = 'text')
+    function send_text($chatId, $text = 'text')
     {
         $response = \Telegram::sendMessage([
             'chat_id' => $chatId,
@@ -78,8 +78,11 @@ if (!function_exists('send_keyboard')) {
 
 
 if (!function_exists('send_text_viber')) {
-    function send_text_viber($bot,$botSender,$event,$text)
+    function send_text_viber($data, $text)
     {
+        $bot = $data['bot'];
+        $event = $data['event'];
+        $botSender = $data['botSender'];
         $bot->getClient()->sendMessage(
             (new \Viber\Api\Message\Text())
                 ->setSender($botSender)
