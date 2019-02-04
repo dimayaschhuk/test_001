@@ -32,6 +32,6 @@ Route::get('/get', 'TestController@getWebHookInfo');
 
 Route::get('/test', function (){
     $data = Cache::get('testViber');
-    dd($data);
+    dump($data);
     dd($data['text']);
 });
