@@ -305,6 +305,7 @@ class TelegramController extends Controller
 
     public function applicationToCulture($chatId, $text)
     {
+        $this->test($chatId,'applicationToCulture');
         $data = Cache::get($chatId);
         $pd_CultureForCropProcessing = DB::where('cultureId', $data['culture_id'])
             ->pluck('cropProcessingId')
