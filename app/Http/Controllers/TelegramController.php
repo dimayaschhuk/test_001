@@ -146,10 +146,10 @@ class TelegramController extends Controller
             exit;
         }
 
-        if ($culture->checkLIKEProblem($text)) {
-            $this->searchProblem($chatId, $text);
-            exit;
-        }
+//        if ($culture->checkLIKEProblem($text)) {
+//            $this->searchProblem($chatId, $text);
+//            exit;
+//        }
 
         if (empty($culture->getProblemGroupNames())) {
             send_text($chatId, 'До даної культури немає продуктів');
@@ -160,7 +160,7 @@ class TelegramController extends Controller
         } else {
             $keyboard = get_keyboard($culture->getProblemGroupNames());
             send_keyboard($chatId, $keyboard,
-                'Введіть назву проблеми або виберіть із списка групу в яку входить ваша проблема');
+                'Виберіть із списка групу в яку входить ваша проблема');
         }
 
     }
@@ -184,10 +184,10 @@ class TelegramController extends Controller
             exit;
         }
 
-        if ($culture->checkLIKEProblem($text)) {
-            $this->searchProblem($chatId, $text);
-            exit;
-        }
+//        if ($culture->checkLIKEProblem($text)) {
+//            $this->searchProblem($chatId, $text);
+//            exit;
+//        }
 
 
         if (empty($culture->getProblemNames($data['problemGroup_id']))) {

@@ -14,7 +14,7 @@ if (!function_exists('getFlow')) {
                 'sendTextProblemGroup',
                 'selectProblemGroup',
                 'sendTextProblem',
-                'searchProblem',
+//                'searchProblem',
                 'selectProblem',
                 'searchProduct',
                 'selectProduct',
