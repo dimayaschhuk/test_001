@@ -113,3 +113,10 @@ Route::get('/testViber', function () {
 //   }
     }
 });
+
+
+Route::get('/getCache', function () {
+    {
+        dd(Cache::get('test'));
+    }
+});

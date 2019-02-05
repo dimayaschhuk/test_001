@@ -241,8 +241,11 @@ class TelegramController extends Controller
             $this->sendTextProblem($chatId, $text);
         } else {
             if (count($culture->getProductsNames($data['problem_id'])) === 1) {
+                $test['$culture->getProductsNames($data[problem_id])'] = $culture->getProductsNames($data['problem_id']);
+                $test['productName']=$culture->getProductsNames($data['problem_id'])[0];
+                Cache::put('test', $test, self::TIME_CACHE);
                 send_text($chatId,
-                    'Для вирішення даної проблему найдено тільки один препарат: '.$culture->getProductsNames($data['problem_id'])[0] );
+                    'Для вирішення даної проблему найдено тільки один препарат: ');
                 $this->selectProduct($chatId, $text);
                 exit;
             }
