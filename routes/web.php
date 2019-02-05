@@ -120,3 +120,17 @@ Route::get('/getCache', function () {
         dd(Cache::get('test'));
     }
 });
+
+Route::get('/getMyCache', function () {
+    {
+        dd(Cache::get(563738410));
+    }
+});
+
+Route::get('/resetMyCache', function () {
+    {
+        $value = ['flow' => 'testFlow', 'method' => 'welcome'];
+        Cache::put(563738410, $value, 1);
+        dd(Cache::get(563738410));
+    }
+});
