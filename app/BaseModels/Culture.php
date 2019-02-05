@@ -28,26 +28,6 @@ class Culture extends Model
         return $this->belongsToMany(Technology::class, 'pd_CultureForCropProcessing', 'cultureId', 'cropProcessingId');
     }
 
-    public function getProductsNames($problemId)
-    {
-        try{
-            $productAllNames = [];
-            foreach ($this->technologies as $technology) {
-                $productAllNames[] = $technology->product->name;
-            }
-            $productNames = [];
-            $problemTechnologies = Problem::find($problemId)->technologies;
-            foreach ($problemTechnologies as $technology) {
-                $productNames[] = $technology->product->name;
-            }
-
-            return array_intersect($productAllNames, $productNames);
-        }catch (\ErrorException $errorException){
-            return [];
-        }
-
-    }
-
     public function getProblemGroupNames()
     {
         $problemGroupsNames = [];
@@ -67,17 +47,53 @@ class Culture extends Model
 
         if ($problemGroupId != NULL) {
             $problemNames = ProblemGroup::find($problemGroupId)->problems->pluck('name')->toArray();
+            $problemNames = array_intersect($problemNames, $this->getProblemNames());
+            $ProblemNames = [];
+            foreach ($problemNames as $item) {
+                if (!in_array($item, $ProblemNames)) {
+                    $problemGroupsNames[] = $item;
+                }
+            }
 
-            return array_intersect($problemNames, $this->getProblemNames());
+            return $ProblemNames;
         }
 
         $problemNames = [];
+        $ProblemNames = [];
         foreach ($this->technologies as $technology) {
             $problemNames = array_merge($problemNames, $technology->problems->pluck('name')->toArray());
         }
 
-        return $problemNames;
+        foreach ($problemNames as $item) {
+            if (!in_array($item, $ProblemNames)) {
+                $ProblemNames[] = $item;
+            }
+        }
+
+        return $ProblemNames;
     }
+
+
+    public function getProductsNames($problemId)
+    {
+        try {
+            $productAllNames = [];
+            foreach ($this->technologies as $technology) {
+                $productAllNames[] = $technology->product->name;
+            }
+            $productNames = [];
+            $problemTechnologies = Problem::find($problemId)->technologies;
+            foreach ($problemTechnologies as $technology) {
+                $productNames[] = $technology->product->name;
+            }
+
+            return array_intersect($productAllNames, $productNames);
+        } catch (\ErrorException $errorException) {
+            return [];
+        }
+
+    }
+
 
     public function getLIKEProblemNames($text)
     {
