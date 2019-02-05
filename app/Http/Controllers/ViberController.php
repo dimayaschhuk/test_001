@@ -51,36 +51,36 @@ class ViberController extends Controller
                         ->setText("Чим я можу вам допомогти?");
                 })
                 ->onText('(.*[а-я,a-z,0-9])', function ($event) use ($bot, $botSender) {
-//                    $text = $event->getMessage()->getText();
+                    $text = $event->getMessage()->getText();
+                    $data['event'] = $event;
+                    $data['bot'] = $bot;
+                    $data['botSender'] = $botSender;
 
-                    $keyboard = new Keyboard();
-                    $button = new Button();
-
-                    $keyboard->setBgColor("#FFFFFF");
-                    $keyboard->setDefaultHeight(TRUE);
-                    $button->setColumns(6);
-                    $button->setRows(1);
-                    $button->setBgColor("#2db9b9");
-
-                    $button->setActionBody("dfdfd");
-                    $button->setText('buttonTest');
-                    $button->setTextVAlign('middle');
-                    $button->setTextHAlign('center');
-                    $button->setTextOpacity(60);
-                    $button->setTextSize('regular');
-
-
-
-                    $keyboard->setButtons([$button]);
-
-                    $bot->getClient()->sendMessage(
-                        (new \Viber\Api\Message\Text())
-                            ->setText("342")
-                            ->setKeyboard($keyboard)
-                            ->setSender($botSender)
-                            ->setReceiver($event->getSender()->getId())
-
-                    );
+//                    send_text('Viber', $data, 'testText');
+                    $this->test('Viber', $data, 'testText');
+//                    $keyboard = new Keyboard();
+//                    $button = new Button();
+//                    $keyboard->setBgColor("#FFFFFF");
+//                    $keyboard->setDefaultHeight(TRUE);
+//                    $button->setColumns(6);
+//                    $button->setRows(1);
+//                    $button->setBgColor("#2db9b9");
+//                    $button->setActionBody("dfdfd");
+//                    $button->setText('buttonTest');
+//                    $button->setTextVAlign('middle');
+//                    $button->setTextHAlign('center');
+//                    $button->setTextOpacity(60);
+//                    $button->setTextSize('regular');
+//                    $keyboard->setButtons([$button]);
+//
+//                    $bot->getClient()->sendMessage(
+//                        (new \Viber\Api\Message\Text())
+//                            ->setText("342")
+//                            ->setKeyboard($keyboard)
+//                            ->setSender($botSender)
+//                            ->setReceiver($event->getSender()->getId())
+//
+//                    );
                 })
 //                ->onText('|test .*|si', function ($event) use ($bot, $botSender) {
 //
@@ -97,5 +97,10 @@ class ViberController extends Controller
         } catch (Exception $e) {
             Log::info('not send message');
         }
+    }
+
+    public function test($type, $data, $text)
+    {
+        send_text($type, $data, $text);
     }
 }
