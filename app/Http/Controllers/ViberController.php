@@ -62,7 +62,7 @@ class ViberController extends Controller
                     $button->setRows(1);
                     $button->setBgColor("#2db9b9");
 
-//                    $button->setActionBody("dfdfd");
+                    $button->setActionBody("dfdfd");
                     $button->setText('buttonTest');
                     $button->setTextVAlign('middle');
                     $button->setTextHAlign('center');
