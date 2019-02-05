@@ -57,8 +57,8 @@ class ViberController extends Controller
                     $data['botSender'] = $botSender;
 
 //                    send_text('Viber', $data, 'testText');
-                    send_text('Viber', $data, 'testText');
-//                    $this->test('Viber', $data, 'testText');
+//                    send_text('Viber', $data, 'testText');
+                    $this->test('Viber', $data, 'testText');
 //                    $keyboard = new Keyboard();
 //                    $button = new Button();
 //                    $keyboard->setBgColor("#FFFFFF");
