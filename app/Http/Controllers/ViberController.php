@@ -50,26 +50,33 @@ class ViberController extends Controller
                         ->setSender($botSender)
                         ->setText("Чим я можу вам допомогти?");
                 })
-//                ->onText('|*', function ($event) use ($bot, $botSender) {
-//                    $bot->getClient()->sendMessage(
-//                        (new \Viber\Api\Message\Text())
-//                            ->setSender($botSender)
-//                            ->setReceiver($event->getSender()->getId())
-//                            ->setText("I do not know )")
-//                    );
-//                })
                 ->onText('(.*[а-я,a-z,0-9])', function ($event) use ($bot, $botSender) {
-                    $text = $event->getMessage()->getText();
-                    $button = new Button();
-                    $button->setColumns(1);
-                    $button->setRows(1);
-                    $button->setBgColor('#fff');
-                    $button->setActionType('reply');
-                    $button->setActionBody('reply to me');
-                    $button->setText('buttonTest');
-                    $button->setTextSize('regular');
+//                    $text = $event->getMessage()->getText();
+
                     $keyboard = new Keyboard();
-                    $keyboard->setBgColor('#fff');
+                    $button = new Button();
+
+                    $keyboard->setBgColor("#FFFFFF");
+                    $keyboard->setDefaultHeight(TRUE);
+
+                    $button->setColumns(6);
+                    $button->setRows(1);
+                    $button->setBgColor("#2db9b9");
+                    $button->setBgMediaType("gif");
+                    $button->setBgMedia("http://mhp.mobimill.com/gif/Animation.gif");
+                    $button->setBgLoop(TRUE);
+                    $button->setActionType("open-url");
+                    $button->setActionBody("www.tut.by");
+                    $button->setImage("www.tut.by/img.jpg");
+                    $button->setImage("www.tut.by/img.jpg");
+                    $button->setText('buttonTest');
+                    $button->setTextVAlign('middle');
+                    $button->setTextHAlign('center');
+                    $button->setTextOpacity(60);
+                    $button->setTextSize('regular');
+
+
+
                     $keyboard->setButtons([$button]);
 
                     $bot->getClient()->sendMessage(
