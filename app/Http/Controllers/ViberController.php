@@ -58,17 +58,11 @@ class ViberController extends Controller
 
                     $keyboard->setBgColor("#FFFFFF");
                     $keyboard->setDefaultHeight(TRUE);
-
                     $button->setColumns(6);
                     $button->setRows(1);
                     $button->setBgColor("#2db9b9");
-//                    $button->setBgMediaType("gif");
-//                    $button->setBgMedia("http://mhp.mobimill.com/gif/Animation.gif");
-//                    $button->setBgLoop(TRUE);
-//                    $button->setActionType("open-url");
-                    $button->setActionBody("dfdfd");
-//                    $button->setImage("www.tut.by/img.jpg");
-//                    $button->setImage("www.tut.by/img.jpg");
+
+//                    $button->setActionBody("dfdfd");
                     $button->setText('buttonTest');
                     $button->setTextVAlign('middle');
                     $button->setTextHAlign('center');
@@ -81,10 +75,11 @@ class ViberController extends Controller
 
                     $bot->getClient()->sendMessage(
                         (new \Viber\Api\Message\Text())
+                            ->setText("342")
                             ->setKeyboard($keyboard)
                             ->setSender($botSender)
                             ->setReceiver($event->getSender()->getId())
-                            ->setText("342")
+
                     );
                 })
 //                ->onText('|test .*|si', function ($event) use ($bot, $botSender) {
