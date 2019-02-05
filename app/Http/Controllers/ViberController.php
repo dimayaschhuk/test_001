@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Viber\Api\Event;
 use Viber\Api\Keyboard;
+use Viber\Api\Keyboard\Button;
 use Viber\Client;
 use Viber\Bot;
 use Viber\Api\Sender;
@@ -59,12 +60,15 @@ class ViberController extends Controller
 //                })
                 ->onText('(.*[а-я,a-z,0-9])', function ($event) use ($bot, $botSender) {
                     $text = $event->getMessage()->getText();
-                    $button=new Keyboard\Button();
+                    $button = new Button();
                     $button->setColumns(1);
                     $button->setRows(1);
                     $button->setBgColor('#fff');
-                    $button->setText('ds');
-                    $keyboard=new Keyboard();
+                    $button->setActionType('reply');
+                    $button->setActionBody('reply to me');
+                    $button->setText('buttonTest');
+                    $button->setTextSize('regular');
+                    $keyboard = new Keyboard();
                     $keyboard->setBgColor('#fff');
                     $keyboard->setButtons([$button]);
 
