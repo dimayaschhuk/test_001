@@ -72,11 +72,11 @@ class TelegramController extends Controller
             Cache::put($telegramUser['from']['id'], $value, 1);
             $response = \Telegram::sendMessage([
                 'chat_id' => $telegramUser['from']['id'],
-                'text'    => 'Добро рожаловть',
+                'text'    => 'Ласкаво просимо',
             ]);
             $response->getMessageId();
             $keyboard = [
-                ['Продукты', 'Защита культур'],
+                ['Продукти', 'Захист культур'],
             ];
             $reply_markup = \Telegram::replyKeyboardHide([
                 'keyboard'          => $keyboard,
@@ -116,7 +116,7 @@ class TelegramController extends Controller
         }
 
         $keyboard = get_keyboard(Culture::where('name', 'LIKE', "%{$text}%")->pluck('name')->toArray());
-        send_keyboard($chatId, $keyboard, 'Виберіть із списка оду культуру яка вам найбільше підходить');
+        send_keyboard($chatId, $keyboard, 'Виберіть із списка одну культуру яка вам найбільше підходить');
     }
 
     public function selectCulture($chatId, $text)
@@ -197,12 +197,14 @@ class TelegramController extends Controller
                 $data['method'] = 'welcome';
                 Cache::put($chatId, $data, self::TIME_CACHE);
                 $this->sendTextCulture($chatId, $text);
+                exit;
             }
             send_text($chatId, 'До даної культури немає проблем');
             $this->sendTextProblemGroup($chatId, $text);
+            exit;
         } else {
             $keyboard = get_keyboard($culture->getProblemNames($data['problemGroup_id']));
-            send_keyboard($chatId, $keyboard, 'виберіть назву проблеми');
+            send_keyboard($chatId, $keyboard, 'Виберіть назву проблеми');
         }
 
 
@@ -261,8 +263,8 @@ class TelegramController extends Controller
         $data['product_id'] = Product::where('name', $text)->value('id');
         Cache::put($chatId, $data, self::TIME_CACHE);
         $keyboard = [
-            ['Применение на культр', 'Проблематика'],
-            ['Узнать больше', 'Описание', 'Цены и наличие'],
+            ['Застосування на культурі', 'Проблематика'],
+            ['Дізнатися більше', 'Опис', 'Ціни і наявність'],
         ];
         send_keyboard($chatId, $keyboard, 'Що саме вас цікавить?');
     }
