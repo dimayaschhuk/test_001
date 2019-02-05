@@ -242,7 +242,7 @@ class TelegramController extends Controller
         } else {
             if (count($culture->getProductsNames($data['problem_id'])) === 1) {
                 send_text($chatId,
-                    'Для вирішення даної проблему найдено тільки один препарат: ' );
+                    'Для вирішення даної проблему найдено тільки один препарат: '.$culture->getProductsNames($data['problem_id'])[0] );
                 $this->selectProduct($chatId, $text);
                 exit;
             }
