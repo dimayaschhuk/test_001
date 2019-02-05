@@ -57,13 +57,14 @@ class ViberController extends Controller
 //                            ->setText("I do not know )")
 //                    );
 //                })
-                ->onText('(.*at)', function ($event) use ($bot, $botSender) {
-                    Cache::put('testViber',  $event->getMessage(), 3);
+                ->onText('(.*[а-я,a-z,0-9])', function ($event) use ($bot, $botSender) {
+                    $text = $event->getMessage()->getText();
+
                     $bot->getClient()->sendMessage(
                         (new \Viber\Api\Message\Text())
                             ->setSender($botSender)
                             ->setReceiver($event->getSender()->getId())
-                            ->setText("ddddd")
+                            ->setText("342")
                     );
                 })
 //                ->onText('|test .*|si', function ($event) use ($bot, $botSender) {
