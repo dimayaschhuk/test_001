@@ -318,6 +318,7 @@ class TelegramController extends Controller
             $technology->consumptionNormMax . ", lastTreatmentTerm: " . $technology->lastTreatmentTerm .
             ", maxTreatmentCount: " . $technology->maxTreatmentCount . ", experience:" . $technology->experience .
             ", areaUnit:" . $technology->areaUnit . ", amountUnit:" . $technology->amountUnit;
+        Cache::put('test', $text, 1);
         send_text($chatId, $text);
         $keyboard = [
             ['Применение на культр', 'Проблематика'],
