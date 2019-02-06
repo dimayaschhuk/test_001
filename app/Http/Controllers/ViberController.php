@@ -52,6 +52,7 @@ class ViberController extends Controller
                         ->setText("Чим я можу вам допомогти?");
                 })
                 ->onText('(.*[а-я,a-z,0-9])', function ($event) use ($bot, $botSender) {
+
                     $text = $event->getMessage()->getText();
                     $id = $event->getSender()->getId();
                     if (Cache::has(BaseBot::TYPE_VIBER . "/" . $id)) {
@@ -61,6 +62,7 @@ class ViberController extends Controller
                     } else {
                         $baseBot = new BaseBot(BaseBot::TYPE_VIBER, $id);
                         $baseBot->setUserText($text);
+                        $baseBot->setViberBot($bot);
                         $baseBot->runMethod();
                     }
 
