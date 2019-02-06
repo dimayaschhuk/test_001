@@ -17,9 +17,6 @@ class BaseBot
     protected $viberBot;
 
 
-
-
-
     protected $problemGroupId;
     protected $problemId;
     protected $brandId;
@@ -42,6 +39,24 @@ class BaseBot
         $this->cacheId = $typeBot . "/" . $id;
         $this->currentMethod = Logic::METHOD_SEND_TEXT_CULTURE;
         $this->currentFlow = Logic::FLOW_PROTECT_CULTURE;
+
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrentMethod(): string
+    {
+        return $this->currentMethod;
+    }
+
+    /**
+     * @param string $currentMethod
+     */
+    public function setCurrentMethod(string $currentMethod): void
+    {
+        $this->currentMethod = $currentMethod;
+        Cache::put($this->id, $this, self::TIME_CACHE);
     }
 
     public function getViberBot()
@@ -84,6 +99,11 @@ class BaseBot
     public function setKeyboard($keyboard): void
     {
         $this->keyboard = $keyboard;
+    }
+
+    public function getKeyboard()
+    {
+        return $this->keyboard;
     }
 
 

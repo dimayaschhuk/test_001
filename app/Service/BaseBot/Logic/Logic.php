@@ -9,6 +9,7 @@
 namespace App\Service\BaseBot\Logic;
 
 
+use App\BaseModels\Culture;
 use App\Service\BaseBot\BaseBot;
 
 class Logic
@@ -41,21 +42,24 @@ class Logic
         $this->bot->nextMethod();
     }
 
-//    public function searchCulture()
-//    {
-//        if (Culture::where('name', $text)->count() === 1) {
-//            $this->selectCulture($chatId, $text);
-//            exit;
-//        }
-//
-//        if (Culture::where('name', 'LIKE', "%{$text}%")->count() === 0) {
-//            $this->sendTextCulture($chatId, $text);
-//            exit;
-//        }
-//
-//        $keyboard = get_keyboard(Culture::where('name', 'LIKE', "%{$text}%")->pluck('name')->toArray());
-//        send_keyboard($chatId, $keyboard, 'Виберіть із списка одну культуру яка вам найбільше підходить');
-//    }
+    public function searchCulture()
+    {
+        if (Culture::where('name', $this->bot->getUserText())->count() === 1) {
+            $this->bot->setCurrentMethod(Logic::METHOD_SELECT_CULTURE);
+            $this->bot->runMethod();
+            exit;
+        }
+
+        if (Culture::where('name', 'LIKE', "%{$this->bot->getUserText()}%")->count() === 0) {
+            $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_CULTURE);
+            $this->bot->runMethod();
+            exit;
+        }
+
+        $this->bot->setText('Виберіть із списка одну культуру яка вам найбільше підходить');
+        $this->bot->setKeyboard(Culture::where('name', 'LIKE', "%{$this->bot->getUserText()}%")->pluck('name')->toArray());
+        $this->bot->send(BaseBot::KEYBOARD);
+    }
 //
 //    public function selectCulture()
 //    {

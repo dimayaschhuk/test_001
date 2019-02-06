@@ -69,6 +69,40 @@ if (!function_exists('send_text_viber')) {
 
 
 if (!function_exists('send_keyboard')) {
+    function send_keyboard($typeBot, \App\Service\BaseBot\BaseBot $baseBot)
+    {
+        if ($typeBot == \App\Service\BaseBot\BaseBot::TYPE_TELGRAM) {
+            send_keyboard_telegram($baseBot);
+        }
+
+        if ($typeBot == \App\Service\BaseBot\BaseBot::TYPE_VIBER) {
+            send_keyboard_viber($baseBot);
+        }
+    }
+}
+
+
+if (!function_exists('send_keyboard_telegram')) {
+    function send_keyboard_telegram(\App\Service\BaseBot\BaseBot $baseBot)
+    {
+        $keyboard = get_keyboard($baseBot->getKeyboard());
+
+        $reply_markup = \Telegram::replyKeyboardMarkup([
+            'keyboard'          => $keyboard,
+            'resize_keyboard'   => TRUE,
+            'one_time_keyboard' => TRUE,
+        ]);
+        $response = \Telegram::sendMessage([
+            'chat_id'      => $baseBot->getId(),
+            'text'         => $baseBot->getText(),
+            'reply_markup' => $reply_markup,
+        ]);
+        $response->getMessageId();
+    }
+}
+
+
+if (!function_exists('send_keyboard')) {
     function send_keyboard($data)
     {
         $key = array_search($data['method'], getFlow()[$data['flow']]);
@@ -115,17 +149,7 @@ if (!function_exists('send_text')) {
 if (!function_exists('send_keyboard')) {
     function send_keyboard($chatId, $keyboard, $text = 'text')
     {
-        $reply_markup = \Telegram::replyKeyboardMarkup([
-            'keyboard'          => $keyboard,
-            'resize_keyboard'   => TRUE,
-            'one_time_keyboard' => TRUE,
-        ]);
-        $response = \Telegram::sendMessage([
-            'chat_id'      => $chatId,
-            'text'         => $text,
-            'reply_markup' => $reply_markup,
-        ]);
-        $response->getMessageId();
+
     }
 }
 
