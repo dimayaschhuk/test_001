@@ -8,6 +8,7 @@ use App\BaseModels\ProblemGroup;
 use App\BaseModels\Product;
 use App\BaseModels\Technology;
 use App\Commands\SendMessageCommand;
+use App\Service\BaseBot\BaseBot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -24,72 +25,85 @@ class TelegramController extends Controller
         $chatId = $telegramUser['from']['id'];
         $text = $telegramUser['text'];
 
-        if (Cache::has($telegramUser['from']['id'])) {
-            $data = Cache::get($telegramUser['from']['id']);
-            if ($data['flow'] == 'testFlow') {
-                $method = next_method($data);
 
-                if ($method == 'sendTextCulture') {
-                    $this->sendTextCulture($chatId, $text);
-                }
-                if ($method == 'searchCulture') {
-                    $this->searchCulture($chatId, $text);
-                }
-                if ($method == 'selectCulture') {
-                    $this->selectCulture($chatId, $text);
-                }
-
-
-                if ($method == 'sendTextProblemGroup') {
-                    $this->sendTextProblemGroup($chatId, $text);
-                }
-                if ($method == 'selectProblemGroup') {
-                    $this->selectProblemGroup($chatId, $text);
-                }
-
-                if ($method == 'sendTextProblem') {
-                    $this->sendTextProblem($chatId, $text);
-                }
-                if ($method == 'searchProblem') {
-                    $this->searchProblem($chatId, $text);
-                }
-                if ($method == 'selectProblem') {
-                    $this->selectProblem($chatId, $text);
-                }
-
-                if ($method == 'searchProduct') {
-                    $this->searchProduct($chatId, $text);
-                }
-                if ($method == 'selectProduct') {
-                    $this->selectProduct($chatId, $text);
-                }
-
-            } else {
-                $this->test($chatId, 'not testFlow');
-            }
+        if (Cache::has(BaseBot::TYPE_TELGRAM . "/" . $chatId)) {
+            $baseBot = Cache::get(BaseBot::TYPE_TELGRAM . "/" . $telegramUser['from']['id']);
+            $baseBot->setUserText($text);
+            $baseBot->runMethod();
         } else {
-            $value = ['flow' => 'testFlow', 'method' => 'welcome'];
-            Cache::put($telegramUser['from']['id'], $value, 1);
-            $response = \Telegram::sendMessage([
-                'chat_id' => $telegramUser['from']['id'],
-                'text'    => 'Ласкаво просимо',
-            ]);
-            $response->getMessageId();
-            $keyboard = [
-                ['Продукти', 'Захист культур'],
-            ];
-            $reply_markup = \Telegram::replyKeyboardHide([
-                'keyboard'          => $keyboard,
-                'resize_keyboard'   => TRUE,
-                'one_time_keyboard' => TRUE,
-            ]);
-            $response = \Telegram::sendMessage([
-                'chat_id'      => $chatId,
-                'text'         => 'Виберіть гілку',
-                'reply_markup' => $reply_markup,
-            ]);
-            $response->getMessageId();
+            $baseBot = new BaseBot(BaseBot::TYPE_TELGRAM, $chatId);
+            $baseBot->setUserText($text);
+            $baseBot->runMethod();
+
         }
+
+
+//        if (Cache::has(BaseBot::TYPE_TELGRAM . "/" . $telegramUser['from']['id'])) {
+//            $data = Cache::get($telegramUser['from']['id']);
+//            if ($data['flow'] == 'testFlow') {
+//                $method = next_method($data);
+//
+//                if ($method == 'sendTextCulture') {
+//                    $this->sendTextCulture($chatId, $text);
+//                }
+//                if ($method == 'searchCulture') {
+//                    $this->searchCulture($chatId, $text);
+//                }
+//                if ($method == 'selectCulture') {
+//                    $this->selectCulture($chatId, $text);
+//                }
+//
+//
+//                if ($method == 'sendTextProblemGroup') {
+//                    $this->sendTextProblemGroup($chatId, $text);
+//                }
+//                if ($method == 'selectProblemGroup') {
+//                    $this->selectProblemGroup($chatId, $text);
+//                }
+//
+//                if ($method == 'sendTextProblem') {
+//                    $this->sendTextProblem($chatId, $text);
+//                }
+//                if ($method == 'searchProblem') {
+//                    $this->searchProblem($chatId, $text);
+//                }
+//                if ($method == 'selectProblem') {
+//                    $this->selectProblem($chatId, $text);
+//                }
+//
+//                if ($method == 'searchProduct') {
+//                    $this->searchProduct($chatId, $text);
+//                }
+//                if ($method == 'selectProduct') {
+//                    $this->selectProduct($chatId, $text);
+//                }
+//
+//            } else {
+//                $this->test($chatId, 'not testFlow');
+//            }
+//        } else {
+//            $value = ['flow' => 'testFlow', 'method' => 'welcome'];
+//            Cache::put($telegramUser['from']['id'], $value, 1);
+//            $response = \Telegram::sendMessage([
+//                'chat_id' => $telegramUser['from']['id'],
+//                'text'    => 'Ласкаво просимо',
+//            ]);
+//            $response->getMessageId();
+//            $keyboard = [
+//                ['Продукти', 'Захист культур'],
+//            ];
+//            $reply_markup = \Telegram::replyKeyboardHide([
+//                'keyboard'          => $keyboard,
+//                'resize_keyboard'   => TRUE,
+//                'one_time_keyboard' => TRUE,
+//            ]);
+//            $response = \Telegram::sendMessage([
+//                'chat_id'      => $chatId,
+//                'text'         => 'Виберіть гілку',
+//                'reply_markup' => $reply_markup,
+//            ]);
+//            $response->getMessageId();
+//        }
 
 
     }
@@ -244,7 +258,7 @@ class TelegramController extends Controller
         } else {
             if (count($culture->getProductsNames($data['problem_id'])) === 1) {
                 $test['$culture->getProductsNames($data[problem_id])'] = $culture->getProductsNames($data['problem_id']);
-                $test['productName']=$culture->getProductsNames($data['problem_id'])[0];
+                $test['productName'] = $culture->getProductsNames($data['problem_id'])[0];
                 Cache::put('test', $test, self::TIME_CACHE);
                 send_text($chatId,
                     'Для вирішення даної проблему найдено тільки один препарат: ');
@@ -268,7 +282,6 @@ class TelegramController extends Controller
         ];
         send_keyboard($chatId, $keyboard, 'Що саме вас цікавить?');
     }
-
 
     public function sendTextProduct($chatId, $text)
     {
@@ -304,10 +317,9 @@ class TelegramController extends Controller
         send_keyboard($chatId, $keyboard, 'Виберіть що саме вас цікавить?');
     }
 
-
     public function applicationToCulture($chatId, $text)
     {
-        $this->test($chatId,'applicationToCulture');
+        $this->test($chatId, 'applicationToCulture');
         $data = Cache::get($chatId);
         $pd_CultureForCropProcessing = DB::where('cultureId', $data['culture_id'])
             ->pluck('cropProcessingId')

@@ -24,6 +24,60 @@ if (!function_exists('getFlow')) {
     }
 }
 
+
+if (!function_exists('send_text')) {
+    function send_text($typeBot,\App\Service\BaseBot\BaseBot $baseBot)
+    {
+        if($typeBot == \App\Service\BaseBot\BaseBot::TYPE_TELGRAM){
+            send_text_telegram($baseBot);
+        }
+    }
+}
+
+if (!function_exists('send_text_telegram')) {
+    function send_text_telegram(\App\Service\BaseBot\BaseBot $baseBot)
+    {
+        $response = \Telegram::sendMessage([
+            'chat_id' => $baseBot->getId(),
+            'text'    => $baseBot->getText(),
+        ]);
+        $response->getMessageId();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if (!function_exists('send_keyboard')) {
+    function send_keyboard($data)
+    {
+        $key = array_search($data['method'], getFlow()[$data['flow']]);
+
+        return getFlow()[$data['flow']][$key + 1];
+    }
+}
+
 if (!function_exists('next_method')) {
     function next_method($data)
     {
