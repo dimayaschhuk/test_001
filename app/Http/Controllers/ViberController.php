@@ -66,49 +66,8 @@ class ViberController extends Controller
                         $baseBot->runMethod();
                     }
 
-//
-//                    $data['event'] = $event;
-//                    $data['bot'] = $bot;
-//                    $data['botSender'] = $botSender;
-
-//                    send_text('Viber', $data, 'testText');
-//                    send_text('Viber', $data, 'testText');
-//                    $this->test('Viber', $data, 'testText');
-//                    $keyboard = new Keyboard();
-//                    $button = new Button();
-//                    $keyboard->setBgColor("#FFFFFF");
-//                    $keyboard->setDefaultHeight(TRUE);
-//                    $button->setColumns(6);
-//                    $button->setRows(1);
-//                    $button->setBgColor("#2db9b9");
-//                    $button->setActionBody("dfdfd");
-//                    $button->setText('buttonTest');
-//                    $button->setTextVAlign('middle');
-//                    $button->setTextHAlign('center');
-//                    $button->setTextOpacity(60);
-//                    $button->setTextSize('regular');
-//                    $keyboard->setButtons([$button]);
-//
-//                    $bot->getClient()->sendMessage(
-//                        (new \Viber\Api\Message\Text())
-//                            ->setText("342")
-//                            ->setKeyboard($keyboard)
-//                            ->setSender($botSender)
-//                            ->setReceiver($event->getSender()->getId())
-//
-//                    );
                 })
-//                ->onText('|test .*|si', function ($event) use ($bot, $botSender) {
-//
-//                    send_text_viber(
-//                        'viber',
-//                        [
-//                            'bot'       => $bot,
-//                            'botSender' => $botSender,
-//                            'event'     => $event,
-//                        ], 'test');
-//
-//                })
+
                 ->run();
         } catch (Exception $e) {
             Log::info('not send message');
