@@ -38,6 +38,7 @@ class BaseBot
         $this->id = $id;
         $this->cacheId = $typeBot . "/" . $id;
         $this->currentMethod = Logic::METHOD_SEND_TEXT_CULTURE;
+        $this->currentFlow = Logic::FLOW_PROTECT_CULTURE;
     }
 
 
