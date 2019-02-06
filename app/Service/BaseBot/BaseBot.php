@@ -109,8 +109,8 @@ class BaseBot
 
     public function nextMethod()
     {
-        $key = array_search($this->currentMethod, $this->getMethod()[$this->flow]);
-        $this->currentMethod = getFlow()[$this->flow][$key + 1];
+        $key = array_search($this->currentMethod, $this->getMethod()[$this->currentFlow]);
+        $this->currentMethod = $this->getMethod()[$this->currentFlow][$key + 1];
         Cache::put($this->id, $this, self::TIME_CACHE);
     }
 
@@ -136,7 +136,6 @@ class BaseBot
     {
         $logic = new Logic($this);
         if ($this->currentFlow == Logic::FLOW_PROTECT_CULTURE) {
-
 
             switch ($this->currentMethod) {
                 case Logic::METHOD_SEND_TEXT_CULTURE :
