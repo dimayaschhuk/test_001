@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Cache;
+use Viber\Api\Keyboard;
+use Viber\Api\Keyboard\Button;
 use Viber\Api\Sender;
 
 if (!function_exists('getFlow')) {
@@ -68,6 +70,7 @@ if (!function_exists('send_text_viber')) {
 }
 
 
+
 if (!function_exists('send_keyboard')) {
     function send_keyboard($typeBot, \App\Service\BaseBot\BaseBot $baseBot)
     {
@@ -80,7 +83,6 @@ if (!function_exists('send_keyboard')) {
         }
     }
 }
-
 
 if (!function_exists('send_keyboard_telegram')) {
     function send_keyboard_telegram(\App\Service\BaseBot\BaseBot $baseBot)
@@ -100,6 +102,81 @@ if (!function_exists('send_keyboard_telegram')) {
         $response->getMessageId();
     }
 }
+
+
+if (!function_exists('send_keyboard_viber')) {
+    function send_keyboard_viber(\App\Service\BaseBot\BaseBot $baseBot)
+    {
+        $botSender = new Sender([
+            'name'   => 'mySzrBot',
+            'avatar' => 'http://chat.organic.mobimill.com/storage/app/public/10/1e7bc03379018d5cfd8a2bb60af3592a.jpg',
+        ]);
+
+        $bot = $baseBot->getViberBot();
+        $keyboard = new Keyboard();
+        $buttons = [];
+        $rows = 1;
+        $columns = (count($baseBot->getKeyboard()) > 1) ? 3 : 6;
+
+        if (count($baseBot->getKeyboard()) > 3) {
+            $rows = ceil(count($baseBot->getKeyboard()) / 3);
+            $columns = 2;
+        }
+
+        foreach ($baseBot->getKeyboard() as $item) {
+            $button = new Button();
+            $button->setColumns($columns);
+            $button->setRows($rows);
+            $button->setBgColor("#2db9b9");
+            $button->setActionBody($item . "asd");
+            $button->setText($item);
+            $button->setTextVAlign('middle');
+            $button->setTextHAlign('center');
+            $button->setTextOpacity(60);
+            $button->setTextSize('regular');
+            $buttons[] = $button;
+        }
+
+
+        $keyboard->setBgColor("#FFFFFF");
+        $keyboard->setDefaultHeight(TRUE);
+        $keyboard->setButtons($buttons);
+
+        $bot->getClient()->sendMessage(
+            (new \Viber\Api\Message\Text())
+                ->setText($baseBot->getText())
+                ->setKeyboard($keyboard)
+                ->setSender($botSender)
+                ->setReceiver($baseBot->getId())
+
+        );
+    }
+}
+
+
+
+
+
+if (!function_exists('get_keyboard_to_viber')) {
+    function get_keyboard_to_viber($keyboard)
+    {
+        $keyboard = get_keyboard_to_viber($baseBot->getKeyboard());
+
+        $reply_markup = \Telegram::replyKeyboardMarkup([
+            'keyboard'          => $keyboard,
+            'resize_keyboard'   => TRUE,
+            'one_time_keyboard' => TRUE,
+        ]);
+        $response = \Telegram::sendMessage([
+            'chat_id'      => $baseBot->getId(),
+            'text'         => $baseBot->getText(),
+            'reply_markup' => $reply_markup,
+        ]);
+        $response->getMessageId();
+    }
+}
+
+
 
 
 if (!function_exists('send_keyboard')) {
@@ -146,11 +223,6 @@ if (!function_exists('send_text')) {
 }
 
 
-if (!function_exists('send_keyboard')) {
-    function send_keyboard($chatId, $keyboard, $text = 'text')
-    {
 
-    }
-}
 
 
