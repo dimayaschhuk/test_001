@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Cache;
+use Viber\Api\Sender;
 
 if (!function_exists('getFlow')) {
     function getFlow()
@@ -14,7 +15,7 @@ if (!function_exists('getFlow')) {
                 'sendTextProblemGroup',
                 'selectProblemGroup',
                 'sendTextProblem',
-//                'searchProblem',
+                //                'searchProblem',
                 'selectProblem',
                 'searchProduct',
                 'selectProduct',
@@ -26,10 +27,14 @@ if (!function_exists('getFlow')) {
 
 
 if (!function_exists('send_text')) {
-    function send_text($typeBot,\App\Service\BaseBot\BaseBot $baseBot)
+    function send_text($typeBot, \App\Service\BaseBot\BaseBot $baseBot)
     {
-        if($typeBot == \App\Service\BaseBot\BaseBot::TYPE_TELGRAM){
+        if ($typeBot == \App\Service\BaseBot\BaseBot::TYPE_TELGRAM) {
             send_text_telegram($baseBot);
+        }
+
+        if ($typeBot == \App\Service\BaseBot\BaseBot::TYPE_VIBER) {
+            send_text_viber($baseBot);
         }
     }
 }
@@ -45,28 +50,22 @@ if (!function_exists('send_text_telegram')) {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+if (!function_exists('send_text_viber')) {
+    function send_text_viber(\App\Service\BaseBot\BaseBot $baseBot)
+    {
+        $botSender = new Sender([
+            'name'   => 'mySzrBot',
+            'avatar' => 'http://chat.organic.mobimill.com/storage/app/public/10/1e7bc03379018d5cfd8a2bb60af3592a.jpg',
+        ]);
+        $bot = $baseBot->getViberBot();
+        $bot->getClient()->sendMessage(
+            (new \Viber\Api\Message\Text())
+                ->setSender($botSender)
+                ->setReceiver($baseBot->getId())
+                ->setText($baseBot->getText())
+        );
+    }
+}
 
 
 if (!function_exists('send_keyboard')) {
@@ -102,7 +101,7 @@ if (!function_exists('get_keyboard')) {
 }
 
 if (!function_exists('send_text')) {
-    function send_text($chatId,$text = 'text')
+    function send_text($chatId, $text = 'text')
     {
         $response = \Telegram::sendMessage([
             'chat_id' => $chatId,
@@ -131,14 +130,3 @@ if (!function_exists('send_keyboard')) {
 }
 
 
-if (!function_exists('send_text_viber')) {
-    function send_text_viber($bot,$botSender,$event,$text)
-    {
-        $bot->getClient()->sendMessage(
-            (new \Viber\Api\Message\Text())
-                ->setSender($botSender)
-                ->setReceiver($event->getSender()->getId())
-                ->setText($text)
-        );
-    }
-}

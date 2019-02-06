@@ -14,6 +14,9 @@ class BaseBot
     protected $currentMethod;
     protected $currentFlow;
     protected $userText;
+    protected $viberBot;
+
+
 
 
 
@@ -41,6 +44,16 @@ class BaseBot
         $this->currentFlow = Logic::FLOW_PROTECT_CULTURE;
     }
 
+    public function getViberBot()
+    {
+        return $this->viberBot;
+    }
+
+
+    public function setViberBot($viberBot): void
+    {
+        $this->viberBot = $viberBot;
+    }
 
 
     public function getUserText()

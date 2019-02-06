@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Service\BaseBot\BaseBot;
 use http\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -52,13 +53,25 @@ class ViberController extends Controller
                 })
                 ->onText('(.*[а-я,a-z,0-9])', function ($event) use ($bot, $botSender) {
                     $text = $event->getMessage()->getText();
-                    $data['event'] = $event;
-                    $data['bot'] = $bot;
-                    $data['botSender'] = $botSender;
+                    $id = $event->getSender()->getId();
+                    if (Cache::has(BaseBot::TYPE_VIBER . "/" . $id)) {
+                        $baseBot = Cache::get(BaseBot::TYPE_TELGRAM . "/" . $id);
+                        $baseBot->setUserText($text);
+                        $baseBot->runMethod();
+                    } else {
+                        $baseBot = new BaseBot(BaseBot::TYPE_VIBER, $id);
+                        $baseBot->setUserText($text);
+                        $baseBot->runMethod();
+                    }
+
+//
+//                    $data['event'] = $event;
+//                    $data['bot'] = $bot;
+//                    $data['botSender'] = $botSender;
 
 //                    send_text('Viber', $data, 'testText');
 //                    send_text('Viber', $data, 'testText');
-                    $this->test('Viber', $data, 'testText');
+//                    $this->test('Viber', $data, 'testText');
 //                    $keyboard = new Keyboard();
 //                    $button = new Button();
 //                    $keyboard->setBgColor("#FFFFFF");
