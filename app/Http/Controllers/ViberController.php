@@ -56,12 +56,9 @@ class ViberController extends Controller
                 return (new \Viber\Api\Message\Text())
                     ->setSender($botSender)
                     ->setText("Чим я можу вам допомогти?");
-            })
-                ->onText('(.*[а-я,a-z,0-9])', function ($event) use ($bot, $botSender,$q) {
-
+            })->onText('(.*[а-я,a-z,0-9])', function ($event) use ($bot, $botSender,$q) {
                     $text = $event->getMessage()->getText();
                     $chatId = $event->getSender()->getId();
-
 
                     if (Cache::has('1234')) {
                         $baseBot = Cache::get('1234');
@@ -101,8 +98,8 @@ class ViberController extends Controller
 //                        Cache::put('qwe', $baseBot, BaseBot::TIME_CACHE);
 //                    }
 
-                })
-                ->run();
+                });
+//                ->run();
         } catch (Exception $e) {
             Log::info('not send message');
         }
