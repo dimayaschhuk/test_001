@@ -26,11 +26,11 @@ trait Methods
 
     public function selectFlow()
     {
-
         $flow = $this->bot->getUserText();
         if ($flow == self::FLOW_PROTECT_CULTURE_UA) {
             $this->bot->setCurrentFlow(self::FLOW_PROTECT_CULTURE);
             $this->nextMethod();
+            $this->runMethod();
             exit;
         }
 
@@ -40,9 +40,7 @@ trait Methods
     public function sendTextCulture()
     {
         $this->bot->sendText('Введіть назву культури або перші букви');
-//        $this->bot->setText('Введіть назву культури або перші букви');
-//        $this->bot->send(BaseBot::TEXT);
-//        $this->nextMethod();
+        $this->nextMethod();
     }
 
     public function searchCulture()
