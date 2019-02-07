@@ -167,7 +167,7 @@ class Logic
 
     public function nextMethod()
     {
-        if (isset($baseBot->currentFlow) && !isset($baseBot->currentMethod)) {
+        if (isset($this->bot->currentFlow) && isset($this->bot->currentMethod)) {
             $this->currentMethod = $this->getMethod()[$this->currentFlow][0];
         }
 
