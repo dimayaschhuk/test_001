@@ -101,7 +101,6 @@ class Logic
 
         if ($flow == self::FLOW_PROTECT_CULTURE) {
             $this->bot->setCurrentFlow(self::FLOW_PROTECT_CULTURE);
-            $this->bot->setCurrentMethod(self::FLOW_PROTECT_CULTURE);
             $this->nextMethod();
             exit;
         }
