@@ -169,18 +169,15 @@ class Logic
 
     public function nextMethod()
     {
-        $this->bot->setText("nextMethod");
-        $this->bot->send(BaseBot::TEXT);
         if (isset($this->bot->currentFlow) && isset($this->bot->currentMethod)) {
-            $this->bot->setText("nextMethod true");
-            $this->bot->send(BaseBot::TEXT);
             $this->bot->currentMethod = $this->getMethod()[$this->currentFlow][0];
+            exit;
         }
-        $this->bot->setText("false");
-        $this->bot->send(BaseBot::TEXT);
+
         if(isset($baseBot->currentFlow) && isset($baseBot->currentMethod)){
             $key = array_search($this->bot->currentFlow, $this->getMethod()[$this->bot->currentFlow]);
             $this->bot->currentMethod = $this->getMethod()[$this->bot->currentFlow][$key + 1];
+            exit;
         }
 
         Cache::put($this->bot->cacheId, $this->bot, BaseBot::TIME_CACHE);
