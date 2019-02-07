@@ -168,12 +168,12 @@ class Logic
     public function nextMethod()
     {
         if (isset($this->bot->currentFlow) && isset($this->bot->currentMethod)) {
-            $this->currentMethod = $this->getMethod()[$this->currentFlow][0];
+            $this->bot->currentMethod = $this->getMethod()[$this->currentFlow][0];
         }
 
         if(isset($baseBot->currentFlow) && isset($baseBot->currentMethod)){
             $key = array_search($this->bot->currentFlow, $this->getMethod()[$this->bot->currentFlow]);
-            $this->currentMethod = $this->getMethod()[$this->currentFlow][$key + 1];
+            $this->bot->currentMethod = $this->getMethod()[$this->bot->currentFlow][$key + 1];
         }
 
         Cache::put($this->bot->cacheId, $this->bot, BaseBot::TIME_CACHE);
