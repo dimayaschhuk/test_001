@@ -33,6 +33,17 @@ class ViberController extends Controller
 
     public function webHook()
     {
+
+
+        if (Cache::has('qwe')) {
+            $q = Cache::get('qwe');
+            $q += 1;
+            Cache::put('123', $q, BaseBot::TIME_CACHE);
+        } else {
+            $q = 1;
+            Cache::put('123', 1, BaseBot::TIME_CACHE);
+        }
+
         $apiKey = '492df57f7927d70b-bb1dffe5ee14eea0-4498222180f6797f';
         $botSender = new Sender([
             'name'   => 'mySzrBot',
@@ -41,17 +52,15 @@ class ViberController extends Controller
         try {
             $bot = new Bot(['token' => $apiKey]);
 
-            $bot
-                ->onConversation(function ($event) use ($bot, $botSender) {
-                    return (new \Viber\Api\Message\Text())
-                        ->setSender($botSender)
-                        ->setText("Чим я можу вам допомогти?");
-                })
-                ->onText('(.*[а-я,a-z,0-9])', function ($event) use ($bot, $botSender) {
+            $bot->onConversation(function ($event) use ($bot, $botSender) {
+                return (new \Viber\Api\Message\Text())
+                    ->setSender($botSender)
+                    ->setText("Чим я можу вам допомогти?");
+            })
+                ->onText('(.*[а-я,a-z,0-9])', function ($event) use ($bot, $botSender,$q) {
 
                     $text = $event->getMessage()->getText();
                     $chatId = $event->getSender()->getId();
-
 
 
                     if (Cache::has('1234')) {
@@ -65,31 +74,15 @@ class ViberController extends Controller
                         $baseBot = new BaseBot(BaseBot::TYPE_VIBER, $chatId);
                         $baseBot->setUserText($text);
                         $baseBot->setViberBot($bot);
-                        if(Cache::has('qwe')){
-                            $q=Cache::get('qwe');
-                            $q+=1;
-                            Cache::put('123', $q, BaseBot::TIME_CACHE);
-                        }else{
-                            $q=1;
-                            Cache::put('123', 1, BaseBot::TIME_CACHE);
-                        }
 
-                        $baseBot->setText($q."TT");
+
+                        $baseBot->setText($q . "TT");
 
                         $baseBot->send(BaseBot::TEXT);
 //            $baseBot->runMethod();
                         Cache::put('1234', $baseBot, BaseBot::TIME_CACHE);
 
                     }
-
-
-
-
-
-
-
-
-
 
 
 //                    if (Cache::has('qwe')) {
