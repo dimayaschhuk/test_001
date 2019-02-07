@@ -98,8 +98,8 @@ class ViberController extends Controller
 //                        Cache::put('qwe', $baseBot, BaseBot::TIME_CACHE);
 //                    }
 
-                });
-//                ->run();
+                })
+                ->run();
         } catch (Exception $e) {
             Log::info('not send message');
         }
