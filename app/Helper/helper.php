@@ -136,7 +136,7 @@ if (!function_exists('send_keyboard_viber')) {
             $button->setColumns($columns);
             $button->setRows($rows);
             $button->setBgColor("#2db9b9");
-            $button->setActionBody($item . "asd");
+            $button->setActionBody($item);
             $button->setText($item);
             $button->setTextVAlign('middle');
             $button->setTextHAlign('center');
