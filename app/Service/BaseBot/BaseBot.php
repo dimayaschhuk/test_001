@@ -88,40 +88,7 @@ class BaseBot
     public function runMethod()
     {
         $logic = new Logic($this);
-        if ($this->currentFlow == Logic::FLOW_PROTECT_CULTURE) {
-
-            switch ($this->currentMethod) {
-                case Logic::METHOD_SEND_TEXT_CULTURE :
-                    $logic->sendTextCulture();
-                    break;
-
-                case Logic::METHOD_SEARCH_CULTURE :
-                    $logic->searchCulture();
-                    break;
-
-
-                case Logic::METHOD_SELECT_CULTURE :
-                    $logic->selectCulture();
-                    break;
-
-
-                case Logic::METHOD_SEND_TEXT_PROBLEM_GROUP :
-                    $logic->sendTextProblemGroup();
-                    break;
-
-
-                case Logic::METHOD_SELECT_PROBLEM_GROUP :
-                    $logic->selectProblemGroup();
-                    break;
-
-
-                case Logic::METHOD_SEND_TEXT_PROBLEM :
-                    $logic->sendTextProblem();
-                    break;
-
-
-            }
-        }
+        $logic->runMethod();
     }
 
 
@@ -198,6 +165,18 @@ class BaseBot
     public function getKeyboard()
     {
         return $this->keyboard;
+    }
+
+
+    public function getCurrentFlow(): string
+    {
+        return $this->currentFlow;
+    }
+
+
+    public function setCurrentFlow(string $currentFlow): void
+    {
+        $this->currentFlow = $currentFlow;
     }
 
 }

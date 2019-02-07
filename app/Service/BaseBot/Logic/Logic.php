@@ -24,16 +24,56 @@ class Logic
     const METHOD_SELECT_PROBLEM_GROUP = 'selectProblemGroup';
     const METHOD_SEND_TEXT_PROBLEM = 'sendTextProblem';
     const METHOD_SELECT_PROBLEM = 'selectProblem';
-    const METHOD_SEARCH_PRODUCT= 'searchProduct';
-    const METHOD_SELECT_PRODUCT= 'selectProduct';
+    const METHOD_SEARCH_PRODUCT = 'searchProduct';
+    const METHOD_SELECT_PRODUCT = 'selectProduct';
 
-    const FLOW_PROTECT_CULTURE='protectCulture';
+    const FLOW_PROTECT_CULTURE = 'protectCulture';
 
 
     public function __construct(BaseBot $baseBot)
     {
         $this->bot = $baseBot;
     }
+
+
+    public function runMethod()
+    {
+        if ($this->bot->getCurrentFlow() == self::FLOW_PROTECT_CULTURE) {
+
+            switch ($this->currentMethod) {
+                case self::METHOD_SEND_TEXT_CULTURE :
+                    $this->sendTextCulture();
+                    break;
+
+                case self::METHOD_SEARCH_CULTURE :
+                    $this->searchCulture();
+                    break;
+
+
+                case self::METHOD_SELECT_CULTURE :
+                    $this->selectCulture();
+                    break;
+
+
+                case self::METHOD_SEND_TEXT_PROBLEM_GROUP :
+                    $this->sendTextProblemGroup();
+                    break;
+
+
+                case self::METHOD_SELECT_PROBLEM_GROUP :
+                    $this->selectProblemGroup();
+                    break;
+
+
+                case self::METHOD_SEND_TEXT_PROBLEM :
+                    $this->sendTextProblem();
+                    break;
+
+
+            }
+        }
+    }
+
 
     public function sendTextCulture()
     {
@@ -57,7 +97,8 @@ class Logic
         }
 
         $this->bot->setText('Виберіть із списка одну культуру яка вам найбільше підходить');
-        $this->bot->setKeyboard(Culture::where('name', 'LIKE', "%{$this->bot->getUserText()}%")->pluck('name')->toArray());
+        $this->bot->setKeyboard(Culture::where('name', 'LIKE',
+            "%{$this->bot->getUserText()}%")->pluck('name')->toArray());
         $this->bot->send(BaseBot::KEYBOARD);
     }
 //
