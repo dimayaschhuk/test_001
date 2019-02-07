@@ -39,10 +39,10 @@ trait Methods
 
     public function sendTextCulture()
     {
-//        $this->bot->sendText('Введіть назву культури або перші букви');
-        $this->bot->setText('Введіть назву культури або перші букви');
-        $this->bot->send(BaseBot::TEXT);
-        $this->nextMethod();
+        $this->bot->sendText('Введіть назву культури або перші букви');
+//        $this->bot->setText('Введіть назву культури або перші букви');
+//        $this->bot->send(BaseBot::TEXT);
+//        $this->nextMethod();
     }
 
     public function searchCulture()
