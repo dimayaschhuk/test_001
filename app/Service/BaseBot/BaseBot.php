@@ -85,11 +85,7 @@ class BaseBot
         return $this->keyboard;
     }
 
-    public function setCurrentMethod(string $currentMethod): void
-    {
-        $this->currentMethod = $currentMethod;
-        $this->saveCache();
-    }
+
 
     public function setText($text): void
     {
@@ -100,6 +96,12 @@ class BaseBot
     public function setKeyboard($keyboard): void
     {
         $this->keyboard = $keyboard;
+        $this->saveCache();
+    }
+
+    public function setCurrentMethod(string $currentMethod): void
+    {
+        $this->currentMethod = $currentMethod;
         $this->saveCache();
     }
 

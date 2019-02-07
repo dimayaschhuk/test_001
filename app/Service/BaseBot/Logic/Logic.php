@@ -34,8 +34,6 @@ class Logic
     const FLOW_PROTECT_CULTURE_UA = "Захист культури";
 
 
-
-
     public function __construct(BaseBot $baseBot)
     {
         $this->bot = $baseBot;
@@ -144,7 +142,6 @@ class Logic
     }
 
 
-
     public function getMethod()
     {
         return [
@@ -167,17 +164,15 @@ class Logic
     public function nextMethod()
     {
         if (isset($this->bot->currentFlow) && isset($this->bot->currentMethod)) {
-            $this->bot->currentMethod = $this->getMethod()[$this->currentFlow][0];
+            $this->bot->setCurrentMethod($this->getMethod()[$this->currentFlow][0]);
             exit;
         }
 
-        if(isset($baseBot->currentFlow) && isset($baseBot->currentMethod)){
+        if (isset($baseBot->currentFlow) && isset($baseBot->currentMethod)) {
             $key = array_search($this->bot->currentFlow, $this->getMethod()[$this->bot->currentFlow]);
-            $this->bot->currentMethod = $this->getMethod()[$this->bot->currentFlow][$key + 1];
+            $this->bot->setCurrentMethod($this->getMethod()[$this->bot->currentFlow][$key + 1]);
             exit;
         }
-
-        Cache::put($this->bot->cacheId, $this->bot, BaseBot::TIME_CACHE);
     }
 //    public function selectCulture()
 //    {
