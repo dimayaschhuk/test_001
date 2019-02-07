@@ -126,10 +126,10 @@ if (!function_exists('send_keyboard_viber')) {
         $rows = 1;
         $columns = (count($baseBot->getKeyboard()) > 1) ? 3 : 6;
 
-//        if (count($baseBot->getKeyboard()) > 3) {
-//            $rows = ceil(count($baseBot->getKeyboard()) / 3);
-//            $columns = 2;
-//        }
+        if (count($baseBot->getKeyboard()) > 3) {
+            $rows = ceil(count($baseBot->getKeyboard()) / 3);
+            $columns = 2;
+        }
 
         foreach ($baseBot->getKeyboard() as $item) {
             $button = new Button();
