@@ -90,11 +90,11 @@ class Logic
 
     public function nextMethod()
     {
-        $this->bot->sendText("nextMethod()");
+
         try {
-            $this->bot->sendText("ddd");
             $key = array_search($this->bot->currentFlow, $this->getMethod()[$this->bot->currentFlow]);
             $this->bot->setCurrentMethod($this->getMethod()[$this->bot->currentFlow][$key + 1]);
+            $this->bot->sendText($this->getMethod()[$this->bot->currentFlow][$key + 1]);
             exit;
         } catch (ErrorException $errorException) {
             if (empty($this->bot->currentFlow)) {
