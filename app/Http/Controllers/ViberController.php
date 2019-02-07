@@ -54,13 +54,11 @@ class ViberController extends Controller
                     if (Cache::has(BaseBot::TYPE_VIBER."/".$chatId)) {
                         $baseBot = new BaseBot(BaseBot::TYPE_VIBER, $chatId);
                         $baseBot->setUserText($text);
-                        $baseBot->setViberBot($bot);
                         $baseBot->setText('RUN');
                         $baseBot->send(BaseBot::TEXT);
                     } else {
                         $baseBot = new BaseBot(BaseBot::TYPE_VIBER, $chatId);
                         $baseBot->setUserText($text);
-                        $baseBot->setViberBot($bot);
                         $baseBot->setText('START');
                         $baseBot->send(BaseBot::TEXT);
                         Cache::put(BaseBot::TYPE_VIBER."/".$chatId, 1, BaseBot::TIME_CACHE);

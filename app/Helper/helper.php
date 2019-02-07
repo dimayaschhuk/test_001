@@ -4,6 +4,7 @@
 use Viber\Api\Keyboard;
 use Viber\Api\Keyboard\Button;
 use Viber\Api\Sender;
+use Viber\Bot;
 
 
 //if (!function_exists('getFlow')) {
@@ -60,7 +61,7 @@ if (!function_exists('send_text_viber')) {
             'name'   => 'mySzrBot',
             'avatar' => 'http://chat.organic.mobimill.com/storage/app/public/10/1e7bc03379018d5cfd8a2bb60af3592a.jpg',
         ]);
-        $bot = $baseBot->getViberBot();
+        $bot = new Bot(['token' => '492df57f7927d70b-bb1dffe5ee14eea0-4498222180f6797f']);
         $bot->getClient()->sendMessage(
             (new \Viber\Api\Message\Text())
                 ->setSender($botSender)
@@ -161,7 +162,7 @@ if (!function_exists('send_keyboard_viber_Test')) {
             'avatar' => 'http://chat.organic.mobimill.com/storage/app/public/10/1e7bc03379018d5cfd8a2bb60af3592a.jpg',
         ]);
 
-        $bot = $baseBot->getViberBot();
+        $bot = new Bot(['token' => '492df57f7927d70b-bb1dffe5ee14eea0-4498222180f6797f']);
         $keyboard = new Keyboard();
         $buttons = [];
         $rows = 1;
