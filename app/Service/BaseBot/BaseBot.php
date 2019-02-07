@@ -100,7 +100,6 @@ class BaseBot
 
     public function setCurrentMethod(string $currentMethod): void
     {
-        $this->sendText("111" . $currentMethod);
         $this->currentMethod = $currentMethod;
         $this->saveCache();
     }

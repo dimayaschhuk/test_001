@@ -57,6 +57,10 @@ class Logic
             if ($this->bot->currentMethod == self::METHOD_SEND_TEXT_CULTURE) {
                 $this->sendTextCulture();
             }
+
+            if ($this->bot->currentMethod == self::METHOD_SEARCH_CULTURE) {
+                $this->searchCulture();
+            }
 //            switch () {
 //                case  :
 //
@@ -124,20 +128,33 @@ class Logic
     {
         if (Culture::where('name', $this->bot->getUserText())->count() === 1) {
             $this->bot->setCurrentMethod(Logic::METHOD_SELECT_CULTURE);
-            $this->bot->runMethod();
+            $this->bot->sendText('method: METHOD_SELECT_CULTURE');
             exit;
         }
 
         if (Culture::where('name', 'LIKE', "%{$this->bot->getUserText()}%")->count() === 0) {
             $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_CULTURE);
-            $this->bot->runMethod();
+            $this->bot->sendText('method: METHOD_SELECT_CULTURE');
             exit;
         }
 
         $this->bot->setText('Виберіть із списка одну культуру яка вам найбільше підходить');
-        $this->bot->setKeyboard(Culture::where('name', 'LIKE',
-            "%{$this->bot->getUserText()}%")->pluck('name')->toArray());
+        $this->bot->setKeyboard(
+            Culture::where('name', 'LIKE', "%{$this->bot->getUserText()}%")
+                ->pluck('name')
+                ->toArray()
+        );
         $this->bot->send(BaseBot::KEYBOARD);
+    }
+
+
+    public function selectCulture()
+    {
+        $data = Cache::get($chatId);
+        $data['method'] = 'selectCulture';
+        $data['culture_id'] = Culture::where('name', $text)->value('id');
+        Cache::put($chatId, $data, self::TIME_CACHE);
+        $this->sendTextProblemGroup($chatId, $text);
     }
 
 
@@ -162,7 +179,7 @@ class Logic
 
     public function nextMethod()
     {
-        if (isset($this->bot->currentFlow) && isset($this->bot->currentMethod)) {
+        if (isset($this->bot->currentFlow) && !isset($this->bot->currentMethod)) {
             $this->bot->setCurrentMethod($this->getMethod()[$this->bot->currentFlow][0]);
             exit;
         }
@@ -172,14 +189,7 @@ class Logic
             exit;
         }
     }
-//    public function selectCulture()
-//    {
-//        $data = Cache::get($chatId);
-//        $data['method'] = 'selectCulture';
-//        $data['culture_id'] = Culture::where('name', $text)->value('id');
-//        Cache::put($chatId, $data, self::TIME_CACHE);
-//        $this->sendTextProblemGroup($chatId, $text);
-//    }
+
 //
 //
 //    public function sendTextProblemGroup()
