@@ -89,7 +89,13 @@ if (!function_exists('send_keyboard')) {
 if (!function_exists('send_keyboard_telegram')) {
     function send_keyboard_telegram(\App\Service\BaseBot\BaseBot $baseBot)
     {
-        $keyboard = get_keyboard($baseBot->getKeyboard());
+        $keyboard = $baseBot->getKeyboard();
+        $countButtons = count($keyboard);
+        if ($countButtons > 3) {
+            $keyboard = array_chunk($keyboard, 3);
+        } else {
+            $keyboard = [$keyboard];
+        }
 
         $reply_markup = \Telegram::replyKeyboardMarkup([
             'keyboard'          => $keyboard,
@@ -166,14 +172,14 @@ if (!function_exists('send_keyboard_viber_Test')) {
         $keyboard = new Keyboard();
         $buttons = [];
         $rows = 1;
-        $columns =  6;
+        $columns = 6;
 
 
         $button = new Button();
         $button->setColumns($columns);
         $button->setRows($rows);
         $button->setBgColor("#2db9b9");
-        $button->setActionBody(  "asd");
+        $button->setActionBody("asd");
         $button->setText("test");
         $button->setTextVAlign('middle');
         $button->setTextHAlign('center');
@@ -240,12 +246,7 @@ if (!function_exists('send_keyboard_viber_Test')) {
 //if (!function_exists('get_keyboard')) {
 //    function get_keyboard($keyboard)
 //    {
-//        $countButtons = count($keyboard);
-//        if ($countButtons > 3) {
-//            $keyboard = array_chunk($keyboard, 3);
-//        } else {
-//            return [$keyboard];
-//        }
+//
 //
 //        return $keyboard;
 //    }
