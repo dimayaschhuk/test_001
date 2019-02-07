@@ -47,7 +47,7 @@ class ViberController extends Controller
                 return (new \Viber\Api\Message\Text())
                     ->setSender($botSender)
                     ->setText("Чим я можу вам допомогти?");
-            })->onText('(.*[а-я,a-z,0-9])', function ($event) use ($bot, $botSender,$q) {
+            })->onText('(.*[а-я,a-z,0-9])', function ($event) use ($bot, $botSender) {
                     $text = $event->getMessage()->getText();
                     $chatId = $event->getSender()->getId();
 
