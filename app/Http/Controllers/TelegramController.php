@@ -35,7 +35,7 @@ class TelegramController extends Controller
         } else {
             $baseBot = new BaseBot(BaseBot::TYPE_TELGRAM, $chatId);
             $baseBot->setUserText($text);
-            $baseBot->runMethod();
+            $baseBot->welcome();
 //            $baseBot->setText('START');
 //            $baseBot->send(BaseBot::TEXT);
             Cache::put(BaseBot::TYPE_TELGRAM . "/" . $chatId, $baseBot, BaseBot::TIME_CACHE);

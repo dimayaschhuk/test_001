@@ -91,9 +91,12 @@ class BaseBot
         $logic->runMethod();
     }
 
-
-
-
+    public function welcome()
+    {
+        $this->setText("Виберіть гілку");
+        $this->setKeyboard(['Захист культури']);
+        $this->send(self::KEYBOARD);
+    }
 
 
     public function isStatusSendMessage(): bool
@@ -135,8 +138,8 @@ class BaseBot
 
     public function setUserText($userText): void
     {
-        if($this->userText!=$userText){
-            $this->statusSendMessage=TRUE;
+        if ($this->userText != $userText) {
+            $this->statusSendMessage = TRUE;
         }
         $this->userText = $userText;
     }
