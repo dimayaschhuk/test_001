@@ -41,6 +41,7 @@ trait Methods
     {
         $this->bot->sendText('Введіть назву культури або перші букви');
         $this->nextMethod();
+        exit;
     }
 
     public function searchCulture()
