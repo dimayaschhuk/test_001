@@ -61,7 +61,7 @@ class ViberController extends Controller
                         $baseBot->setUserText($text);
                         $baseBot->setText('START');
                         $baseBot->send(BaseBot::TEXT);
-                        Cache::put(BaseBot::TYPE_VIBER."/".$chatId, 1, BaseBot::TIME_CACHE);
+                        Cache::put(BaseBot::TYPE_VIBER."/".$chatId, $baseBot, BaseBot::TIME_CACHE);
                     }
 
 
