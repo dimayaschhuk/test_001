@@ -38,10 +38,10 @@ class ViberController extends Controller
         if (Cache::has('qwe')) {
             $q = Cache::get('qwe');
             $q += 1;
-            Cache::put('123', $q, BaseBot::TIME_CACHE);
+            Cache::put('qwe', $q, BaseBot::TIME_CACHE);
         } else {
             $q = 1;
-            Cache::put('123', 1, BaseBot::TIME_CACHE);
+            Cache::put('qwe', 1, BaseBot::TIME_CACHE);
         }
 
         $apiKey = '492df57f7927d70b-bb1dffe5ee14eea0-4498222180f6797f';
