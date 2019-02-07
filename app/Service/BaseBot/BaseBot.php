@@ -60,12 +60,6 @@ class BaseBot
     }
 
 
-    public function setCurrentMethod(string $currentMethod): void
-    {
-        $this->currentMethod = $currentMethod;
-        Cache::put($this->id, $this, self::TIME_CACHE);
-    }
-
     public function getUserText()
     {
         return $this->userText;
@@ -74,11 +68,6 @@ class BaseBot
     public function setUserText($userText): void
     {
         $this->userText = $userText;
-    }
-
-    public function setText($text): void
-    {
-        $this->text = $text;
     }
 
     public function getText()
@@ -91,24 +80,37 @@ class BaseBot
         return $this->id;
     }
 
-    public function setKeyboard($keyboard): void
-    {
-        $this->keyboard = $keyboard;
-    }
-
     public function getKeyboard()
     {
         return $this->keyboard;
     }
 
-    public function setCurrentFlow(string $currentFlow): void
+    public function setCurrentMethod(string $currentMethod): void
     {
-        $this->text = 'setCurrentFlow' . $currentFlow;
-        $this->send(self::TEXT);
-        $this->currentFlow = $currentFlow;
+        $this->currentMethod = $currentMethod;
+        $this->saveCache();
     }
 
-    public function saveCache(){
+    public function setText($text): void
+    {
+        $this->text = $text;
+        $this->saveCache();
+    }
+
+    public function setKeyboard($keyboard): void
+    {
+        $this->keyboard = $keyboard;
+        $this->saveCache();
+    }
+
+    public function setCurrentFlow(string $currentFlow): void
+    {
+        $this->currentFlow = $currentFlow;
+        $this->saveCache();
+    }
+
+    public function saveCache()
+    {
         Cache::put($this->cacheId, $this, self::TIME_CACHE);
     }
 

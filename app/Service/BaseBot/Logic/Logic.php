@@ -100,7 +100,6 @@ class Logic
         $this->bot->setKeyboard(['Захист культури', 'Продукти']);
         $this->bot->send(BaseBot::KEYBOARD);
         $this->bot->setCurrentMethod(self::METHOD_SELECT_FLOW);
-        $this->bot->saveCache();
         exit;
     }
 
@@ -109,11 +108,8 @@ class Logic
 
         $flow = $this->bot->getUserText();
         if ($flow == self::FLOW_PROTECT_CULTURE_UA) {
-            $this->bot->setText("true");
-            $this->bot->send(BaseBot::TEXT);
             $this->bot->setCurrentFlow(self::FLOW_PROTECT_CULTURE);
             $this->nextMethod();
-            $this->bot->saveCache();
             exit;
         }
 
@@ -125,7 +121,6 @@ class Logic
         $this->bot->setText('Введіть назву культури або перші букви');
         $this->bot->send(BaseBot::TEXT);
         $this->nextMethod();
-        $this->bot->saveCache();
     }
 
     public function searchCulture()
