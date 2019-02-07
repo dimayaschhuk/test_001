@@ -10,6 +10,7 @@ namespace App\Service\BaseBot\Logic;
 
 
 use App\Service\BaseBot\BaseBot;
+use ErrorException;
 
 class Logic
 {
@@ -60,37 +61,6 @@ class Logic
             if ($this->bot->currentMethod == self::METHOD_SEARCH_CULTURE) {
                 $this->searchCulture();
             }
-//            switch () {
-//                case  :
-//
-//                    break;
-//
-//                case self::METHOD_SEARCH_CULTURE :
-//                    $this->searchCulture();
-//                    break;
-//
-//
-//                case self::METHOD_SELECT_CULTURE :
-//                    $this->selectCulture();
-//                    break;
-//
-//
-//                case self::METHOD_SEND_TEXT_PROBLEM_GROUP :
-//                    $this->sendTextProblemGroup();
-//                    break;
-//
-//
-//                case self::METHOD_SELECT_PROBLEM_GROUP :
-//                    $this->selectProblemGroup();
-//                    break;
-//
-//
-//                case self::METHOD_SEND_TEXT_PROBLEM :
-//                    $this->sendTextProblem();
-//                    break;
-//
-//
-//            }
         }
     }
 
@@ -116,14 +86,15 @@ class Logic
 
     public function nextMethod()
     {
-        if (isset($this->bot->currentFlow) && !isset($this->bot->currentMethod)) {
-            $this->bot->setCurrentMethod($this->getMethod()[$this->bot->currentFlow][0]);
-            exit;
-        }
-        if (isset($baseBot->currentFlow) && isset($baseBot->currentMethod)) {
+        try {
             $key = array_search($this->bot->currentFlow, $this->getMethod()[$this->bot->currentFlow]);
             $this->bot->setCurrentMethod($this->getMethod()[$this->bot->currentFlow][$key + 1]);
             exit;
+        } catch (ErrorException $errorException) {
+            if (empty($this->bot->currentFlow)) {
+                $this->bot->setCurrentMethod($this->getMethod()[$this->bot->currentFlow][0]);
+                exit;
+            }
         }
     }
 
