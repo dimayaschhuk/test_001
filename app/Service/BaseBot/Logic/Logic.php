@@ -45,6 +45,10 @@ class Logic
             $this->welcome();
         }
 
+        if ($this->bot->currentMethod == self::METHOD_SELECT_FLOW) {
+            $this->selectFlow();
+        }
+
 
         if ($this->bot->currentFlow == self::FLOW_PROTECT_CULTURE) {
 
