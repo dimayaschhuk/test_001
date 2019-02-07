@@ -29,8 +29,8 @@ trait Methods
         $flow = $this->bot->getUserText();
         if ($flow == self::FLOW_PROTECT_CULTURE_UA) {
             $this->bot->setCurrentFlow(self::FLOW_PROTECT_CULTURE);
-//            $this->nextMethod();
-            $this->sendTextCulture();
+            $this->nextMethod();
+            $this->runMethod();
             exit;
         }
 

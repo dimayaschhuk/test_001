@@ -95,10 +95,9 @@ class Logic
             $key = array_search($this->bot->currentFlow, $this->getMethod()[$this->bot->currentFlow]);
             $this->bot->setCurrentMethod($this->getMethod()[$this->bot->currentFlow][$key + 1]);
             $this->bot->sendText($this->getMethod()[$this->bot->currentFlow][$key + 1]);
-            exit;
+
         }else{
             $this->bot->setCurrentMethod($this->getMethod()[$this->bot->currentFlow][0]);
-            exit;
         }
     }
 
