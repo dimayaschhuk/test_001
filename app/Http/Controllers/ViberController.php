@@ -53,8 +53,8 @@ class ViberController extends Controller
                     $id = $event->getSender()->getId();
 
 
-                    if (Cache::has($id)) {
-                        $baseBot = Cache::get($id);
+                    if (Cache::has('qwe')) {
+                        $baseBot = Cache::get('qwe');
                         $baseBot->setUserText($text);
                         $baseBot->setText('RUN');
                         $baseBot->send(BaseBot::TEXT);
@@ -66,7 +66,7 @@ class ViberController extends Controller
                         $baseBot->setText("START");
                         $baseBot->send(BaseBot::TEXT);
 //                        $baseBot->runMethod();
-                        Cache::put($id, $baseBot, BaseBot::TIME_CACHE);
+                        Cache::put('qwe', $baseBot, BaseBot::TIME_CACHE);
                     }
 
                 })
