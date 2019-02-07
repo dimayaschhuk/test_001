@@ -38,8 +38,8 @@ class Logic
 
     public function runMethod()
     {
-        $this->bot->setText("currentFlow:".$this->bot->getCurrentFlow().","."CurrentMethod:".$this->bot->getCurrentMethod());
-        $this->bot->send(BaseBot::TEXT);
+//        $this->bot->setText("currentFlow:".$this->bot->getCurrentFlow().","."CurrentMethod:".$this->bot->getCurrentMethod());
+//        $this->bot->send(BaseBot::TEXT);
 
 
         if ($this->bot->getCurrentFlow() == self::FLOW_PROTECT_CULTURE) {
