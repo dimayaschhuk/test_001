@@ -94,7 +94,7 @@ class BaseBot
     public function welcome()
     {
         $this->setText("Виберіть гілку");
-        $this->setKeyboard(['Захист культури']);
+        $this->setKeyboard(['Захист культури','Продукти']);
         $this->send(self::KEYBOARD);
     }
 
