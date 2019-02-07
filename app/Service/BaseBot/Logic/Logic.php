@@ -97,8 +97,12 @@ class Logic
 
     public function selectFlow()
     {
-        $flow = $this->bot->getUserText();
+        $this->bot->setText("selectFlow");
+        $this->bot->send(BaseBot::TEXT);
 
+
+        $flow = $this->bot->getUserText();
+        $this->bot->setText("Виберіть гілку");
         if ($flow == self::FLOW_PROTECT_CULTURE) {
             $this->bot->setCurrentFlow(self::FLOW_PROTECT_CULTURE);
             $this->nextMethod();
