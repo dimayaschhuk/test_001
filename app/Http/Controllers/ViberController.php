@@ -69,13 +69,14 @@ class ViberController extends Controller
 
                         if (Cache::has('testViber')) {
                             $q = Cache::get('testViber');
-                            $baseBot->setText("has testViber");
+                            $q += 1;
+
                         } else {
-                            $baseBot->setText("else testViber");
                             Cache::put('testViber', 1, BaseBot::TIME_CACHE);
                             $q = 1;
                         }
 
+                        $baseBot->setText($q . "qwe");
 
                         $baseBot->send(BaseBot::TEXT);
 
