@@ -8,15 +8,13 @@ use Illuminate\Support\Facades\Cache;
 
 class BaseBot
 {
-    protected $id;
-    public $cacheId;
-    protected $typeBot;
     public $currentMethod;
     public $currentFlow;
+    public $cacheId;
+
+    protected $typeBot;
+    protected $id;
     protected $userText;
-    protected $viberBot;
-
-
     protected $problemGroupId;
     protected $problemId;
     protected $brandId;
@@ -42,7 +40,6 @@ class BaseBot
         $this->id = $id;
         $this->cacheId = $typeBot . "/" . $id;
         $this->currentMethod = Logic::METHOD_WELCOME;
-//        $this->currentFlow = Logic::FLOW_PROTECT_CULTURE;
     }
 
     public function send($typeMessage)
@@ -62,25 +59,12 @@ class BaseBot
     }
 
 
-
     public function runMethod()
     {
         $logic = new Logic($this);
         $logic->runMethod();
     }
 
-
-
-
-    public function isStatusSendMessage(): bool
-    {
-        return $this->statusSendMessage;
-    }
-
-    public function setStatusSendMessage(bool $statusSendMessage): void
-    {
-        $this->statusSendMessage = $statusSendMessage;
-    }
 
     public function getCurrentMethod(): string
     {
@@ -91,16 +75,6 @@ class BaseBot
     {
         $this->currentMethod = $currentMethod;
         Cache::put($this->id, $this, self::TIME_CACHE);
-    }
-
-    public function getViberBot()
-    {
-        return $this->viberBot;
-    }
-
-    public function setViberBot($viberBot): void
-    {
-        $this->viberBot = $viberBot;
     }
 
 
@@ -152,6 +126,7 @@ class BaseBot
 
     public function setCurrentFlow(string $currentFlow): void
     {
+        $this->statusSendMessage = TRUE;
         $this->currentFlow = $currentFlow;
     }
 

@@ -47,9 +47,9 @@ class Logic
         }
 
 
-        if ($this->bot->getCurrentFlow() == self::FLOW_PROTECT_CULTURE) {
+        if ($this->bot->currentFlow == self::FLOW_PROTECT_CULTURE) {
 
-            if ($this->bot->getCurrentMethod() == self::METHOD_SEND_TEXT_CULTURE) {
+            if ($this->bot->currentMethod == self::METHOD_SEND_TEXT_CULTURE) {
                 $this->sendTextCulture();
             }
 //            switch () {
@@ -136,7 +136,6 @@ class Logic
         $this->bot->send(BaseBot::KEYBOARD);
     }
 
-//
 
 
     public function getMethod()

@@ -120,7 +120,7 @@ if (!function_exists('send_keyboard_viber')) {
             'avatar' => 'http://chat.organic.mobimill.com/storage/app/public/10/1e7bc03379018d5cfd8a2bb60af3592a.jpg',
         ]);
 
-        $bot = $baseBot->getViberBot();
+        $bot = new Bot(['token' => '492df57f7927d70b-bb1dffe5ee14eea0-4498222180f6797f']);
         $keyboard = new Keyboard();
         $buttons = [];
         $rows = 1;
