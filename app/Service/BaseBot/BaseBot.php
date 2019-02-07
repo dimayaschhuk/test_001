@@ -110,6 +110,8 @@ class BaseBot
 
     public function setCurrentFlow(string $currentFlow): void
     {
+        $this->text='setCurrentFlow';
+        $this->send(self::TEXT);
         $this->currentFlow = $currentFlow;
     }
 
