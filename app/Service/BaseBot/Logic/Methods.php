@@ -30,7 +30,7 @@ trait Methods
         if ($flow == self::FLOW_PROTECT_CULTURE_UA) {
             $this->bot->setCurrentFlow(self::FLOW_PROTECT_CULTURE);
             $this->nextMethod();
-            $this->bot->runMethod();
+            $this->sendTextCulture();
             exit;
         }
 
