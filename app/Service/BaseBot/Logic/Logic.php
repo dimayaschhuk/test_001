@@ -61,6 +61,10 @@ class Logic
             if ($this->bot->currentMethod == self::METHOD_SEARCH_CULTURE) {
                 $this->searchCulture();
             }
+
+            if ($this->bot->currentMethod == self::METHOD_SELECT_CULTURE) {
+                $this->selectCulture();
+            }
         }
     }
 

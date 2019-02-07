@@ -52,6 +52,14 @@ class BaseBot
 
     }
 
+    public function sendText($text)
+    {
+        $this->text = $text;
+        $this->send(self::TEXT);
+    }
+
+
+
 
     public function runMethod()
     {
@@ -116,10 +124,5 @@ class BaseBot
     }
 
 
-    public function sendText($text)
-    {
-        $this->text = $text;
-        $this->send(self::TEXT);
-    }
 
 }

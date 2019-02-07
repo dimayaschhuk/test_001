@@ -39,7 +39,9 @@ trait Methods
 
     public function sendTextCulture()
     {
-        $this->bot->sendText('Введіть назву культури або перші букви');
+//        $this->bot->sendText('Введіть назву культури або перші букви');
+        $this->bot->setText('Введіть назву культури або перші букви');
+        $this->bot->send(BaseBot::TEXT);
         $this->nextMethod();
     }
 
@@ -67,13 +69,13 @@ trait Methods
     }
 
 
-//    public function selectCulture()
-//    {
+    public function selectCulture()
+    {
 //        $data = Cache::get($chatId);
 //        $data['method'] = 'selectCulture';
 //        $data['culture_id'] = Culture::where('name', $text)->value('id');
 //        Cache::put($chatId, $data, self::TIME_CACHE);
 //        $this->sendTextProblemGroup($chatId, $text);
-//    }
+    }
 
 }
