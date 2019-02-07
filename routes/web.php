@@ -134,3 +134,18 @@ Route::get('/resetMyCache', function () {
         dd(Cache::get(563738410));
     }
 });
+
+
+
+Route::get('/setCacheTest', function () {
+    {
+        Cache::put('qwe', 'dssds', 1);
+        dd(Cache::get('qwe'));
+    }
+});
+
+Route::get('/getCacheTest', function () {
+    {
+        dd(Cache::get('qwe'));
+    }
+});
