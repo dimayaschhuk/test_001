@@ -44,37 +44,40 @@ class Logic
 
         if ($this->bot->getCurrentFlow() == self::FLOW_PROTECT_CULTURE) {
 
-            switch ($this->bot->getCurrentMethod()) {
-                case self::METHOD_SEND_TEXT_CULTURE :
-                    $this->sendTextCulture();
-                    break;
-
-                case self::METHOD_SEARCH_CULTURE :
-                    $this->searchCulture();
-                    break;
-
-
-                case self::METHOD_SELECT_CULTURE :
-                    $this->selectCulture();
-                    break;
-
-
-                case self::METHOD_SEND_TEXT_PROBLEM_GROUP :
-                    $this->sendTextProblemGroup();
-                    break;
-
-
-                case self::METHOD_SELECT_PROBLEM_GROUP :
-                    $this->selectProblemGroup();
-                    break;
-
-
-                case self::METHOD_SEND_TEXT_PROBLEM :
-                    $this->sendTextProblem();
-                    break;
-
-
+            if($this->bot->getCurrentMethod() == self::METHOD_SEND_TEXT_CULTURE){
+                $this->sendTextCulture();
             }
+//            switch () {
+//                case  :
+//
+//                    break;
+//
+//                case self::METHOD_SEARCH_CULTURE :
+//                    $this->searchCulture();
+//                    break;
+//
+//
+//                case self::METHOD_SELECT_CULTURE :
+//                    $this->selectCulture();
+//                    break;
+//
+//
+//                case self::METHOD_SEND_TEXT_PROBLEM_GROUP :
+//                    $this->sendTextProblemGroup();
+//                    break;
+//
+//
+//                case self::METHOD_SELECT_PROBLEM_GROUP :
+//                    $this->selectProblemGroup();
+//                    break;
+//
+//
+//                case self::METHOD_SEND_TEXT_PROBLEM :
+//                    $this->sendTextProblem();
+//                    break;
+//
+//
+//            }
         }
     }
 
