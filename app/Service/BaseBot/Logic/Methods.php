@@ -9,6 +9,10 @@
 namespace App\Service\BaseBot\Logic;
 
 
+use App\BaseModels\Culture;
+use App\Service\BaseBot\BaseBot;
+use Illuminate\Support\Facades\Cache;
+
 trait Methods
 {
     public function welcome()
@@ -63,13 +67,13 @@ trait Methods
     }
 
 
-    public function selectCulture()
-    {
-        $data = Cache::get($chatId);
-        $data['method'] = 'selectCulture';
-        $data['culture_id'] = Culture::where('name', $text)->value('id');
-        Cache::put($chatId, $data, self::TIME_CACHE);
-        $this->sendTextProblemGroup($chatId, $text);
-    }
+//    public function selectCulture()
+//    {
+//        $data = Cache::get($chatId);
+//        $data['method'] = 'selectCulture';
+//        $data['culture_id'] = Culture::where('name', $text)->value('id');
+//        Cache::put($chatId, $data, self::TIME_CACHE);
+//        $this->sendTextProblemGroup($chatId, $text);
+//    }
 
 }
