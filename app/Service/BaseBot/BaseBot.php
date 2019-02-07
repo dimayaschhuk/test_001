@@ -25,6 +25,9 @@ class BaseBot
     protected $text;
     protected $keyboard;
 
+    protected $statusSendMessage = FALSE;
+
+
     const KEYBOARD = 'keyboard';
     const TEXT = 'text';
     const TYPE_VIBER = 'VIBER';
@@ -39,73 +42,23 @@ class BaseBot
         $this->cacheId = $typeBot . "/" . $id;
         $this->currentMethod = Logic::METHOD_SEND_TEXT_CULTURE;
         $this->currentFlow = Logic::FLOW_PROTECT_CULTURE;
-
     }
 
-    /**
-     * @return string
-     */
-    public function getCurrentMethod(): string
+    public function send($typeMessage)
     {
-        return $this->currentMethod;
+        if ($this->statusSendMessage) {
+            if ($typeMessage == self::KEYBOARD) {
+                send_keyboard($this->typeBot, $this);
+            }
+
+            if ($typeMessage == self::TEXT) {
+                send_text($this->typeBot, $this);
+            }
+            $this->statusSendMessage = FALSE;
+        }
+
+
     }
-
-    /**
-     * @param string $currentMethod
-     */
-    public function setCurrentMethod(string $currentMethod): void
-    {
-        $this->currentMethod = $currentMethod;
-        Cache::put($this->id, $this, self::TIME_CACHE);
-    }
-
-    public function getViberBot()
-    {
-        return $this->viberBot;
-    }
-
-
-    public function setViberBot($viberBot): void
-    {
-        $this->viberBot = $viberBot;
-    }
-
-
-    public function getUserText()
-    {
-        return $this->userText;
-    }
-
-    public function setUserText($userText): void
-    {
-        $this->userText = $userText;
-    }
-
-    public function setText($text): void
-    {
-        $this->text = $text;
-    }
-
-    public function getText()
-    {
-        return $this->text;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setKeyboard($keyboard): void
-    {
-        $this->keyboard = $keyboard;
-    }
-
-    public function getKeyboard()
-    {
-        return $this->keyboard;
-    }
-
 
     public function nextMethod()
     {
@@ -169,59 +122,82 @@ class BaseBot
 
             }
         }
-
-//            if ( == Logic::METHOD_SEND_TEXT_CULTURE) {
-//
-//            }
-//            if ($method == 'searchCulture') {
-//                $this->searchCulture($chatId, $text);
-//            }
-//            if ($method == 'selectCulture') {
-//                $this->selectCulture($chatId, $text);
-//            }
-//
-//
-//            if ($method == 'sendTextProblemGroup') {
-//                $this->sendTextProblemGroup($chatId, $text);
-//            }
-//            if ($method == 'selectProblemGroup') {
-//                $this->selectProblemGroup($chatId, $text);
-//            }
-//
-//            if ($method == 'sendTextProblem') {
-//                $this->sendTextProblem($chatId, $text);
-//            }
-//            if ($method == 'searchProblem') {
-//                $this->searchProblem($chatId, $text);
-//            }
-//            if ($method == 'selectProblem') {
-//                $this->selectProblem($chatId, $text);
-//            }
-//
-//            if ($method == 'searchProduct') {
-//                $this->searchProduct($chatId, $text);
-//            }
-//            if ($method == 'selectProduct') {
-//                $this->selectProduct($chatId, $text);
-//            }
-//
-//        } else {
-//            $this->test($chatId, 'not testFlow');
-//        }
     }
 
 
-    public function send($typeMessage)
+
+
+
+
+    public function isStatusSendMessage(): bool
     {
-
-        if ($typeMessage == self::KEYBOARD) {
-            send_keyboard($this->typeBot, $this);
-        }
-
-        if ($typeMessage == self::TEXT) {
-            send_text($this->typeBot, $this);
-        }
+        return $this->statusSendMessage;
     }
 
+    public function setStatusSendMessage(bool $statusSendMessage): void
+    {
+        $this->statusSendMessage = $statusSendMessage;
+    }
+
+    public function getCurrentMethod(): string
+    {
+        return $this->currentMethod;
+    }
+
+    public function setCurrentMethod(string $currentMethod): void
+    {
+        $this->currentMethod = $currentMethod;
+        Cache::put($this->id, $this, self::TIME_CACHE);
+    }
+
+    public function getViberBot()
+    {
+        return $this->viberBot;
+    }
+
+    public function setViberBot($viberBot): void
+    {
+        $this->viberBot = $viberBot;
+    }
+
+
+    public function getUserText()
+    {
+        return $this->userText;
+    }
+
+    public function setUserText($userText): void
+    {
+        if($this->userText!=$userText){
+            $this->statusSendMessage=TRUE;
+        }
+        $this->userText = $userText;
+    }
+
+
+    public function setText($text): void
+    {
+        $this->text = $text;
+    }
+
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setKeyboard($keyboard): void
+    {
+        $this->keyboard = $keyboard;
+    }
+
+    public function getKeyboard()
+    {
+        return $this->keyboard;
+    }
 
 }

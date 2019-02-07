@@ -80,9 +80,4 @@ class ViberController extends Controller
             Log::info('not send message');
         }
     }
-
-    public function test($type, $data, $text)
-    {
-        send_text($type, $data, $text);
-    }
 }
