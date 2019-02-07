@@ -21,7 +21,7 @@ trait Methods
         $this->bot->setKeyboard(['Захист культури', 'Продукти']);
         $this->bot->send(BaseBot::KEYBOARD);
         $this->bot->setCurrentMethod(self::METHOD_SELECT_FLOW);
-        exit;
+        return ;
     }
 
     public function selectFlow()
@@ -31,7 +31,7 @@ trait Methods
             $this->bot->setCurrentFlow(self::FLOW_PROTECT_CULTURE);
             $this->nextMethod();
             $this->sendTextCulture();
-            exit;
+            return ;
         }
 
         $this->welcome();
@@ -48,13 +48,13 @@ trait Methods
         if (Culture::where('name', $this->bot->getUserText())->count() === 1) {
             $this->bot->setCurrentMethod(Logic::METHOD_SELECT_CULTURE);
             $this->bot->sendText('method: METHOD_SELECT_CULTURE');
-            exit;
+            return ;
         }
 
         if (Culture::where('name', 'LIKE', "%{$this->bot->getUserText()}%")->count() === 0) {
             $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_CULTURE);
             $this->bot->sendText('method: METHOD_SELECT_CULTURE');
-            exit;
+            return ;
         }
 
         $this->bot->setText('Виберіть із списка одну культуру яка вам найбільше підходить');
