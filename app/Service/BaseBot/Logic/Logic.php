@@ -116,8 +116,7 @@ class Logic
 
     public function sendTextCulture()
     {
-        $this->bot->setText('Введіть назву культури або перші букви');
-        $this->bot->send(BaseBot::TEXT);
+        $this->bot->sendText('Введіть назву культури або перші букви');
         $this->nextMethod();
     }
 
@@ -164,10 +163,11 @@ class Logic
     public function nextMethod()
     {
         if (isset($this->bot->currentFlow) && isset($this->bot->currentMethod)) {
+            $this->bot->sendText('true');
             $this->bot->setCurrentMethod($this->getMethod()[$this->currentFlow][0]);
             exit;
         }
-
+        $this->bot->sendText('false');
         if (isset($baseBot->currentFlow) && isset($baseBot->currentMethod)) {
             $key = array_search($this->bot->currentFlow, $this->getMethod()[$this->bot->currentFlow]);
             $this->bot->setCurrentMethod($this->getMethod()[$this->bot->currentFlow][$key + 1]);

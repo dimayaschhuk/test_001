@@ -86,7 +86,6 @@ class BaseBot
     }
 
 
-
     public function setText($text): void
     {
         $this->text = $text;
@@ -114,6 +113,13 @@ class BaseBot
     public function saveCache()
     {
         Cache::put($this->cacheId, $this, self::TIME_CACHE);
+    }
+
+
+    public function sendText($text)
+    {
+        $this->text = $text;
+        $this->send(self::TEXT);
     }
 
 }
