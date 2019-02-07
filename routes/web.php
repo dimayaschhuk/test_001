@@ -61,3 +61,15 @@ Route::get('/getMyCacheViber', function () {
         dd(Cache::get(BaseBot::TYPE_VIBER."/"."cT0AJq4mBsVbUX1ITQRd4w=="));
     }
 });
+
+
+Route::get('/testBot', function () {
+    {
+        $chatId=111111;
+        $baseBot = new BaseBot(BaseBot::TYPE_TELGRAM, $chatId);
+
+//        $baseBot->setCurrentFlow("sds");
+//        $baseBot->currentFlow="dsd";
+        dd(isset($baseBot->currentFlow));
+    }
+});

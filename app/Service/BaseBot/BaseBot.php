@@ -108,4 +108,8 @@ class BaseBot
         $this->currentFlow = $currentFlow;
     }
 
+    public function saveCache(){
+        Cache::put($this->cacheId, $this, self::TIME_CACHE);
+    }
+
 }
