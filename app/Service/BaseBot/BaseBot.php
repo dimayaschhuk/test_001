@@ -24,7 +24,6 @@ class BaseBot
     protected $keyboard;
 
 
-
     const KEYBOARD = 'keyboard';
     const TEXT = 'text';
     const TYPE_VIBER = 'VIBER';
@@ -59,12 +58,6 @@ class BaseBot
         $logic = new Logic($this);
         $logic->runMethod();
     }
-
-
-
-
-
-
 
 
     public function setCurrentMethod(string $currentMethod): void
@@ -110,7 +103,7 @@ class BaseBot
 
     public function setCurrentFlow(string $currentFlow): void
     {
-        $this->text='setCurrentFlow';
+        $this->text = 'setCurrentFlow' . $currentFlow;
         $this->send(self::TEXT);
         $this->currentFlow = $currentFlow;
     }
