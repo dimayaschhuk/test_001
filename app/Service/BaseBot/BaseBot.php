@@ -23,7 +23,7 @@ class BaseBot
     protected $text;
     protected $keyboard;
 
-    protected $statusSendMessage = FALSE;
+    public $statusSendMessage = FALSE;
 
 
     const KEYBOARD = 'keyboard';
@@ -44,16 +44,16 @@ class BaseBot
 
     public function send($typeMessage)
     {
-        if ($this->statusSendMessage) {
-            if ($typeMessage == self::KEYBOARD) {
-                send_keyboard($this->typeBot, $this);
-            }
-
-            if ($typeMessage == self::TEXT) {
-                send_text($this->typeBot, $this);
-            }
-            $this->statusSendMessage = FALSE;
+//        if ($this->statusSendMessage) {
+        if ($typeMessage == self::KEYBOARD) {
+            send_keyboard($this->typeBot, $this);
         }
+
+        if ($typeMessage == self::TEXT) {
+            send_text($this->typeBot, $this);
+        }
+        $this->statusSendMessage = FALSE;
+//        }
 
 
     }
@@ -126,7 +126,6 @@ class BaseBot
 
     public function setCurrentFlow(string $currentFlow): void
     {
-        $this->statusSendMessage = TRUE;
         $this->currentFlow = $currentFlow;
     }
 
