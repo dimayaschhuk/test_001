@@ -91,17 +91,14 @@ class Logic
     public function nextMethod()
     {
 
-        try {
+        if(in_array($this->bot->currentMethod,$this->getMethod()[$this->bot->currentFlow])){
             $key = array_search($this->bot->currentFlow, $this->getMethod()[$this->bot->currentFlow]);
             $this->bot->setCurrentMethod($this->getMethod()[$this->bot->currentFlow][$key + 1]);
             $this->bot->sendText($this->getMethod()[$this->bot->currentFlow][$key + 1]);
             exit;
-        } catch (ErrorException $errorException) {
-            if (empty($this->bot->currentFlow)) {
-                $this->bot->sendText("flow");
-                $this->bot->setCurrentMethod($this->getMethod()[$this->bot->currentFlow][0]);
-                exit;
-            }
+        }else{
+            $this->bot->setCurrentMethod($this->getMethod()[$this->bot->currentFlow][0]);
+            exit;
         }
     }
 
