@@ -11,12 +11,14 @@ namespace App\Service\BaseBot\Logic;
 
 use App\BaseModels\Culture;
 use App\Service\BaseBot\BaseBot;
+use Illuminate\Support\Facades\Cache;
 
 class Logic
 {
     protected $bot;
 
     const METHOD_WELCOME = 'welcome';
+    const METHOD_SELECT_FLOW = 'selectFlow';
     const METHOD_SEND_TEXT_CULTURE = 'sendTextCulture';
     const METHOD_SEARCH_CULTURE = 'searchCulture';
     const METHOD_SELECT_CULTURE = 'selectCulture';
@@ -38,13 +40,16 @@ class Logic
 
     public function runMethod()
     {
-//        $this->bot->setText("currentFlow:".$this->bot->getCurrentFlow().","."CurrentMethod:".$this->bot->getCurrentMethod());
-//        $this->bot->send(BaseBot::TEXT);
+
+
+        if ($this->bot->getCurrentMethod() == self::METHOD_WELCOME) {
+            $this->welcome();
+        }
 
 
         if ($this->bot->getCurrentFlow() == self::FLOW_PROTECT_CULTURE) {
 
-            if($this->bot->getCurrentMethod() == self::METHOD_SEND_TEXT_CULTURE){
+            if ($this->bot->getCurrentMethod() == self::METHOD_SEND_TEXT_CULTURE) {
                 $this->sendTextCulture();
             }
 //            switch () {
@@ -82,6 +87,28 @@ class Logic
     }
 
 
+    public function welcome()
+    {
+        $this->bot->setText("Виберіть гілку");
+        $this->bot->setKeyboard(['Захист культури', 'Продукти']);
+        $this->bot->send(BaseBot::KEYBOARD);
+        $this->bot->setCurrentMethod(self::METHOD_SELECT_FLOW);
+    }
+
+    public function selectFlow()
+    {
+        $flow = $this->bot->getUserText();
+
+        if ($flow == self::FLOW_PROTECT_CULTURE) {
+            $this->bot->setCurrentFlow(self::FLOW_PROTECT_CULTURE);
+            $this->bot->setCurrentMethod(self::FLOW_PROTECT_CULTURE);
+            $this->nextMethod();
+            exit;
+        }
+
+        $this->bot->setCurrentMethod(self::METHOD_WELCOME);
+    }
+
     public function sendTextCulture()
     {
         $this->bot->setText('Введіть назву культури або перші букви');
@@ -108,7 +135,42 @@ class Logic
             "%{$this->bot->getUserText()}%")->pluck('name')->toArray());
         $this->bot->send(BaseBot::KEYBOARD);
     }
+
 //
+
+
+    public function getMethod()
+    {
+        return [
+            self::METHOD_WELCOME,
+            self::METHOD_SELECT_FLOW,
+            self::FLOW_PROTECT_CULTURE => [
+                self::METHOD_SEND_TEXT_CULTURE,
+                self::METHOD_SEARCH_CULTURE,
+                self::METHOD_SELECT_CULTURE,
+                self::METHOD_SEND_TEXT_PROBLEM_GROUP,
+                self::METHOD_SELECT_PROBLEM_GROUP,
+                self::METHOD_SEND_TEXT_PROBLEM,
+                self::METHOD_SELECT_PROBLEM,
+                self::METHOD_SEARCH_PRODUCT,
+                self::METHOD_SELECT_PRODUCT,
+            ],
+        ];
+    }
+
+    public function nextMethod()
+    {
+        if (isset($baseBot->currentFlow) && !isset($baseBot->currentMethod)) {
+            $this->currentMethod = $this->getMethod()[$this->currentFlow][0];
+        }
+
+        if(isset($baseBot->currentFlow) && isset($baseBot->currentMethod)){
+            $key = array_search($this->bot->currentFlow, $this->getMethod()[$this->bot->currentFlow]);
+            $this->currentMethod = $this->getMethod()[$this->currentFlow][$key + 1];
+        }
+
+        Cache::put($this->bot->getId(), $this->bot, BaseBot::TIME_CACHE);
+    }
 //    public function selectCulture()
 //    {
 //        $data = Cache::get($chatId);

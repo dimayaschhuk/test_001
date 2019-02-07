@@ -11,8 +11,8 @@ class BaseBot
     protected $id;
     protected $cacheId;
     protected $typeBot;
-    protected $currentMethod;
-    protected $currentFlow;
+    public $currentMethod;
+    public $currentFlow;
     protected $userText;
     protected $viberBot;
 
@@ -35,13 +35,14 @@ class BaseBot
     const FIRST_METHOD = "welcome";
     const TIME_CACHE = 1;
 
+
     public function __construct($typeBot, $id)
     {
         $this->typeBot = $typeBot;
         $this->id = $id;
         $this->cacheId = $typeBot . "/" . $id;
         $this->currentMethod = Logic::METHOD_SEND_TEXT_CULTURE;
-        $this->currentFlow = Logic::FLOW_PROTECT_CULTURE;
+//        $this->currentFlow = Logic::FLOW_PROTECT_CULTURE;
     }
 
     public function send($typeMessage)
@@ -60,30 +61,7 @@ class BaseBot
 
     }
 
-    public function nextMethod()
-    {
-        $key = array_search($this->currentMethod, $this->getMethod()[$this->currentFlow]);
-        $this->currentMethod = $this->getMethod()[$this->currentFlow][$key + 1];
-        Cache::put($this->id, $this, self::TIME_CACHE);
-    }
 
-    public function getMethod()
-    {
-        return [
-            Logic::METHOD_WELCOME,
-            Logic::FLOW_PROTECT_CULTURE => [
-                Logic::METHOD_SEND_TEXT_CULTURE,
-                Logic::METHOD_SEARCH_CULTURE,
-                Logic::METHOD_SELECT_CULTURE,
-                Logic::METHOD_SEND_TEXT_PROBLEM_GROUP,
-                Logic::METHOD_SELECT_PROBLEM_GROUP,
-                Logic::METHOD_SEND_TEXT_PROBLEM,
-                Logic::METHOD_SELECT_PROBLEM,
-                Logic::METHOD_SEARCH_PRODUCT,
-                Logic::METHOD_SELECT_PRODUCT,
-            ],
-        ];
-    }
 
     public function runMethod()
     {
@@ -91,12 +69,7 @@ class BaseBot
         $logic->runMethod();
     }
 
-    public function welcome()
-    {
-        $this->setText("Виберіть гілку");
-        $this->setKeyboard(['Захист культури','Продукти']);
-        $this->send(self::KEYBOARD);
-    }
+
 
 
     public function isStatusSendMessage(): bool
