@@ -41,8 +41,7 @@ class Logic
     public function runMethod()
     {
 
-
-        if ($this->bot->getCurrentMethod() == self::METHOD_WELCOME) {
+        if ($this->bot->currentMethod == self::METHOD_WELCOME) {
             $this->welcome();
         }
 

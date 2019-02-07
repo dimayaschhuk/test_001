@@ -23,7 +23,6 @@ class BaseBot
     protected $text;
     protected $keyboard;
 
-    public $statusSendMessage = FALSE;
 
 
     const KEYBOARD = 'keyboard';
@@ -44,7 +43,6 @@ class BaseBot
 
     public function send($typeMessage)
     {
-//        if ($this->statusSendMessage) {
         if ($typeMessage == self::KEYBOARD) {
             send_keyboard($this->typeBot, $this);
         }
@@ -52,9 +50,6 @@ class BaseBot
         if ($typeMessage == self::TEXT) {
             send_text($this->typeBot, $this);
         }
-        $this->statusSendMessage = FALSE;
-//        }
-
 
     }
 
@@ -66,17 +61,17 @@ class BaseBot
     }
 
 
-    public function getCurrentMethod(): string
-    {
-        return $this->currentMethod;
-    }
+
+
+
+
+
 
     public function setCurrentMethod(string $currentMethod): void
     {
         $this->currentMethod = $currentMethod;
         Cache::put($this->id, $this, self::TIME_CACHE);
     }
-
 
     public function getUserText()
     {
@@ -85,12 +80,8 @@ class BaseBot
 
     public function setUserText($userText): void
     {
-        if ($this->userText != $userText) {
-            $this->statusSendMessage = TRUE;
-        }
         $this->userText = $userText;
     }
-
 
     public function setText($text): void
     {
@@ -116,13 +107,6 @@ class BaseBot
     {
         return $this->keyboard;
     }
-
-
-    public function getCurrentFlow(): string
-    {
-        return $this->currentFlow;
-    }
-
 
     public function setCurrentFlow(string $currentFlow): void
     {
