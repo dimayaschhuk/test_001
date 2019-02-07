@@ -53,6 +53,7 @@ trait Methods
 
         if (Culture::where('name', 'LIKE', "%{$this->bot->getUserText()}%")->count() === 0) {
             $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_CULTURE);
+            $this->bot->sendText('METHOD_SEND_TEXT_CULTURE');
             $this->sendTextCulture();
             exit;
         }
@@ -69,7 +70,7 @@ trait Methods
     public function selectCulture()
     {
 //        $data = Cache::get($chatId);
-//        $data['method'] = 'selectCulture';
+//        $data['method'] = 'selectCulture';s
 //        $data['culture_id'] = Culture::where('name', $text)->value('id');
 //        Cache::put($chatId, $data, self::TIME_CACHE);
 //        $this->sendTextProblemGroup($chatId, $text);
