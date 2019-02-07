@@ -93,6 +93,7 @@ class Logic
         $this->bot->setKeyboard(['Захист культури', 'Продукти']);
         $this->bot->send(BaseBot::KEYBOARD);
         $this->bot->setCurrentMethod(self::METHOD_SELECT_FLOW);
+        Cache::put($this->bot->getId(), $this->bot, BaseBot::TIME_CACHE);
     }
 
     public function selectFlow()
@@ -105,7 +106,7 @@ class Logic
             exit;
         }
 
-        $this->bot->setCurrentMethod(self::METHOD_WELCOME);
+        $this->welcome();
     }
 
     public function sendTextCulture()

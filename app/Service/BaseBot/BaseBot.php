@@ -41,7 +41,7 @@ class BaseBot
         $this->typeBot = $typeBot;
         $this->id = $id;
         $this->cacheId = $typeBot . "/" . $id;
-        $this->currentMethod = Logic::METHOD_SEND_TEXT_CULTURE;
+        $this->currentMethod = Logic::METHOD_WELCOME;
 //        $this->currentFlow = Logic::FLOW_PROTECT_CULTURE;
     }
 
