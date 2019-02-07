@@ -31,6 +31,10 @@ class Logic
 
     const FLOW_PROTECT_CULTURE = 'protectCulture';
 
+    const FLOW_PROTECT_CULTURE_UA = "Захист культури";
+
+
+
 
     public function __construct(BaseBot $baseBot)
     {
@@ -102,13 +106,9 @@ class Logic
 
     public function selectFlow()
     {
-        $this->bot->setText("selectFlow");
-        $this->bot->send(BaseBot::TEXT);
-
 
         $flow = $this->bot->getUserText();
-        $this->bot->setText("Виберіть гілку");
-        if ($flow == self::FLOW_PROTECT_CULTURE) {
+        if ($flow == self::FLOW_PROTECT_CULTURE_UA) {
             $this->bot->setCurrentFlow(self::FLOW_PROTECT_CULTURE);
             $this->nextMethod();
             exit;
