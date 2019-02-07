@@ -4,15 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Service\BaseBot\BaseBot;
 use http\Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
-use Viber\Api\Event;
-use Viber\Api\Keyboard;
-use Viber\Api\Keyboard\Button;
-use Viber\Client;
-use Viber\Bot;
 use Viber\Api\Sender;
+use Viber\Bot;
+use Viber\Client;
 
 class ViberController extends Controller
 {
@@ -71,15 +67,16 @@ class ViberController extends Controller
 //                        $baseBot->send(BaseBot::TEXT);
 
 
-
                         if (Cache::has('testViber')) {
-                            $q=Cache::get('testViber');
+                            $q = Cache::get('testViber');
+                            $baseBot->setText("has testViber");
                         } else {
+                            $baseBot->setText("else testViber");
                             Cache::put('testViber', 1, BaseBot::TIME_CACHE);
-                            $q=1;
+                            $q = 1;
                         }
 
-                        $baseBot->setText((string)$q . "0000");
+
                         $baseBot->send(BaseBot::TEXT);
 
 //                        $baseBot->runMethod();
