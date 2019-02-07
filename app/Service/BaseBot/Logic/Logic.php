@@ -97,6 +97,7 @@ class Logic
         $this->bot->send(BaseBot::KEYBOARD);
         $this->bot->setCurrentMethod(self::METHOD_SELECT_FLOW);
         Cache::put($this->bot->cacheId, $this->bot, BaseBot::TIME_CACHE);
+        exit;
     }
 
     public function selectFlow()
