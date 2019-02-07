@@ -52,22 +52,19 @@ class ViberController extends Controller
                     $chatId = $event->getSender()->getId();
 
                     if (Cache::has('qaz')) {
-                        $baseBot = Cache::get('qaz');
+                        $baseBot = new BaseBot(BaseBot::TYPE_VIBER, $chatId);
                         $baseBot->setUserText($text);
-                        $baseBot->setText('RUN');
                         $baseBot->setViberBot($bot);
+                        $baseBot->setText('RUN');
                         $baseBot->send(BaseBot::TEXT);
-                        Cache::put('qaz', $baseBot, BaseBot::TIME_CACHE);
-//            $baseBot->runMethod();
                     } else {
                         $baseBot = new BaseBot(BaseBot::TYPE_VIBER, $chatId);
                         $baseBot->setUserText($text);
                         $baseBot->setViberBot($bot);
                         $baseBot->setText('START');
                         $baseBot->send(BaseBot::TEXT);
-//            $baseBot->runMethod();
-                        Cache::put('qaz', $baseBot, BaseBot::TIME_CACHE);
 
+                        Cache::put('qaz', 1, BaseBot::TIME_CACHE);
                     }
 
 
