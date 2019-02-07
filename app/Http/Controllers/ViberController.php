@@ -56,10 +56,11 @@ class ViberController extends Controller
                     $text = $event->getMessage()->getText();
                     $id = $event->getSender()->getId();
 
+
                     if (Cache::has(BaseBot::TYPE_VIBER . "/" . $id)) {
                         $baseBot = Cache::get(BaseBot::TYPE_VIBER . "/" . $id);
                         $baseBot->setUserText($text);
-                        $baseBot->setText((string)$id);
+                        $baseBot->setText('RUN');
                         $baseBot->send(BaseBot::TEXT);
 //                        $baseBot->runMethod();
                     } else {
