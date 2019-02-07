@@ -35,15 +35,6 @@ class ViberController extends Controller
     {
 
 
-        if (Cache::has('qwe')) {
-            $q = Cache::get('qwe');
-            $q += 1;
-            Cache::put('qwe', $q, BaseBot::TIME_CACHE);
-        } else {
-            $q = 1;
-            Cache::put('qwe', 1, BaseBot::TIME_CACHE);
-        }
-
         $apiKey = '492df57f7927d70b-bb1dffe5ee14eea0-4498222180f6797f';
         $botSender = new Sender([
             'name'   => 'mySzrBot',
@@ -72,9 +63,18 @@ class ViberController extends Controller
                         $baseBot->setUserText($text);
                         $baseBot->setViberBot($bot);
 
+                        if (Cache::has('qwe')) {
+                            $q = Cache::get('qwe');
+                            $q += 1;
+                            Cache::put('qwe', $q, BaseBot::TIME_CACHE);
+                        } else {
+                            $q = 1;
+                            Cache::put('qwe', 1, BaseBot::TIME_CACHE);
+                        }
+
+
 
                         $baseBot->setText($q . "TT");
-
                         $baseBot->send(BaseBot::TEXT);
 //            $baseBot->runMethod();
                         Cache::put('1234', $baseBot, BaseBot::TIME_CACHE);
