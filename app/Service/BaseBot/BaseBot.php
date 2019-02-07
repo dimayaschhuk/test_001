@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Cache;
 class BaseBot
 {
     protected $id;
-    protected $cacheId;
+    public $cacheId;
     protected $typeBot;
     public $currentMethod;
     public $currentFlow;
