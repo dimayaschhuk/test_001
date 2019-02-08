@@ -118,8 +118,9 @@ trait Methods
 
         $test = 'Совки';
         if ($culture->checkProblem($test)) {
-            $this->bot->sendText('checkProblem');
-//            $this->bot->setProblemId(Problem::where('name', $this->bot->getUserText())->first()->id);
+
+            $this->bot->sendText(Problem::where('name', $test)->first()->id."-".Problem::where('name', $test)->first()->name);
+//            $this->bot->setProblemId();
 //            Cache::put("webBot", Problem::where('name', $this->bot->getUserText())->first()->id, BaseBot::TIME_CACHE);
 //            $this->sendTextProduct();
             exit;
