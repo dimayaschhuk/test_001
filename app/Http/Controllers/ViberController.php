@@ -48,44 +48,27 @@ class ViberController extends Controller
                     ->setSender($botSender)
                     ->setText("Чим я можу вам допомогти?");
             })->onText('(.*[а-я,a-z,0-9])', function ($event) use ($bot, $botSender) {
-                    $text = $event->getMessage()->getText();
-                    $chatId = $event->getSender()->getId();
-
-                    if (Cache::has(BaseBot::TYPE_VIBER."/".$chatId)) {
-                        $baseBot = Cache::get(BaseBot::TYPE_VIBER."/".$chatId);
-                        $baseBot->sendText('RUN');
-
-//                        $baseBot->setUserText($text);
-//                        $baseBot->runMethod();
-
-                    } else {
-                        $baseBot = new BaseBot(BaseBot::TYPE_VIBER, $chatId);
-                        $baseBot->sendText('START');
-
-//                        $baseBot->setUserText($text);
-//                        $baseBot->runMethod();
-
-                        Cache::put(BaseBot::TYPE_VIBER."/".$chatId, $baseBot, BaseBot::TIME_CACHE);
-                    }
+                $text = $event->getMessage()->getText();
+                $chatId = $event->getSender()->getId();
 
 
-//                    if (Cache::has('qwe')) {
-//                        $baseBot = Cache::get('qwe');
-//                        $baseBot->setUserText($text);
-//                        $baseBot->setText('RUN');
-//                        $baseBot->send(BaseBot::TEXT);
-////                        $baseBot->runMethod();
-//                    } else {
-//                        $baseBot = new BaseBot(BaseBot::TYPE_VIBER, $id);
-//                        $baseBot->setUserText($text);
-//                        $baseBot->setViberBot($bot);
-//                        $baseBot->setText("START");
-//                        $baseBot->send(BaseBot::TEXT);
-////                        $baseBot->runMethod();
-//                        Cache::put('qwe', $baseBot, BaseBot::TIME_CACHE);
-//                    }
+                if (Cache::has(BaseBot::TYPE_VIBER . "/" . $chatId)) {
+                    $baseBot = Cache::get(BaseBot::TYPE_VIBER . "/" . $chatId);
+                    $baseBot->setUserText($text);
+                    $baseBot->runMethod();
 
-                })
+                } else {
+                    $baseBot = new BaseBot(BaseBot::TYPE_VIBER, $chatId);
+                    $baseBot->setUserText($text);
+                    $baseBot->runMethod();
+
+                    Cache::put(BaseBot::TYPE_VIBER . "/" . $chatId, $baseBot, BaseBot::TIME_CACHE);
+                }
+
+
+
+
+            })
                 ->run();
         } catch (Exception $e) {
             Log::info('not send message');
