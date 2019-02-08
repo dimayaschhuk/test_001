@@ -115,9 +115,12 @@ trait ProtectCulture
         $userText = $this->bot->getUserText();
 
         if ($culture->checkProblem($userText)) {
-            $this->sendText('dddd');
+            $this->bot->sentText('true');
             $this->bot->setProblemId(Problem::where('name', $userText)->first()->id);
             $this->sendTextProduct();
+            exit;
+        }else{
+            $this->bot->sentText('false');
             exit;
         }
 
