@@ -57,13 +57,14 @@ trait Methods
             $this->sendTextCulture();
             exit;
         }
-
-        $this->bot->setText('Виберіть із списка одну культуру яка вам найбільше підходить');
-        $this->bot->setKeyboard(Culture::where('name', 'LIKE', "{$this->bot->getUserText()}%")
+        $cultureNames = Culture::where('name', 'LIKE', "{$this->bot->getUserText()}%")
             ->limit(9)
             ->pluck('name')
-            ->toArray()
-        );
+            ->toArray();
+
+        $this->bot->setText('Виберіть із списка одну культуру яка вам найбільше підходить');
+        $this->bot->setKeyboard($cultureNames);
+        Cache::put('webBot', $cultureNames, BaseBot::TIME_CACHE);
         $this->bot->send(BaseBot::KEYBOARD);
     }
 
