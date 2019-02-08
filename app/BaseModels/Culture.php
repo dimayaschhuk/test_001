@@ -48,7 +48,7 @@ class Culture extends Model
         $problemsGroups = [];
         foreach ($verminGroups as $problemsGroup) {
             $problemsGroups[$problemsGroup->name] = [
-                'problemName'        => Problem::whereIn('id', $verminId)
+                'problemName'    => Problem::whereIn('id', $verminId)
                     ->where('groupId', $problemsGroup->id)
                     ->pluck('name')
                     ->toArray(),
@@ -75,7 +75,7 @@ class Culture extends Model
         $problemNames = [];
         foreach ($this->getProblemGroup() as $key => $item) {
             if ($problemGroupId == $item['problemGroupId']) {
-                $problemNames[] = $item['problemName'];
+                $problemNames = $item['problemName'];
             }
 
         }
