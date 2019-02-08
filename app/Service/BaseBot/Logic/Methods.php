@@ -84,25 +84,21 @@ trait Methods
         $culture = Culture::find($this->bot->getCultureId());
 
         if ($culture->checkProblem($this->bot->getUserText())) {
-            $this->bot->sendText('1');
             $this->sendTextProblem();
             exit;
         }
 
         if ($culture->checkProblemGroup($this->bot->getUserText())) {
-            $this->bot->sendText('2');
             $this->bot->setProblemGroupId(ProblemGroup::where('name', $this->bot->getUserText())->first()->id);
             $this->sendTextProblem();
             exit;
         }
 
         if (empty($culture->getProblemGroupNames())) {
-            $this->bot->sendText('3');
             $this->bot->sendText('До даної культури немає продуктів');
             $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_CULTURE);
             $this->sendTextCulture();
         } else {
-            $this->bot->sendText('3');
             $this->bot->setText('Виберіть із списка групу в яку входить ваша проблема');
             $this->bot->setKeyboard($culture->getProblemGroupNames());
             $this->bot->send(BaseBot::KEYBOARD);
@@ -166,7 +162,6 @@ trait Methods
             if (count($productsNames) === 1) {
                 $product = Product::where('name', $productsNames[0])->first();
                 $this->bot->setProductId($product->id);
-                $this->bot->sendText('one product');
                 $this->bot->sendText('Для вирішення даної проблему найдено тільки один препарат: ' . $product->name);
                 exit;
             }
