@@ -21,7 +21,6 @@ class Logic
     const METHOD_SELECT_FLOW = 'selectFlow';
     const METHOD_SEND_TEXT_CULTURE = 'sendTextCulture';
     const METHOD_SEARCH_CULTURE = 'searchCulture';
-    const METHOD_SELECT_CULTURE = 'selectCulture';
     const METHOD_SEND_TEXT_PROBLEM_GROUP = 'sendTextProblemGroup';
     const METHOD_SELECT_PROBLEM_GROUP = 'selectProblemGroup';
     const METHOD_SEND_TEXT_PROBLEM = 'sendTextProblem';
@@ -62,9 +61,11 @@ class Logic
                 $this->searchCulture();
             }
 
-            if ($this->bot->currentMethod == self::METHOD_SELECT_CULTURE) {
-                $this->selectCulture();
+            if ($this->bot->currentMethod == self::METHOD_SEND_TEXT_PROBLEM_GROUP) {
+                $this->sendTextProblemGroup();
             }
+
+
         }
     }
 
@@ -77,7 +78,6 @@ class Logic
             self::FLOW_PROTECT_CULTURE => [
                 self::METHOD_SEND_TEXT_CULTURE,
                 self::METHOD_SEARCH_CULTURE,
-                self::METHOD_SELECT_CULTURE,
                 self::METHOD_SEND_TEXT_PROBLEM_GROUP,
                 self::METHOD_SELECT_PROBLEM_GROUP,
                 self::METHOD_SEND_TEXT_PROBLEM,

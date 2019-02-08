@@ -47,7 +47,8 @@ trait Methods
     public function searchCulture()
     {
         if (Culture::where('name', $this->bot->getUserText())->count() === 1) {
-            $this->selectCulture();
+            $this->bot->setCultureId(Culture::where('name', $this->bot->getUserText())->value('id'));
+            $this->sendTextProblemGroup();
             exit;
         }
 
@@ -70,17 +71,34 @@ trait Methods
     }
 
 
-    public function selectCulture()
-    {
-//        $this->bot->sendText('RUN selectCulture');
-        $this->bot->setCultureId(Culture::where('name', $this->bot->getUserText())->value('id'));
-        $this->bot->setCurrentMethod(Logic::METHOD_SELECT_CULTURE);
-    }
-
-
     public function sendTextProblemGroup()
     {
+        $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM_GROUP);
+        $culture = Culture::find($this->bot->getCultureId());
+
+
+        if ($culture->checkProblem($this->bot->getUserText())) {
+//            $this->selectProblem($chatId, $text);
+            $this->bot->sendText("checkProblem");
+            exit;
+        }
+
+
+        if ($culture->checkProblemGroup($this->bot->getUserText())) {
+            $this->bot->sendText("checkProblemGroup");
+            exit;
+        }
+
+
+        if (empty($culture->getProblemGroupNames())) {
+            $this->bot->sendText('До даної культури немає продуктів');
+            $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_CULTURE);
+            $this->sendTextCulture();
+        } else {
+            $this->bot->setText('Виберіть із списка групу в яку входить ваша проблема');
+            $this->bot->keyboard($culture->getProblemGroupNames());
+
+        }
 
     }
-
 }
