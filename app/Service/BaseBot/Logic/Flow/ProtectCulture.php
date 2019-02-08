@@ -119,8 +119,6 @@ trait ProtectCulture
             $this->bot->setProblemId(Problem::where('name', $userText)->first()->id);
             $this->sendTextProduct();
             exit;
-        }else{
-            $this->bot->sentText('false');
         }
 
         if (empty($culture->getProblemNames($this->bot->getProblemGroupId()))) {
