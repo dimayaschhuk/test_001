@@ -152,28 +152,34 @@ trait Methods
     {
         $this->bot->sendText('sendTextProduct');
         $culture = Culture::find($this->bot->getCultureId());
+        $productsNames = $culture->getProductsNames($this->bot->getProblemId());
 
         if ($culture->checkProduct($this->bot->getUserText(), $this->bot->getProblemId())) {
+            $key = array_search($this->bot->getUserText(), $productsNames);
+            if(isset($productsNames[$key])){
+                $product = Product::where('name', $productsNames[$key])->first();
+                $this->bot->setProductId($product->id);
+                $this->bot->sendText('selected product 111');
+            }
 
+            $this->bot->sendText('selected product');
             exit;
         }
 
-        if (empty($culture->getProductsNames($this->bot->getProblemId()))) {
+        if (empty($productsNames)) {
             $this->bot->sendText('Препаратів не знайдено виберіть іншу проблему');
             $this->sendTextProblem();
         } else {
-            $this->bot->sendText('else');
-//            if (count($culture->getProductsNames($this->bot->getProblemId())) === 1) {
-//                $this->bot->setProductId(Product::where('name',$culture->getProductsNames($this->bot->getProblemId())));
-//                $test['productName'] = $culture->getProductsNames($data['problem_id'])[0];
-//                Cache::put('test', $test, self::TIME_CACHE);
-//                send_text($chatId,
-//                    'Для вирішення даної проблему найдено тільки один препарат: ');
-//                $this->selectProduct($chatId, $text);
-//                exit;
-//            }
-//            $keyboard = get_keyboard($culture->getProductsNames($data['problem_id']));
-//            send_keyboard($chatId, $keyboard, 'Для вирішення вашої проблеми підходять такі препарати');
+            if (count($productsNames) === 1) {
+                $product = Product::where('name', $productsNames[0])->first();
+                $this->bot->setProductId($product->id);
+                $this->bot->sendText('Для вирішення даної проблему найдено тільки один препарат: ' . $product->name);
+                $this->bot->sendText('selected product');
+                exit;
+            }
+            $this->bot->setKeyboard($productsNames);
+            $this->bot->setText('Для вирішення вашої проблеми підходять такі препарати');
+            $this->bot->send(BaseBot::KEYBOARD);
         }
     }
 }
