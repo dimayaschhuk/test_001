@@ -121,7 +121,6 @@ trait ProtectCulture
             exit;
         }else{
             $this->bot->sentText('false');
-            exit;
         }
 
         if (empty($culture->getProblemNames($this->bot->getProblemGroupId()))) {
