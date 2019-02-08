@@ -91,22 +91,28 @@ class Culture extends Model
 
     public function getProductsNames($problemId)
     {
-        try {
-            $productAllNames = [];
-            foreach ($this->technologies as $technology) {
-                $productAllNames[] = $technology->product->name;
-            }
-            $productNames = [];
-            $problemTechnologies = Problem::find($problemId)->technologies;
-            foreach ($problemTechnologies as $technology) {
-                $productNames[] = $technology->product->name;
-            }
 
-            return array_intersect($productAllNames, $productNames);
-        } catch (\ErrorException $errorException) {
-            return [];
-        }
+        $cultureCropProcessingId = DB::table('pd_CultureForCropProcessing')
+            ->where('cultureId', $this->id)
+            ->pluck('cropProcessingId')
+            ->toArray();
 
+        $verminCropProcessingId = DB::table('pd_VerminForCropProcessing')
+            ->where('verminId', $problemId)
+            ->pluck('cropProcessingId')
+            ->toArray();
+
+        $cropProcessingIds = array_intersect($cultureCropProcessingId, $verminCropProcessingId);
+
+        $productIds = Technology::whereIn('id', $cropProcessingIds)
+            ->pluck('productId')
+            ->toArray();
+
+        $productNames = Product::whereIn('id', $productIds)
+            ->pluck('name')
+            ->toArray();
+
+        return $productNames;
     }
 
 
