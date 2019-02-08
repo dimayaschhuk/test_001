@@ -58,7 +58,7 @@ trait Methods
             exit;
         }
         $cultureNames = Culture::where('name', 'LIKE', "{$this->bot->getUserText()}%")
-            ->limit(6)
+            ->limit(12)
             ->pluck('name')
             ->toArray();
 

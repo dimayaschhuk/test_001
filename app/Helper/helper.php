@@ -124,7 +124,7 @@ if (!function_exists('send_keyboard_viber')) {
         $keyboard = new Keyboard();
         $buttons = [];
         $rows = 1;
-        $columns = 3;
+        $columns = 2;
 //        if (count($baseBot->getKeyboard()) % 3 == 0) {
 //            $columns = 3;
 //        }
