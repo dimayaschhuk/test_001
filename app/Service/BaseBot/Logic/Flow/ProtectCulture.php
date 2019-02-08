@@ -9,6 +9,12 @@
 namespace App\Service\BaseBot\Logic\Flow;
 
 
+use App\BaseModels\Culture;
+use App\BaseModels\ProblemGroup;
+use App\BaseModels\Product;
+use App\Service\BaseBot\BaseBot;
+use App\Service\BaseBot\Logic\Logic;
+
 trait ProtectCulture
 {
 
