@@ -141,6 +141,7 @@ trait ProtectCulture
 
     public function sendTextProduct()
     {
+        $this->sendText('sssss');
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PRODUCT);
         $culture = Culture::find($this->bot->getCultureId());
         $productsNames = $culture->getProductsNames($this->bot->getProblemId());
