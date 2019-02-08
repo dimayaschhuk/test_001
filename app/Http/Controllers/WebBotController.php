@@ -10,21 +10,23 @@ class WebBotController extends Controller
 {
 
 
-    public function webhook($text = "null")
+    public function webhook($text = "Захист культури")
     {
-        $chatId = 563738410;
+        $chatId = "cT0AJq4mBsVbUX1ITQRd4w==";
 
-        if (Cache::has(BaseBot::TYPE_TELGRAM . "/" . $chatId)) {
-            $baseBot = Cache::get(BaseBot::TYPE_TELGRAM . "/" . $chatId);
+        if (Cache::has("webBot")) {
+            $baseBot = Cache::get("webBot");
             $baseBot->setUserText($text);
             $baseBot->runMethod();
-
+            dd($baseBot);
         } else {
-            $baseBot = new BaseBot(BaseBot::TYPE_TELGRAM, $chatId);
+
+            $baseBot = new BaseBot(BaseBot::TYPE_VIBER, $chatId);
+            dd($baseBot);
             $baseBot->setUserText($text);
             $baseBot->runMethod();
 
-            Cache::put(BaseBot::TYPE_TELGRAM . "/" . $chatId, $baseBot, BaseBot::TIME_CACHE);
+            Cache::put("webBot", $baseBot, BaseBot::TIME_CACHE);
         }
 
 

@@ -19,6 +19,7 @@ class BaseBot
     protected $problemId;
     protected $brandId;
     protected $productId;
+    protected $cultureId;
 
     protected $text;
     protected $keyboard;
@@ -93,6 +94,18 @@ class BaseBot
         return $this->keyboard;
     }
 
+
+    public function getCultureId()
+    {
+        return $this->cultureId;
+    }
+
+
+    public function setCultureId($cultureId): void
+    {
+        $this->cultureId = $cultureId;
+        $this->saveCache();
+    }
 
     public function setText($text): void
     {

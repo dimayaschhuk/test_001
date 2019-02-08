@@ -47,7 +47,6 @@ trait Methods
     public function searchCulture()
     {
         if (Culture::where('name', $this->bot->getUserText())->count() === 1) {
-            $this->bot->setCurrentMethod(Logic::METHOD_SELECT_CULTURE);
             $this->selectCulture();
             exit;
         }
@@ -61,8 +60,9 @@ trait Methods
 
         $this->bot->setText('Виберіть із списка одну культуру яка вам найбільше підходить');
         $this->bot->setKeyboard(Culture::where('name', 'LIKE', "{$this->bot->getUserText()}%")
-                ->pluck('name')
-                ->toArray()
+            ->limit(9)
+            ->pluck('name')
+            ->toArray()
         );
         $this->bot->send(BaseBot::KEYBOARD);
     }
@@ -70,11 +70,11 @@ trait Methods
 
     public function selectCulture()
     {
-//        $data = Cache::get($chatId);
-//        $data['method'] = 'selectCulture';s
-//        $data['culture_id'] = Culture::where('name', $text)->value('id');
-//        Cache::put($chatId, $data, self::TIME_CACHE);
-//        $this->sendTextProblemGroup($chatId, $text);
+        $this->bot->setCultureId(Culture::where('name', $this->bot->getUserText())->value('id'));
+        $this->bot->setCurrentMethod(Logic::METHOD_SELECT_CULTURE);
+        $this->nextMethod();
+        $this->runMethod();
+
     }
 
 }

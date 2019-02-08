@@ -53,7 +53,7 @@ Route::get('/deleteMyCacheTelegram', function () {
 
 Route::get('/deleteMyCacheWeb', function () {
     {
-        Cache::pull(BaseBot::TYPE_TELGRAM . "/" . "563738410");
+        Cache::pull("webBot");
         dd('delete web...done');
     }
 });
@@ -61,7 +61,7 @@ Route::get('/deleteMyCacheWeb', function () {
 Route::get('/getMyCacheWeb', function () {
     {
 
-        dd(Cache::get(BaseBot::TYPE_TELGRAM . "/" . "563738410"));
+        dd(Cache::get("webBot"));
     }
 });
 
