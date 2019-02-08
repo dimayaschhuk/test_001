@@ -18,11 +18,10 @@ class WebBotController extends Controller
             $baseBot = Cache::get("webBot");
             $baseBot->setUserText($text);
             $baseBot->runMethod();
-            dd($baseBot);
+
         } else {
 
             $baseBot = new BaseBot(BaseBot::TYPE_VIBER, $chatId);
-            dd($baseBot);
             $baseBot->setUserText($text);
             $baseBot->runMethod();
 
