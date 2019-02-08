@@ -10,6 +10,8 @@ namespace App\Service\BaseBot\Logic;
 
 
 use App\BaseModels\Culture;
+use App\BaseModels\Problem;
+use App\BaseModels\ProblemGroup;
 use App\Service\BaseBot\BaseBot;
 use Illuminate\Support\Facades\Cache;
 
@@ -69,7 +71,6 @@ trait Methods
         $this->bot->setKeyboard($cultureNames);
         $this->bot->send(BaseBot::KEYBOARD);
 
-        //        Cache::put('webBot', $cultureNames, BaseBot::TIME_CACHE);
     }
 
 
@@ -86,25 +87,55 @@ trait Methods
 
 
         if ($culture->checkProblemGroup($this->bot->getUserText())) {
-            $this->bot->sendText("checkProblemGroup");
+            $this->bot->setProblemGroupId(ProblemGroup::where('name',$this->bot->getUserText())->first()->id);
+            $this->sendTextProblem();
             exit;
         }
 
 
 
         if (empty($culture->getProblemGroupNames())) {
-//            $this->bot->sendText("empty(dfdf)");
             $this->bot->sendText('До даної культури немає продуктів');
             $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_CULTURE);
             $this->sendTextCulture();
         } else {
-            $this->bot->sendText("else");
             $this->bot->setText('Виберіть із списка групу в яку входить ваша проблема');
             $this->bot->setKeyboard($culture->getProblemGroupNames());
             $this->bot->send(BaseBot::KEYBOARD);
             exit;
 
         }
+
+    }
+
+    public function sendTextProblem()
+    {
+        $culture = Culture::find($this->bot->getCultureId());
+
+        if ($culture->checkProblem($this->bot->getUserText())) {
+            $this->bot->setProblemId(Problem::where('name',$this->bot->getUserText())->first()->id);
+            $this->sendTextProduct();
+            exit;
+        }
+
+
+        if (empty($culture->getProblemNames($data['problemGroup_id']))) {
+            if ($culture->getProblemNames()) {
+                send_text($chatId, 'До даної культури немає проблем');
+                $data = Cache::get($chatId);
+                $data['method'] = 'welcome';
+                Cache::put($chatId, $data, self::TIME_CACHE);
+                $this->sendTextCulture($chatId, $text);
+                exit;
+            }
+            send_text($chatId, 'До даної культури немає проблем');
+            $this->sendTextProblemGroup($chatId, $text);
+            exit;
+        } else {
+            $keyboard = get_keyboard($culture->getProblemNames($data['problemGroup_id']));
+            send_keyboard($chatId, $keyboard, 'Виберіть назву проблеми');
+        }
+
 
     }
 }
