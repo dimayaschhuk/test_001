@@ -64,13 +64,15 @@ trait Methods
 
         $this->bot->setText('Виберіть із списка одну культуру яка вам найбільше підходить');
         $this->bot->setKeyboard($cultureNames);
-        Cache::put('webBot', $cultureNames, BaseBot::TIME_CACHE);
         $this->bot->send(BaseBot::KEYBOARD);
+
+        //        Cache::put('webBot', $cultureNames, BaseBot::TIME_CACHE);
     }
 
 
     public function selectCulture()
     {
+        $this->bot->sendText('RUN selectCulture');
         $this->bot->setCultureId(Culture::where('name', $this->bot->getUserText())->value('id'));
         $this->bot->setCurrentMethod(Logic::METHOD_SELECT_CULTURE);
         $this->nextMethod();
