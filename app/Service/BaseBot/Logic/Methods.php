@@ -36,6 +36,7 @@ trait Methods
         }
 
         $this->welcome();
+        exit;
     }
 
     public function sendTextCulture()
@@ -74,7 +75,6 @@ trait Methods
 
     public function sendTextProblemGroup()
     {
-        $this->bot->sendText("start sendTextProblemGroup");
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM_GROUP);
         $culture = Culture::find($this->bot->getCultureId());
 
@@ -93,14 +93,16 @@ trait Methods
 
 
         if (empty($culture->getProblemGroupNames())) {
-            $this->bot->sendText("empty(dfdf)");
+//            $this->bot->sendText("empty(dfdf)");
             $this->bot->sendText('До даної культури немає продуктів');
             $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_CULTURE);
             $this->sendTextCulture();
         } else {
             $this->bot->sendText("else");
             $this->bot->setText('Виберіть із списка групу в яку входить ваша проблема');
-            $this->bot->keyboard($culture->getProblemGroupNames());
+            $this->bot->setKeyboard($culture->getProblemGroupNames());
+            $this->bot->send(BaseBot::KEYBOARD);
+            exit;
 
         }
 
