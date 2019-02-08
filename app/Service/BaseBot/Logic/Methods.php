@@ -74,11 +74,8 @@ trait Methods
         $this->bot->send(BaseBot::KEYBOARD);
 
     }
+
 //==================================================
-
-
-
-
 
 
     public function sendTextProblemGroup()
@@ -119,15 +116,16 @@ trait Methods
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM);
         $culture = Culture::find($this->bot->getCultureId());
 
-
-        if ($culture->checkProblem($this->bot->getUserText())) {
+        $test = 'Совки';
+        if ($culture->checkProblem($test)) {
             $this->bot->sendText('checkProblem');
 //            $this->bot->setProblemId(Problem::where('name', $this->bot->getUserText())->first()->id);
 //            Cache::put("webBot", Problem::where('name', $this->bot->getUserText())->first()->id, BaseBot::TIME_CACHE);
 //            $this->sendTextProduct();
             exit;
-        }else{
+        } else {
             $this->bot->sendText('else');
+            exit;
         }
 
 
