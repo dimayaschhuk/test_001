@@ -22,11 +22,8 @@ class Logic
     const METHOD_SEND_TEXT_CULTURE = 'sendTextCulture';
     const METHOD_SEARCH_CULTURE = 'searchCulture';
     const METHOD_SEND_TEXT_PROBLEM_GROUP = 'sendTextProblemGroup';
-    const METHOD_SELECT_PROBLEM_GROUP = 'selectProblemGroup';
     const METHOD_SEND_TEXT_PROBLEM = 'sendTextProblem';
-    const METHOD_SELECT_PROBLEM = 'selectProblem';
-    const METHOD_SEARCH_PRODUCT = 'searchProduct';
-    const METHOD_SELECT_PRODUCT = 'selectProduct';
+    const METHOD_SEND_TEXT_PRODUCT = 'sendTextProduct';
 
     const FLOW_PROTECT_CULTURE = 'protectCulture';
 
@@ -65,6 +62,14 @@ class Logic
                 $this->sendTextProblemGroup();
             }
 
+            if ($this->bot->currentMethod == self::METHOD_SEND_TEXT_PROBLEM) {
+                $this->sendTextProblem();
+            }
+
+            if ($this->bot->currentMethod == self::METHOD_SEND_TEXT_PRODUCT) {
+                $this->sendTextProduct();
+            }
+
 
         }
     }
@@ -79,11 +84,7 @@ class Logic
                 self::METHOD_SEND_TEXT_CULTURE,
                 self::METHOD_SEARCH_CULTURE,
                 self::METHOD_SEND_TEXT_PROBLEM_GROUP,
-                self::METHOD_SELECT_PROBLEM_GROUP,
                 self::METHOD_SEND_TEXT_PROBLEM,
-                self::METHOD_SELECT_PROBLEM,
-                self::METHOD_SEARCH_PRODUCT,
-                self::METHOD_SELECT_PRODUCT,
             ],
         ];
     }
@@ -91,10 +92,10 @@ class Logic
     public function nextMethod()
     {
 
-        if(in_array($this->bot->currentMethod,$this->getMethod()[$this->bot->currentFlow])){
+        if (in_array($this->bot->currentMethod, $this->getMethod()[$this->bot->currentFlow])) {
             $key = array_search($this->bot->currentFlow, $this->getMethod()[$this->bot->currentFlow]);
             $this->bot->setCurrentMethod($this->getMethod()[$this->bot->currentFlow][$key + 1]);
-        }else{
+        } else {
             $this->bot->setCurrentMethod($this->getMethod()[$this->bot->currentFlow][0]);
         }
     }

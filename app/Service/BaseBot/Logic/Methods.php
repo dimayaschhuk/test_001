@@ -83,19 +83,16 @@ trait Methods
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM_GROUP);
         $culture = Culture::find($this->bot->getCultureId());
 
-
         if ($culture->checkProblem($this->bot->getUserText())) {
             $this->sendTextProblem();
             exit;
         }
-
 
         if ($culture->checkProblemGroup($this->bot->getUserText())) {
             $this->bot->setProblemGroupId(ProblemGroup::where('name', $this->bot->getUserText())->first()->id);
             $this->sendTextProblem();
             exit;
         }
-
 
         if (empty($culture->getProblemGroupNames())) {
             $this->bot->sendText('До даної культури немає продуктів');
@@ -115,17 +112,13 @@ trait Methods
     {
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM);
         $culture = Culture::find($this->bot->getCultureId());
+        $userText = $this->bot->getUserText();
 
-        $test = 'Совки';
-        if ($culture->checkProblem($test)) {
-            $this->bot->setProblemId(Problem::where('name', $test)->first()->id);
+        if ($culture->checkProblem($userText)) {
+            $this->bot->setProblemId(Problem::where('name', $userText)->first()->id);
             $this->sendTextProduct();
             exit;
-        } else {
-            $this->bot->sendText('else');
-            exit;
         }
-
 
         if (empty($culture->getProblemNames($this->bot->getProblemGroupId()))) {
             if ($culture->getProblemNames()) {
@@ -150,13 +143,14 @@ trait Methods
 
     public function sendTextProduct()
     {
+        $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PRODUCT);
         $this->bot->sendText('sendTextProduct');
         $culture = Culture::find($this->bot->getCultureId());
         $productsNames = $culture->getProductsNames($this->bot->getProblemId());
 
         if ($culture->checkProduct($this->bot->getUserText(), $this->bot->getProblemId())) {
             $key = array_search($this->bot->getUserText(), $productsNames);
-            if(isset($productsNames[$key])){
+            if (isset($productsNames[$key])) {
                 $product = Product::where('name', $productsNames[$key])->first();
                 $this->bot->setProductId($product->id);
                 $this->bot->sendText('selected product 111');
