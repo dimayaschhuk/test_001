@@ -60,7 +60,7 @@ class ViberController extends Controller
 
                     } else {
                         $baseBot = new BaseBot(BaseBot::TYPE_VIBER, $chatId);
-                        $baseBot->sendText('RUN');
+                        $baseBot->sendText('START');
 
 //                        $baseBot->setUserText($text);
 //                        $baseBot->runMethod();
