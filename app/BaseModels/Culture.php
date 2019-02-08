@@ -87,7 +87,7 @@ class Culture extends Model
                     foreach ($item['problemName'] as $value) {
                         $trimProblemName[] = trim($value);
                     }
-                    $problemNames[] = $trimProblemName;
+                    $problemNames = $trimProblemName;
                 }
             }
         }
