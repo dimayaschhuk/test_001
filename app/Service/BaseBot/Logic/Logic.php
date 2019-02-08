@@ -10,11 +10,12 @@ namespace App\Service\BaseBot\Logic;
 
 
 use App\Service\BaseBot\BaseBot;
-use ErrorException;
+use App\Service\BaseBot\Logic\Flow\ProtectCulture;
 
 class Logic
 {
     use Methods;
+    use ProtectCulture;
     protected $bot;
 
     const METHOD_WELCOME = 'welcome';
