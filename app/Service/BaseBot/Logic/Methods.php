@@ -88,14 +88,12 @@ trait Methods
 
 
         if ($culture->checkProblem($this->bot->getUserText())) {
-            $this->bot->sendText('checkProblem');
-//            $this->sendTextProblem();
+            $this->sendTextProblem();
             exit;
         }
 
 
         if ($culture->checkProblemGroup($this->bot->getUserText())) {
-            $this->bot->sendText('checkProblemGroup');
             $this->bot->setProblemGroupId(ProblemGroup::where('name', $this->bot->getUserText())->first()->id);
             $this->sendTextProblem();
             exit;
@@ -119,13 +117,13 @@ trait Methods
     public function sendTextProblem()
     {
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM);
-        $this->bot->sendText(Logic::METHOD_SEND_TEXT_PROBLEM);
         $culture = Culture::find($this->bot->getCultureId());
 
         if ($culture->checkProblem($this->bot->getUserText())) {
-            $this->bot->setProblemId(Problem::where('name', $this->bot->getUserText())->first()->id);
-            Cache::put("webBot", Problem::where('name', $this->bot->getUserText())->first()->id, BaseBot::TIME_CACHE);
-            $this->sendTextProduct();
+            $this->bot->sendText('checkProblem');
+//            $this->bot->setProblemId(Problem::where('name', $this->bot->getUserText())->first()->id);
+//            Cache::put("webBot", Problem::where('name', $this->bot->getUserText())->first()->id, BaseBot::TIME_CACHE);
+//            $this->sendTextProduct();
             exit;
         }
 
@@ -138,7 +136,7 @@ trait Methods
                 exit;
             }
 
-            $this->bot->sentText('До даної культури немає проблем');
+            $this->bot->sentText('До даної культури не знайдено проблеми з цієї групи проблем');
             $this->sendTextProblemGroup();
             exit;
         } else {
