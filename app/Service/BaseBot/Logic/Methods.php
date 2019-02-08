@@ -142,6 +142,7 @@ trait Methods
 
     public function sendTextProduct()
     {
+        $this->bot->sendText('sendTextProduct');
         $culture = Culture::find($this->bot->getCultureId());
 
         if ($culture->checkProduct($this->bot->getUserText(), $this->bot->getProblemId())) {
