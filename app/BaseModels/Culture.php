@@ -3,6 +3,7 @@
 namespace App\BaseModels;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Culture extends Model
 {
@@ -19,24 +20,50 @@ class Culture extends Model
         'ord',
     ];
 
-//    protected $appends = [
-//        'problem_id',
-//    ];
 
     public function technologies()
     {
         return $this->belongsToMany(Technology::class, 'pd_CultureForCropProcessing', 'cultureId', 'cropProcessingId');
     }
 
+    public function getProblemGroup()
+    {
+        $cropProcessingId = DB::table('pd_CultureForCropProcessing')
+            ->where('cultureId', $this->id)
+            ->pluck('cropProcessingId')
+            ->toArray();
+
+        $verminGroupId = DB::table('pd_VerminForCropProcessing')
+            ->whereIn('cropProcessingId', $cropProcessingId)
+            ->pluck('verminGroupId')
+            ->toArray();
+
+        $verminId = DB::table('pd_VerminForCropProcessing')
+            ->whereIn('cropProcessingId', $cropProcessingId)
+            ->pluck('verminId')
+            ->toArray();
+
+        $verminGroups = ProblemGroup::whereIn('id', $verminGroupId)->get();
+
+        $problemsGroups = [];
+        foreach ($verminGroups as $problemsGroup) {
+            $problemsGroups[$problemsGroup->name] = [
+                'problemName'        => Problem::whereIn('id', $verminId)
+                    ->where('groupId', $problemsGroup->id)
+                    ->pluck('name')
+                    ->toArray(),
+                'problemGroupId' => $problemsGroup->id,
+            ];
+        }
+
+        return $problemsGroups;
+    }
+
     public function getProblemGroupNames()
     {
         $problemGroupsNames = [];
-        foreach ($this->technologies as $technology) {
-            foreach ($technology->problem_groups as $problem_group) {
-                if (!in_array($problem_group->name, $problemGroupsNames)) {
-                    $problemGroupsNames[] = $problem_group->name;
-                }
-            }
+        foreach ($this->getProblemGroup() as $key => $item) {
+            $problemGroupsNames[] = $key;
         }
 
         return $problemGroupsNames;
@@ -45,32 +72,15 @@ class Culture extends Model
     public function getProblemNames($problemGroupId = NULL)
     {
 
-        if ($problemGroupId != NULL) {
-            $problemNames = ProblemGroup::find($problemGroupId)->problems->pluck('name')->toArray();
-            $problemNames = array_intersect($problemNames, $this->getProblemNames());
-            $ProblemNames = [];
-            foreach ($problemNames as $item) {
-                if (!in_array($item, $ProblemNames)) {
-                    $problemGroupsNames[] = $item;
-                }
-            }
-
-            return $ProblemNames;
-        }
-
         $problemNames = [];
-        $ProblemNames = [];
-        foreach ($this->technologies as $technology) {
-            $problemNames = array_merge($problemNames, $technology->problems->pluck('name')->toArray());
-        }
-
-        foreach ($problemNames as $item) {
-            if (!in_array($item, $ProblemNames)) {
-                $ProblemNames[] = $item;
+        foreach ($this->getProblemGroup() as $key => $item) {
+            if ($problemGroupId == $item['problemGroupId']) {
+                $problemNames[] = $item['problemName'];
             }
+
         }
 
-        return $ProblemNames;
+        return $problemNames;
     }
 
 
