@@ -89,16 +89,12 @@ trait Methods
 
 
         if ($culture->checkProblem($this->bot->getUserText())) {
-            Cache::put('webBot',Problem::where('name', $this->bot->getUserText())->first()->id,1);
-            $this->bot->sendText('checkProblem == checkProblem');
-//            $this->bot->setProblemId(Problem::where('name', $this->bot->getUserText())->first()->id);
+            $this->sendTextProblem();
             exit;
         }
 
 
         if ($culture->checkProblemGroup($this->bot->getUserText())) {
-            Cache::put('webBot',ProblemGroup::where('name', $this->bot->getUserText())->first()->id,1);
-            $this->bot->sendText('checkProblemGroup == checkProblemGroup');
             $this->bot->setProblemGroupId(ProblemGroup::where('name', $this->bot->getUserText())->first()->id);
             $this->sendTextProblem();
             exit;
@@ -122,6 +118,7 @@ trait Methods
     public function sendTextProblem()
     {
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM);
+        $this->bot->setText(Logic::METHOD_SEND_TEXT_PROBLEM);
         $culture = Culture::find($this->bot->getCultureId());
 
         if ($culture->checkProblem($this->bot->getUserText())) {
