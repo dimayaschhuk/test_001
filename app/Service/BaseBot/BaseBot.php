@@ -69,6 +69,15 @@ class BaseBot
     }
 
 
+    public function getProblemGroupId()
+    {
+        return $this->problemGroupId;
+    }
+
+
+
+
+
     public function getUserText()
     {
         return $this->userText;
@@ -100,6 +109,11 @@ class BaseBot
         return $this->cultureId;
     }
 
+    public function setProblemGroupId($problemGroupId): void
+    {
+        $this->problemGroupId = $problemGroupId;
+        $this->saveCache();
+    }
 
     public function setCultureId($cultureId): void
     {

@@ -19,7 +19,6 @@ trait Methods
 {
     public function welcome()
     {
-//        $this->bot->sendText('test:welcome');
         $this->bot->setText("Виберіть гілку");
         $this->bot->setKeyboard(['Захист культури', 'Продукти']);
         $this->bot->send(BaseBot::KEYBOARD);
@@ -87,6 +86,7 @@ trait Methods
 
 
         if ($culture->checkProblemGroup($this->bot->getUserText())) {
+            $this->bot->sendText("checkProblemGroup");
             $this->bot->setProblemGroupId(ProblemGroup::where('name',$this->bot->getUserText())->first()->id);
             $this->sendTextProblem();
             exit;
