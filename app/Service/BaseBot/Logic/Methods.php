@@ -60,7 +60,7 @@ trait Methods
         }
 
         $this->bot->setText('Виберіть із списка одну культуру яка вам найбільше підходить');
-        $this->bot->setKeyboard(Culture::where('name', 'LIKE', "%{$this->bot->getUserText()}")
+        $this->bot->setKeyboard(Culture::where('name', 'LIKE', "{$this->bot->getUserText()}%")
                 ->pluck('name')
                 ->toArray()
         );
