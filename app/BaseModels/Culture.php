@@ -74,12 +74,20 @@ class Culture extends Model
         $problemNames = [];
         if ($problemGroupId == NULL) {
             foreach ($this->getProblemGroup() as $key => $item) {
-                $problemNames[] = $item['problemName'];
+                $trimProblemName = [];
+                foreach ($item['problemName'] as $value) {
+                    $trimProblemName[] = trim($value);
+                }
+                $problemNames[] = $trimProblemName;
             }
         } else {
             foreach ($this->getProblemGroup() as $key => $item) {
                 if ($problemGroupId == $item['problemGroupId']) {
-                    $problemNames = $item['problemName'];
+                    $trimProblemName = [];
+                    foreach ($item['problemName'] as $value) {
+                        $trimProblemName[] = trim($value);
+                    }
+                    $problemNames[] = $trimProblemName;
                 }
             }
         }
@@ -132,15 +140,15 @@ class Culture extends Model
     public function checkProblem($nameProblem, $problemGroupId = NULL)
     {
         if ($problemGroupId != NULL) {
+
             return in_array($nameProblem, $this->getProblemNames($problemGroupId));
         } else {
-            foreach ($this->getProblemNames() as $problemName) {
-                if (in_array($nameProblem, $problemName)) {
+            foreach ($this->getProblemNames() as $problemNames) {
+                if (in_array($nameProblem, $problemNames)) {
                     return TRUE;
                 }
             }
         }
-
 
         return FALSE;
     }
