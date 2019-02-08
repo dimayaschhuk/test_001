@@ -71,14 +71,19 @@ class Culture extends Model
 
     public function getProblemNames($problemGroupId = NULL)
     {
-
         $problemNames = [];
-        foreach ($this->getProblemGroup() as $key => $item) {
-            if ($problemGroupId == $item['problemGroupId']) {
-                $problemNames = $item['problemName'];
+        if ($problemGroupId == NULL) {
+            foreach ($this->getProblemGroup() as $key => $item) {
+                $problemNames[] = $item['problemName'];
             }
-
+        } else {
+            foreach ($this->getProblemGroup() as $key => $item) {
+                if ($problemGroupId == $item['problemGroupId']) {
+                    $problemNames = $item['problemName'];
+                }
+            }
         }
+
 
         return $problemNames;
     }
@@ -118,9 +123,20 @@ class Culture extends Model
         return in_array($nameProduct, $this->getProductsNames($problemId));
     }
 
-    public function checkProblem($nameProblem = '')
+    public function checkProblem($nameProblem, $problemGroupId = NULL)
     {
-        return in_array($nameProblem, $this->getProblemNames());
+        if ($problemGroupId != NULL) {
+            return in_array($nameProblem, $this->getProblemNames($problemGroupId));
+        } else {
+            foreach ($this->getProblemNames() as $problemName) {
+                if (in_array($nameProblem, $problemName)) {
+                    return TRUE;
+                }
+            }
+        }
+
+
+        return FALSE;
     }
 
     public function checkProblemGroup($nameProblemGroup)
