@@ -86,12 +86,10 @@ trait Methods
 
 
         if ($culture->checkProblemGroup($this->bot->getUserText())) {
-            $this->bot->sendText("checkProblemGroup");
-            $this->bot->setProblemGroupId(ProblemGroup::where('name',$this->bot->getUserText())->first()->id);
+            $this->bot->setProblemGroupId(ProblemGroup::where('name', $this->bot->getUserText())->first()->id);
             $this->sendTextProblem();
             exit;
         }
-
 
 
         if (empty($culture->getProblemGroupNames())) {
@@ -113,27 +111,28 @@ trait Methods
         $culture = Culture::find($this->bot->getCultureId());
 
         if ($culture->checkProblem($this->bot->getUserText())) {
-            $this->bot->setProblemId(Problem::where('name',$this->bot->getUserText())->first()->id);
+            $this->bot->setProblemId(Problem::where('name', $this->bot->getUserText())->first()->id);
             $this->sendTextProduct();
             exit;
         }
 
 
-        if (empty($culture->getProblemNames($data['problemGroup_id']))) {
+        if (empty($culture->getProblemNames($this->bot->getProblemGroupId()))) {
             if ($culture->getProblemNames()) {
-                send_text($chatId, 'До даної культури немає проблем');
-                $data = Cache::get($chatId);
-                $data['method'] = 'welcome';
-                Cache::put($chatId, $data, self::TIME_CACHE);
-                $this->sendTextCulture($chatId, $text);
+                $this->bot->sentText('До даної культури немає проблем');
+                $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_CULTURE);
+                $this->sendTextCulture();
                 exit;
             }
-            send_text($chatId, 'До даної культури немає проблем');
-            $this->sendTextProblemGroup($chatId, $text);
+
+            $this->bot->sentText('До даної культури немає проблем');
+            $this->sendTextProblemGroup();
             exit;
         } else {
-            $keyboard = get_keyboard($culture->getProblemNames($data['problemGroup_id']));
-            send_keyboard($chatId, $keyboard, 'Виберіть назву проблеми');
+            $this->bot->setKeyboard($culture->getProblemNames($this->bot->getProblemGroupId()));
+            $this->bot->setText('Виберіть назву проблеми');
+            $this->bot->send(BaseBot::KEYBOARD);
+
         }
 
 
