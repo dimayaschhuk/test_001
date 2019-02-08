@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 
 trait Methods
 {
+//=========good======================================
     public function welcome()
     {
         $this->bot->setText("Виберіть гілку");
@@ -73,22 +74,31 @@ trait Methods
         $this->bot->send(BaseBot::KEYBOARD);
 
     }
+//==================================================
+
+
+
+
 
 
     public function sendTextProblemGroup()
     {
+        $this->bot->sendText('sendTextProblemGroup');
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM_GROUP);
         $culture = Culture::find($this->bot->getCultureId());
 
 
         if ($culture->checkProblem($this->bot->getUserText())) {
-            $this->bot->setProblemId(Problem::where('name', $this->bot->getUserText())->first()->id);
-
+            Cache::put('webBot',Problem::where('name', $this->bot->getUserText())->first()->id,1);
+            $this->bot->sendText('checkProblem == checkProblem');
+//            $this->bot->setProblemId(Problem::where('name', $this->bot->getUserText())->first()->id);
             exit;
         }
 
 
         if ($culture->checkProblemGroup($this->bot->getUserText())) {
+            Cache::put('webBot',ProblemGroup::where('name', $this->bot->getUserText())->first()->id,1);
+            $this->bot->sendText('checkProblemGroup == checkProblemGroup');
             $this->bot->setProblemGroupId(ProblemGroup::where('name', $this->bot->getUserText())->first()->id);
             $this->sendTextProblem();
             exit;
