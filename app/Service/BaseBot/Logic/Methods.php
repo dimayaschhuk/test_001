@@ -72,11 +72,14 @@ trait Methods
 
     public function selectCulture()
     {
-        $this->bot->sendText('RUN selectCulture');
+//        $this->bot->sendText('RUN selectCulture');
         $this->bot->setCultureId(Culture::where('name', $this->bot->getUserText())->value('id'));
         $this->bot->setCurrentMethod(Logic::METHOD_SELECT_CULTURE);
-        $this->nextMethod();
-        $this->runMethod();
+    }
+
+
+    public function sendTextProblemGroup()
+    {
 
     }
 
