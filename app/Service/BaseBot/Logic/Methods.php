@@ -144,7 +144,6 @@ trait Methods
     public function sendTextProduct()
     {
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PRODUCT);
-        $this->bot->sendText('sendTextProduct');
         $culture = Culture::find($this->bot->getCultureId());
         $productsNames = $culture->getProductsNames($this->bot->getProblemId());
 
@@ -153,11 +152,8 @@ trait Methods
             if (isset($productsNames[$key])) {
                 $product = Product::where('name', $productsNames[$key])->first();
                 $this->bot->setProductId($product->id);
-                $this->bot->sendText('selected product 111');
+                exit;
             }
-
-            $this->bot->sendText('selected product');
-            exit;
         }
 
         if (empty($productsNames)) {
@@ -167,13 +163,19 @@ trait Methods
             if (count($productsNames) === 1) {
                 $product = Product::where('name', $productsNames[0])->first();
                 $this->bot->setProductId($product->id);
+                $this->bot->sendText('one product');
                 $this->bot->sendText('Для вирішення даної проблему найдено тільки один препарат: ' . $product->name);
-                $this->bot->sendText('selected product');
                 exit;
             }
             $this->bot->setKeyboard($productsNames);
             $this->bot->setText('Для вирішення вашої проблеми підходять такі препарати');
             $this->bot->send(BaseBot::KEYBOARD);
         }
+    }
+
+
+    public function afterSelectedProduct()
+    {
+        $this->bot->sendText('afterSelectedProduct');
     }
 }
