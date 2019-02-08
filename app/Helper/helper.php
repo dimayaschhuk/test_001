@@ -80,8 +80,8 @@ if (!function_exists('send_keyboard')) {
         }
 
         if ($typeBot == \App\Service\BaseBot\BaseBot::TYPE_VIBER) {
-            send_keyboard_viber($baseBot);
-//            send_keyboard_viber_Test($baseBot);
+//            send_keyboard_viber($baseBot);
+            send_keyboard_viber_Test($baseBot);
         }
     }
 }
