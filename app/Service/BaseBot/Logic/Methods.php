@@ -12,8 +12,10 @@ namespace App\Service\BaseBot\Logic;
 use App\BaseModels\Culture;
 use App\BaseModels\Problem;
 use App\BaseModels\ProblemGroup;
+use App\BaseModels\Product;
 use App\Service\BaseBot\BaseBot;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 trait Methods
 {
@@ -72,7 +74,6 @@ trait Methods
 
     }
 
-
     public function sendTextProblemGroup()
     {
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM_GROUP);
@@ -80,7 +81,7 @@ trait Methods
 
 
         if ($culture->checkProblem($this->bot->getUserText())) {
-            $this->bot->sendText("checkProblem");
+            $this->bot->setProblemId(Problem::where('name', $this->bot->getUserText())->first()->id);
             exit;
         }
 
@@ -108,6 +109,7 @@ trait Methods
 
     public function sendTextProblem()
     {
+        $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM);
         $culture = Culture::find($this->bot->getCultureId());
 
         if ($culture->checkProblem($this->bot->getUserText())) {
@@ -132,9 +134,37 @@ trait Methods
             $this->bot->setKeyboard($culture->getProblemNames($this->bot->getProblemGroupId()));
             $this->bot->setText('Виберіть назву проблеми');
             $this->bot->send(BaseBot::KEYBOARD);
-
         }
 
 
+    }
+
+
+    public function sendTextProduct()
+    {
+        $culture = Culture::find($this->bot->getCultureId());
+
+        if ($culture->checkProduct($this->bot->getUserText(), $this->bot->getProblemId())) {
+
+            exit;
+        }
+
+        if (empty($culture->getProductsNames($this->bot->getProblemId()))) {
+            $this->bot->sendText('Препаратів не знайдено виберіть іншу проблему');
+            $this->sendTextProblem();
+        } else {
+            $this->bot->sendText('else');
+//            if (count($culture->getProductsNames($this->bot->getProblemId())) === 1) {
+//                $this->bot->setProductId(Product::where('name',$culture->getProductsNames($this->bot->getProblemId())));
+//                $test['productName'] = $culture->getProductsNames($data['problem_id'])[0];
+//                Cache::put('test', $test, self::TIME_CACHE);
+//                send_text($chatId,
+//                    'Для вирішення даної проблему найдено тільки один препарат: ');
+//                $this->selectProduct($chatId, $text);
+//                exit;
+//            }
+//            $keyboard = get_keyboard($culture->getProductsNames($data['problem_id']));
+//            send_keyboard($chatId, $keyboard, 'Для вирішення вашої проблеми підходять такі препарати');
+        }
     }
 }

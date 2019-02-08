@@ -68,6 +68,38 @@ class BaseBot
         $logic->runMethod();
     }
 
+    /**
+     * @return mixed
+     */
+    public function getProblemId()
+    {
+        return $this->problemId;
+    }
+
+    /**
+     * @param mixed $problemId
+     */
+    public function setProblemId($problemId): void
+    {
+        $this->problemId = $problemId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProductId()
+    {
+        return $this->productId;
+    }
+
+    /**
+     * @param mixed $productId
+     */
+    public function setProductId($productId): void
+    {
+        $this->productId = $productId;
+    }
+
 
     public function getProblemGroupId()
     {
