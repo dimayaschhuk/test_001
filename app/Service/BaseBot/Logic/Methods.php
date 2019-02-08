@@ -115,23 +115,29 @@ trait Methods
         $userText = $this->bot->getUserText();
 
         if ($culture->checkProblem($userText)) {
+
+            $this->bot->sendText('1');
+
             $this->bot->setProblemId(Problem::where('name', $userText)->first()->id);
             $this->sendTextProduct();
             exit;
         }
 
         if (empty($culture->getProblemNames($this->bot->getProblemGroupId()))) {
+            $this->bot->sendText('2');
             if ($culture->getProblemNames()) {
+                $this->bot->sendText('3');
                 $this->bot->sentText('До даної культури немає проблем');
                 $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_CULTURE);
                 $this->sendTextCulture();
                 exit;
             }
-
+            $this->bot->sendText('4');
             $this->bot->sentText('До даної культури не знайдено проблеми з цієї групи проблем');
             $this->sendTextProblemGroup();
             exit;
         } else {
+            $this->bot->sendText('5');
             $this->bot->setKeyboard($culture->getProblemNames($this->bot->getProblemGroupId()));
             $this->bot->setText('Виберіть назву проблеми');
             $this->bot->send(BaseBot::KEYBOARD);
