@@ -170,6 +170,7 @@ trait Methods
             $this->bot->setKeyboard($productsNames);
             $this->bot->setText('Для вирішення вашої проблеми підходять такі препарати');
             $this->bot->send(BaseBot::KEYBOARD);
+            exit;
         }
     }
 
