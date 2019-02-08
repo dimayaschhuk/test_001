@@ -52,6 +52,7 @@ trait Methods
     public function searchCulture()
     {
         if (Culture::where('name', $this->bot->getUserText())->count() === 1) {
+            $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM_GROUP);
             $this->bot->setCultureId(Culture::where('name', $this->bot->getUserText())->value('id'));
             $this->sendTextProblemGroup();
             exit;
@@ -59,7 +60,6 @@ trait Methods
 
         if (Culture::where('name', 'LIKE', "%{$this->bot->getUserText()}%")->count() === 0) {
             $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_CULTURE);
-            $this->bot->sendText('METHOD_SEND_TEXT_CULTURE');
             $this->sendTextCulture();
             exit;
         }
@@ -74,6 +74,7 @@ trait Methods
 
     }
 
+
     public function sendTextProblemGroup()
     {
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM_GROUP);
@@ -82,6 +83,7 @@ trait Methods
 
         if ($culture->checkProblem($this->bot->getUserText())) {
             $this->bot->setProblemId(Problem::where('name', $this->bot->getUserText())->first()->id);
+
             exit;
         }
 
@@ -114,6 +116,7 @@ trait Methods
 
         if ($culture->checkProblem($this->bot->getUserText())) {
             $this->bot->setProblemId(Problem::where('name', $this->bot->getUserText())->first()->id);
+            Cache::put("webBot", Problem::where('name', $this->bot->getUserText())->first()->id, BaseBot::TIME_CACHE);
             $this->sendTextProduct();
             exit;
         }
