@@ -17,12 +17,12 @@ trait Methods
 {
     public function welcome()
     {
-        $this->bot->sendText('test:welcome');
-//        $this->bot->setText("Виберіть гілку");
-//        $this->bot->setKeyboard(['Захист культури', 'Продукти']);
-//        $this->bot->send(BaseBot::KEYBOARD);
-//        $this->bot->setCurrentMethod(self::METHOD_SELECT_FLOW);
-//        exit;
+//        $this->bot->sendText('test:welcome');
+        $this->bot->setText("Виберіть гілку");
+        $this->bot->setKeyboard(['Захист культури', 'Продукти']);
+        $this->bot->send(BaseBot::KEYBOARD);
+        $this->bot->setCurrentMethod(self::METHOD_SELECT_FLOW);
+        exit;
     }
 
     public function selectFlow()
