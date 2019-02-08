@@ -83,18 +83,19 @@ trait Methods
 
     public function sendTextProblemGroup()
     {
-        $this->bot->sendText('sendTextProblemGroup');
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM_GROUP);
         $culture = Culture::find($this->bot->getCultureId());
 
 
         if ($culture->checkProblem($this->bot->getUserText())) {
-            $this->sendTextProblem();
+            $this->bot->sendText('checkProblem');
+//            $this->sendTextProblem();
             exit;
         }
 
 
         if ($culture->checkProblemGroup($this->bot->getUserText())) {
+            $this->bot->sendText('checkProblemGroup');
             $this->bot->setProblemGroupId(ProblemGroup::where('name', $this->bot->getUserText())->first()->id);
             $this->sendTextProblem();
             exit;
@@ -118,7 +119,7 @@ trait Methods
     public function sendTextProblem()
     {
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM);
-        $this->bot->setText(Logic::METHOD_SEND_TEXT_PROBLEM);
+        $this->bot->sendText(Logic::METHOD_SEND_TEXT_PROBLEM);
         $culture = Culture::find($this->bot->getCultureId());
 
         if ($culture->checkProblem($this->bot->getUserText())) {
