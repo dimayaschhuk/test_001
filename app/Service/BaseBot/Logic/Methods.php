@@ -48,6 +48,7 @@ trait Methods
     public function searchCulture()
     {
         if (Culture::where('name', $this->bot->getUserText())->count() === 1) {
+            $this->bot->sendText('qwe');
             $this->bot->setCultureId(Culture::where('name', $this->bot->getUserText())->value('id'));
             $this->sendTextProblemGroup();
             exit;
