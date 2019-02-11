@@ -14,6 +14,7 @@
 use App\BaseModels\Culture;
 use App\BaseModels\Problem;
 use App\BaseModels\ProblemGroup;
+use App\BaseModels\ProductGroup;
 use App\Service\BaseBot\BaseBot;
 use App\Service\BaseBot\Logic\Logic;
 use Illuminate\Support\Facades\Cache;
@@ -108,30 +109,9 @@ Route::get('/testMyTelegramBot', function () {
 
 Route::get('/testBot', function () {
     {
-        $culture = Culture::find(233);
-        $userText = 'Парша';
-
-        if ($culture->checkProblem($userText)) {
-            dd('stop');
-            exit;
-        }
-        dd('dd');
-        if (empty($culture->getProblemNames($this->bot->getProblemGroupId()))) {
-            if ($culture->getProblemNames()) {
-                $this->bot->sentText('До даної культури немає проблем');
-                $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_CULTURE);
-                $this->sendTextCulture();
-                exit;
-            }
-            $this->bot->sentText('До даної культури не знайдено проблеми з цієї групи проблем');
-            $this->sendTextProblemGroup();
-            exit;
-        } else {
-            $this->bot->setKeyboard($culture->getProblemNames($this->bot->getProblemGroupId()));
-            $this->bot->setText('Виберіть назву проблеми');
-            $this->bot->send(BaseBot::KEYBOARD);
-        }
-
+        $userText = 'dfdfd';
+        $productGroup = ProductGroup::where('name', $userText)->get();
+        dd($productGroup->isEmpty());
 
     }
 });

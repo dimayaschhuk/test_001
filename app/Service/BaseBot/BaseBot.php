@@ -23,6 +23,7 @@ class BaseBot
     protected $problemId;
     protected $brandId;
     protected $productId;
+    protected $productGroupId;
     protected $cultureId;
 
     protected $text;
@@ -119,6 +120,19 @@ class BaseBot
     public function getCurrentPageProductGroup(): int
     {
         return $this->currentPageProductGroup;
+    }
+
+
+    public function getProductGroupId()
+    {
+        return $this->productGroupId;
+    }
+
+
+    public function setProductGroupId($productGroupId): void
+    {
+        $this->productGroupId = $productGroupId;
+        $this->saveCache();
     }
 
 
