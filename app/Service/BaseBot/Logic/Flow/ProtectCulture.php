@@ -83,22 +83,26 @@ trait ProtectCulture
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM_GROUP);
         $culture = Culture::find($this->bot->getCultureId());
 
+        $this->bot->sentText('1');
         if ($culture->checkProblem($this->bot->getUserText())) {
+            $this->bot->sentText('2');
             $this->sendTextProblem();
             exit;
         }
-
+        $this->bot->sentText('3');
         if ($culture->checkProblemGroup($this->bot->getUserText())) {
+            $this->bot->sentText('4');
             $this->bot->setProblemGroupId(ProblemGroup::where('name', $this->bot->getUserText())->first()->id);
             $this->sendTextProblem();
             exit;
         }
-
+        $this->bot->sentText('5');
         if (empty($culture->getProblemGroupNames())) {
             $this->bot->sendText('До даної культури немає продуктів');
             $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_CULTURE);
             $this->sendTextCulture();
         } else {
+            $this->bot->sentText('6');
             $this->bot->setText('Виберіть із списка групу в яку входить ваша проблема');
             $this->bot->setKeyboard($culture->getProblemGroupNames());
             $this->bot->send(BaseBot::KEYBOARD);
