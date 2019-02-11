@@ -14,6 +14,7 @@
 use App\BaseModels\Culture;
 use App\BaseModels\Problem;
 use App\BaseModels\ProblemGroup;
+use App\BaseModels\Product;
 use App\BaseModels\ProductGroup;
 use App\Service\BaseBot\BaseBot;
 use App\Service\BaseBot\Logic\Logic;
@@ -109,10 +110,9 @@ Route::get('/testMyTelegramBot', function () {
 
 Route::get('/testBot', function () {
     {
-        $d = new BaseBot('dsds', 'sdsd');
-        $d->setProductGroupId(2);
-        $productGroupId = $d->getProductGroupId();
+        $product = Product::where("name", 'Ачіба')->get();
 
+        dd($product->first()->id);
 
     }
 });

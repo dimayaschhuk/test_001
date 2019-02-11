@@ -72,6 +72,13 @@ trait ProductsFlow
             ->pluck('name')
             ->toArray();
 
+        $product = Product::where("name", $userText)->get();
+        if (!$product->isEmpty()) {
+            $this->bot->setProductId($product->first()->id);
+            $this->afterSelectedProduct();
+
+        }
+
         if (empty($productNames) && empty($productGroupId)) {
             $this->Pr_sendTextProductGroup();
             exit;
@@ -97,4 +104,7 @@ trait ProductsFlow
         $this->bot->send(BaseBot::KEYBOARD);
 
     }
+
+
+
 }
