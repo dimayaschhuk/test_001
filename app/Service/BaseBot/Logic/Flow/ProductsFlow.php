@@ -81,7 +81,7 @@ trait ProductsFlow
                 ->offset(($currentPage - 1) * 9)->limit($currentPage * 9)
                 ->pluck('name')->toArray();
             $productNames[] = Logic::BUTTON_BACK;
-            if (!empty($products)) {
+            if (!empty($productNames)) {
                 $productNames[] = Logic::BUTTON_FORWARD;
             }
         } else {
