@@ -82,10 +82,10 @@ trait ProductsFlow
 
     public function Pr_sendTextBrand()
     {
-        $this->bot->sendText('Pr_sendTextBrand');
         $this->bot->setCurrentMethod(Logic::METHOD_PR_SEND_TEXT_BRAND);
         $productGroup = ProductGroup::find($this->bot->getProductGroupId());
         $userText = $this->bot->getUserText();
+        $this->bot->sendText('Pr_sendTextBrand Pr_sendTextBrand');
 
 
         $band = Brand::where('name', $userText)->first();
