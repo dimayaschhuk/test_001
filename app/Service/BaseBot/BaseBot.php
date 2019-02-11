@@ -60,8 +60,6 @@ class BaseBot
     }
 
 
-
-
     public function runMethod()
     {
         $logic = new Logic($this);
@@ -79,10 +77,10 @@ class BaseBot
     /**
      * @param mixed $problemId
      */
-    public function setProblemId($problemId): void
+    public function setProblemId($probId): void
     {
-        $this->problemId = $problemId;
-        $this->sendText('ProblemId: '.$problemId);
+        $this->problemId = $probId;
+        $this->sendText('ProblemId: ' . $probId);
     }
 
     /**
@@ -106,9 +104,6 @@ class BaseBot
     {
         return $this->problemGroupId;
     }
-
-
-
 
 
     public function getUserText()
@@ -182,7 +177,6 @@ class BaseBot
     {
         Cache::put($this->cacheId, $this, self::TIME_CACHE);
     }
-
 
 
 }
