@@ -100,7 +100,7 @@ Route::get('/testMyTelegramBot', function () {
         $chatId="563738410";
         $baseBot = new BaseBot(BaseBot::TYPE_TELGRAM, $chatId);
         $baseBot->setUserText($text);
-        $baseBot->sendText('testMyViberBot');
+        $baseBot->sendText('testMyTelegramBot');
         dd('testMyTelegramBot');
     }
 });
