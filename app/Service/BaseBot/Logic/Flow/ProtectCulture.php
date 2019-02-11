@@ -155,6 +155,7 @@ trait ProtectCulture
         $userText = $this->bot->getUserText();
 
         if ($culture->checkProduct($userText, $problemId)) {
+            $this->bot->sendText('checkProduct');
             $key = array_search($userText, $productsNames);
             if (isset($productsNames[$key])) {
                 $product = Product::where('name', $productsNames[$key])->first();
