@@ -85,13 +85,14 @@ trait ProductsFlow
         $productGroup = ProductGroup::find($this->bot->getProductGroupId());
         $userText = $this->bot->getUserText();
 
-        $this->bot->sendText('sfsf');
+
         $band = Brand::where('name', $userText)->first();
         if (!empty($band)) {
+            $this->bot->sendText('!empty($band)');
             $this->bot->setBrandId($band->id);
             $this->Pr_sendTextProducts();
         }
-
+        $this->bot->sendText('dsfsdfsd');
         if (empty($productGroup->getBrandNames())) {
             $this->bot->sendText('Брендів до цієї групи не знайдено');
             $this->Pr_sendTextProductGroup();
