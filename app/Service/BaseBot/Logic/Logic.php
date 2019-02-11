@@ -93,6 +93,10 @@ class Logic
             if ($this->bot->currentMethod == self::METHOD_PR_SEND_TEXT_PRODUCT_GROUP) {
                 $this->Pr_sendTextProductGroup();
             }
+            if ($this->bot->currentMethod == self::METHOD_PR_SEND_TEXT_BRAND) {
+                $this->Pr_sendTextBrand();
+            }
+
             if ($this->bot->currentMethod == self::METHOD_PR_SEND_TEXT_PRODUCT) {
                 $this->Pr_sendTextProducts();
             }

@@ -86,9 +86,9 @@ trait ProductsFlow
         $productGroup = ProductGroup::find($this->bot->getProductGroupId());
         $userText = $this->bot->getUserText();
 
-
-        $band = Brand::where('name', $userText)->first();
         $this->bot->sendText('count: '. Brand::where('name', $userText)->count());
+        $band = Brand::where('name', $userText)->first();
+
         if (!empty($band)) {
             $this->bot->sendText('true');
 //            $this->bot->setBrandId($band->id);
@@ -119,7 +119,6 @@ trait ProductsFlow
 
 
     }
-
 
     public function Pr_sendTextProducts()
     {
