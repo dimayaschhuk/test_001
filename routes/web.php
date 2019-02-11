@@ -109,9 +109,10 @@ Route::get('/testMyTelegramBot', function () {
 
 Route::get('/testBot', function () {
     {
-        $userText = 'dfdfd';
-        $productGroup = ProductGroup::where('name', $userText)->get();
-        dd($productGroup->isEmpty());
+        $d = new BaseBot('dsds', 'sdsd');
+        $d->setProductGroupId(2);
+        $productGroupId = $d->getProductGroupId();
+
 
     }
 });

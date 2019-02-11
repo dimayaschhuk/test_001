@@ -23,6 +23,7 @@ class Logic
     const BUTTON_BACK = 'Назад';
     const BUTTON_FORWARD = 'Вперед';
     const BUTTON_ALL_PRODUCT_GROUP = 'Всі групи препаратів';
+    const BUTTON_ALL_PRODUCT = 'Всі препарати';
 
     const METHOD_WELCOME = 'welcome';
     const METHOD_SELECT_FLOW = 'selectFlow';
@@ -33,6 +34,7 @@ class Logic
     const METHOD_SEND_TEXT_PRODUCT = 'sendTextProduct';
 
     const METHOD_PR_SEND_TEXT_PRODUCT_GROUP = 'Pr_sendTextProductGroup';
+    const METHOD_PR_SEND_TEXT_PRODUCT = 'Pr_sendTextProducts';
 
     const FLOW_PROTECT_CULTURE = 'protectCulture';
     const FLOW_PRODUCT = 'product';
@@ -89,6 +91,9 @@ class Logic
 
             if ($this->bot->currentMethod == self::METHOD_PR_SEND_TEXT_PRODUCT_GROUP) {
                 $this->Pr_sendTextProductGroup();
+            }
+            if ($this->bot->currentMethod == self::METHOD_PR_SEND_TEXT_PRODUCT) {
+                $this->Pr_sendTextProducts();
             }
 
 

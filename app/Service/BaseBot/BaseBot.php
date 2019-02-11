@@ -14,6 +14,7 @@ class BaseBot
 
 
     protected $currentPageProductGroup = 1;
+    protected $currentPageProduct = 1;
 
 
     protected $typeBot;
@@ -126,6 +127,18 @@ class BaseBot
     public function getProductGroupId()
     {
         return $this->productGroupId;
+    }
+
+
+    public function getCurrentPageProduct(): int
+    {
+        return $this->currentPageProduct;
+    }
+
+    public function setCurrentPageProduct(int $currentPageProduct): void
+    {
+        $this->currentPageProduct = $currentPageProduct;
+        $this->saveCache();
     }
 
 
