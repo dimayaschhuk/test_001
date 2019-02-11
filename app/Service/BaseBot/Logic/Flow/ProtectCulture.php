@@ -148,6 +148,7 @@ trait ProtectCulture
             if (isset($productsNames[$key])) {
                 $product = Product::where('name', $productsNames[$key])->first();
                 $this->bot->setProductId($product->id);
+                $this->afterSelectedProduct();
                 exit;
             }
         }
@@ -160,6 +161,7 @@ trait ProtectCulture
                 $product = Product::where('name', $productsNames[0])->first();
                 $this->bot->setProductId($product->id);
                 $this->bot->sendText('Для вирішення даної проблему найдено тільки один препарат: ' . $product->name);
+                $this->afterSelectedProduct();
                 exit;
             }
             $this->bot->setKeyboard($productsNames);
