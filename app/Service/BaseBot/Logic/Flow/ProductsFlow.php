@@ -20,24 +20,15 @@ trait ProductsFlow
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PRODUCT_GROUP);
         $userText = $this->bot->getUserText();
         $currentPage = $this->bot->getCurrentPageProductGroup();
-        if ($userText == Logic::BUTTON_BACK) {
-            if ($currentPage > 1) {
-                --$currentPage;
 
-            }
-        }
+        $currentPage = ($userText != Logic::BUTTON_BACK) ? $currentPage : (($currentPage > 1) ? --$currentPage : $currentPage);
+        $currentPage = ($userText == Logic::BUTTON_FORWARD) ? ++$currentPage : $currentPage;
 
-        if ($userText == Logic::BUTTON_FORWARD) {
-            ++$currentPage;
-
-        }
         $this->bot->setCurrentPageProductGroup($currentPage);
         $offset = ($currentPage - 1) * 9;
         $limit = $currentPage * 9;
-        $this->bot->sendText('offset' . $offset . ' limit' . $limit);
+
         $this->bot->setText('Введіть перші букви назви препарату або виберіть із списку групу в яку входить препарат');
-
-
         $prodGroupNames = \App\BaseModels\ProductGroup::offset($offset)
             ->limit($limit)
             ->pluck('name')
