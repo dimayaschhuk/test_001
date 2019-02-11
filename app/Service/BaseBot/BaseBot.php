@@ -145,7 +145,6 @@ class BaseBot
     public function setBrandId($brandId): void
     {
         $this->brandId = $brandId;
-        $this->sendText('ddddd');
         $this->saveCache();
     }
 
