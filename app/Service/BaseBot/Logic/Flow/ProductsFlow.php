@@ -138,6 +138,7 @@ trait ProductsFlow
         if (!empty($product)) {
             $this->bot->setProductId($product->id);
             $this->afterSelectedProduct();
+            exit;
         }
 
         if (empty($productNames)) {
