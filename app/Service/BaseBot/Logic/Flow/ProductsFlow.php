@@ -33,8 +33,10 @@ trait ProductsFlow
             ->limit($limit)
             ->pluck('name')
             ->toArray();
+        if (!empty($prodGroupNames)) {
+            $prodGroupNames[] = Logic::BUTTON_FORWARD;
+        }
         $prodGroupNames[] = Logic::BUTTON_BACK;
-        $prodGroupNames[] = Logic::BUTTON_FORWARD;
 
 
         $this->bot->setKeyboard($prodGroupNames);
