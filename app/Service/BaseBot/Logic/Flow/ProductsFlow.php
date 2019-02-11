@@ -39,11 +39,11 @@ trait ProductsFlow
         }
 
         $this->bot->setText('Виберіть із списку групу в яку входить препарат');
-        $prodGroupNames = ProductGroup::where("name", "LIKE", "%{$userText}%")->limit(11)->pluck('name')->toArray();
+        $prodGroupNames = ProductGroup::where("name", "LIKE", "%{$userText}%")->limit(14)->pluck('name')->toArray();
 
         if (empty($prodGroupNames)) {
             $this->bot->setText('Введіть перші 3 букви назви препарату або виберіть із списку групу в яку входить препарат');
-            $prodGroupNames = ProductGroup::offset(($currentPage - 1) * 9)->limit($currentPage * 9)->pluck('name')->toArray();
+            $prodGroupNames = ProductGroup::offset(($currentPage - 1) * 15)->limit($currentPage * 15)->pluck('name')->toArray();
 
             if (!empty($prodGroupNames)) {
                 $prodGroupNames[] = Logic::BUTTON_FORWARD;
@@ -79,7 +79,7 @@ trait ProductsFlow
 
         if (empty($productNames)) {
             $productNames = Product::where('groupId', $productGroupId)
-                ->offset(($currentPage - 1) * 9)->limit($currentPage * 9)
+                ->offset(($currentPage - 1) * 15)->limit($currentPage * 15)
                 ->pluck('name')->toArray();
 
             if (!empty($productNames)) {
