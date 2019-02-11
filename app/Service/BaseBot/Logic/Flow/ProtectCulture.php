@@ -91,31 +91,25 @@ trait ProtectCulture
             $culture = Culture::find($this->bot->getCultureId());
             $userText = $this->bot->getUserText();
             if ($culture->checkProblem($userText)) {
-                $this->bot->sendText('2');
                 $this->sendTextProblem();
                 exit;
             }
 
-            $this->bot->sendText('3');
-
             if ($culture->checkProblemGroup($userText)) {
 
-                $this->bot->sendText('4');
+                $this->bot->sendText('sendTextProblem');
 
                 $this->bot->setProblemGroupId(ProblemGroup::where('name', $userText)->first()->id);
                 $this->sendTextProblem();
                 exit;
             }
 
-            $this->bot->sendText('5');
 
             if (empty($culture->getProblemGroupNames())) {
                 $this->bot->sendText('До даної культури немає продуктів');
                 $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_CULTURE);
                 $this->sendTextCulture();
             } else {
-
-                $this->bot->sendText('6');
 
                 $this->bot->setText('Виберіть із списка групу в яку входить ваша проблема');
                 $this->bot->setKeyboard($culture->getProblemGroupNames());
@@ -132,18 +126,18 @@ trait ProtectCulture
 
     public function sendTextProblem()
     {
-        $this->bot->sentText('1');
+        $this->bot->sendText('1');
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM);
         $culture = Culture::find($this->bot->getCultureId());
         $userText = $this->bot->getUserText();
 
         if ($culture->checkProblem($userText)) {
-            $this->bot->sentText('2');
+            $this->bot->sendText('2');
             $this->bot->setProblemId(Problem::where('name', $userText)->first()->id);
             $this->sendTextProduct();
             exit;
         }
-        $this->bot->sentText('3');
+        $this->bot->sendText('3');
         if (empty($culture->getProblemNames($this->bot->getProblemGroupId()))) {
             if ($culture->getProblemNames()) {
                 $this->bot->sentText('До даної культури немає проблем');
@@ -151,7 +145,7 @@ trait ProtectCulture
                 $this->sendTextCulture();
                 exit;
             }
-            $this->bot->sentText('До даної культури не знайдено проблеми з цієї групи проблем');
+            $this->bot->sendText('До даної культури не знайдено проблеми з цієї групи проблем');
             $this->sendTextProblemGroup();
             exit;
         } else {
