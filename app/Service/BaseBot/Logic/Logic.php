@@ -28,9 +28,13 @@ class Logic
     const METHOD_SEND_TEXT_PROBLEM = 'sendTextProblem';
     const METHOD_SEND_TEXT_PRODUCT = 'sendTextProduct';
 
+    const METHOD_SEND_TEXT_PRODUCT_GROUP = 'sendTextProductGroup';
+
     const FLOW_PROTECT_CULTURE = 'protectCulture';
+    const FLOW_PRODUCT = 'product';
 
     const FLOW_PROTECT_CULTURE_UA = "Захист культури";
+    const FLOW_PRODUCT_UA = 'Продукти';
 
 
     public function __construct(BaseBot $baseBot)
@@ -75,6 +79,16 @@ class Logic
 
 
         }
+
+
+        if ($this->bot->currentFlow == self::FLOW_PRODUCT) {
+
+            if ($this->bot->currentMethod == self::METHOD_SEND_TEXT_PRODUCT_GROUP) {
+                $this->sendTextProductGroup();
+            }
+
+
+        }
     }
 
 
@@ -88,6 +102,9 @@ class Logic
                 self::METHOD_SEARCH_CULTURE,
                 self::METHOD_SEND_TEXT_PROBLEM_GROUP,
                 self::METHOD_SEND_TEXT_PROBLEM,
+            ],
+            self::FLOW_PRODUCT         => [
+                self::METHOD_SEND_TEXT_PRODUCT_GROUP,
             ],
         ];
     }

@@ -21,19 +21,6 @@ trait ProtectCulture
 
     //=========good======================================
 
-    public function selectFlow()
-    {
-        $flow = $this->bot->getUserText();
-        if ($flow == self::FLOW_PROTECT_CULTURE_UA) {
-            $this->bot->setCurrentFlow(self::FLOW_PROTECT_CULTURE);
-            $this->nextMethod();
-            $this->runMethod();
-            exit;
-        }
-
-        $this->welcome();
-        exit;
-    }
 
     public function sendTextCulture()
     {
@@ -155,8 +142,9 @@ trait ProtectCulture
         $userText = $this->bot->getUserText();
 
         if ($culture->checkProduct($userText, $problemId)) {
-            $this->bot->sendText('checkProduct');
             $key = array_search($userText, $productsNames);
+            $this->bot->sendText('key:' .$key);
+            $this->bot->sendText('value:' .$productsNames[$key]);
             if (isset($productsNames[$key])) {
                 $product = Product::where('name', $productsNames[$key])->first();
                 $this->bot->setProductId($product->id);
