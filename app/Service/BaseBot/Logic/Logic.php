@@ -10,12 +10,14 @@ namespace App\Service\BaseBot\Logic;
 
 
 use App\Service\BaseBot\BaseBot;
+use App\Service\BaseBot\Logic\Flow\ProductsFlow;
 use App\Service\BaseBot\Logic\Flow\ProtectCulture;
 
 class Logic
 {
     use Methods;
     use ProtectCulture;
+    use ProductsFlow;
     protected $bot;
 
     const METHOD_WELCOME = 'welcome';
