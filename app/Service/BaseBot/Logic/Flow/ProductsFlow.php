@@ -118,7 +118,6 @@ trait ProductsFlow
 
     public function Pr_sendTextProducts()
     {
-        $this->bot->sendText('ffff');
         $this->bot->setCurrentMethod(Logic::METHOD_PR_SEND_TEXT_PRODUCT);
         $userText = $this->bot->getUserText();
         $productGroupId = $this->bot->getProductGroupId();
@@ -128,6 +127,7 @@ trait ProductsFlow
         $currentPage = ($userText == Logic::BUTTON_FORWARD) ? ++$currentPage : $currentPage;
         $this->bot->setCurrentPageProduct($currentPage);
 
+        $this->bot->sendText('qwe');
         $productNames = Product::where("name", "LIKE", "{$userText}%")
             ->where('brandId', $brandId)
             ->limit(12)
