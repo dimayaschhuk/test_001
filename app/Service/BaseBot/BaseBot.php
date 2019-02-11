@@ -12,13 +12,13 @@ class BaseBot
     public $currentFlow;
     public $cacheId;
 
-    public $problemId;
+
 
     protected $typeBot;
     protected $id;
     protected $userText;
     protected $problemGroupId;
-
+    protected $problemId;
     protected $brandId;
     protected $productId;
     protected $cultureId;
@@ -75,23 +75,13 @@ class BaseBot
     }
 
 
-    public function setProblemId($probId): void
-    {
-        $this->problemId = $probId;
-        $this->sendText('ProblemId: ' . $probId);
-    }
 
-    /**
-     * @return mixed
-     */
     public function getProductId()
     {
         return $this->productId;
     }
 
-    /**
-     * @param mixed $productId
-     */
+
     public function setProductId($productId): void
     {
         $this->productId = $productId;
@@ -134,6 +124,13 @@ class BaseBot
     {
         return $this->cultureId;
     }
+
+    public function setProblemId($probId): void
+    {
+        $this->problemId = $probId;
+        $this->saveCache();
+    }
+
 
     public function setProblemGroupId($problemGroupId): void
     {
