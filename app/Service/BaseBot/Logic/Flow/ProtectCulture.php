@@ -113,14 +113,14 @@ trait ProtectCulture
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM);
         $culture = Culture::find($this->bot->getCultureId());
         $userText = $this->bot->getUserText();
-
+        $this->bot->sentText('1');
         if ($culture->checkProblem($userText)) {
-            $this->bot->sentText('true');
+            $this->bot->sentText('2');
             $this->bot->setProblemId(Problem::where('name', $userText)->first()->id);
             $this->sendTextProduct();
             exit;
         }
-
+        $this->bot->sentText('3');
         if (empty($culture->getProblemNames($this->bot->getProblemGroupId()))) {
             if ($culture->getProblemNames()) {
                 $this->bot->sentText('До даної культури немає проблем');
