@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  ### WEB ###################################################
+  web:
+    image: nginx:latest
+    volumes:
+     - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+     - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+          - 8087:80
+    links:
+        - php
+  ### PHP ###################################################
+  php:
+    build: ./php
+    volumes:
+        - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+    links:
+        - mysql
+  ### MYSQL ###################################################
+  mysql:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_MYSQL_PASSWORD}
+    volumes:
+      - ${DB_MYSQL_PATH_HOST}:/var/lib/mysql
+
+  ### ADMINER ###################################################
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 6087:8080
+  ### phpmyadmin ###################################################
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - mysql:mysql
+    ports:
+      - 9197:80
+    environment:
+      MYSQL_USERNAME: root
+      MYSQL_ROOT_PASSWORD: root
+      PMA_HOST: mysql
+  ### COMPOSER ###################################################
+  composer:
+    image: composer:latest
+    volumes:
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+    working_dir: ${APP_PATH_CONTAINER}
+    command: 
+      sh -c "composer update &&
+             php artisan key:generate &&
+             php artisan storage:link"
