@@ -82,6 +82,7 @@ class BaseBot
     public function setProblemId($problemId): void
     {
         $this->problemId = $problemId;
+        $this->sendText('setProblemId');
     }
 
     /**
