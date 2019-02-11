@@ -132,6 +132,7 @@ trait ProtectCulture
 
         if ($culture->checkProblem($userText)) {
             $this->bot->setProblemId(Problem::where('name', $userText)->first()->id);
+            $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PRODUCT);
             $this->sendTextProduct();
             exit;
         }
@@ -158,7 +159,7 @@ trait ProtectCulture
 
     public function sendTextProduct()
     {
-        $this->sendText('sssss');
+        $this->bot->sendText('dddddd');
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PRODUCT);
         $culture = Culture::find($this->bot->getCultureId());
         $productsNames = $culture->getProductsNames($this->bot->getProblemId());
