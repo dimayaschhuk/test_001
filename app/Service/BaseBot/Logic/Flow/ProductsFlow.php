@@ -87,7 +87,7 @@ trait ProductsFlow
         $userText = $this->bot->getUserText();
 
         $bands = Brand::where('name', $userText)->get();
-        $this->sendText('strlen: ' . strlen($userText));
+        $this->bot->sendText('strlen: ' . strlen($userText));
         if (!$bands->isEmpty()) {
             $this->bot->setBrandId($bands->first()->id);
             $this->Pr_sendTextProducts();
