@@ -49,6 +49,7 @@ trait ProductsFlow
             ->limit($limit)
             ->pluck('name')
             ->toArray();
+        $this->bot->sendText('count: '. count($prodGroupNames));
 
         if (empty($prodGroupNames)) {
             $this->bot->setText('Введіть перші букви назви препарату або виберіть із списку групу в яку входить препарат');
