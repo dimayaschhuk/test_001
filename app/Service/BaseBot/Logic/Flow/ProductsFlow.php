@@ -88,6 +88,7 @@ trait ProductsFlow
 
 
         $band = Brand::where('name', $userText)->first();
+        $this->bot->sendText('count: '. Brand::where('name', $userText)->count());
         if (!empty($band)) {
             $this->bot->sendText('true');
 //            $this->bot->setBrandId($band->id);
