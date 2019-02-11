@@ -19,10 +19,11 @@ trait ProductsFlow
     {
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PRODUCT_GROUP);
         $userText = $this->bot->getUserText();
-        $currentPage = $this->bot->currentPageProductGroup;
+        $currentPage = $this->bot->getCurrentPageProductGroup();
         if ($userText == Logic::BUTTON_BACK) {
             if ($currentPage > 1) {
                 --$currentPage;
+
             }
         }
 
@@ -30,7 +31,7 @@ trait ProductsFlow
             ++$currentPage;
 
         }
-
+        $this->bot->setCurrentPageProductGroup($currentPage);
         $this->bot->setText('Введіть перші букви назви препарату або виберіть із списку групу в яку входить препарат');
 
         $prodGroupNames = \App\BaseModels\ProductGroup::offset($currentPage - 1 * 9)

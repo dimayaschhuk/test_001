@@ -11,7 +11,9 @@ class BaseBot
     public $currentMethod;
     public $currentFlow;
     public $cacheId;
-    public $currentPageProductGroup = 1;
+
+
+    protected $currentPageProductGroup = 1;
 
 
     protected $typeBot;
@@ -111,6 +113,19 @@ class BaseBot
     public function getCultureId()
     {
         return $this->cultureId;
+    }
+
+
+    public function getCurrentPageProductGroup(): int
+    {
+        return $this->currentPageProductGroup;
+    }
+
+
+    public function setCurrentPageProductGroup(int $currentPageProductGroup): void
+    {
+        $this->currentPageProductGroup = $currentPageProductGroup;
+        $this->saveCache();
     }
 
     public function setUserText($userText): void
