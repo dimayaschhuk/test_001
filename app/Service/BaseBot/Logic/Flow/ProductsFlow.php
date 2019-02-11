@@ -8,6 +8,7 @@
 
 namespace App\Service\BaseBot\Logic\Flow;
 
+use App\BaseModels\Brand;
 use App\BaseModels\Product;
 use App\BaseModels\ProductGroup;
 use App\Service\BaseBot\BaseBot;
@@ -26,27 +27,27 @@ trait ProductsFlow
         $currentPage = ($userText == Logic::BUTTON_FORWARD) ? ++$currentPage : $currentPage;
         $this->bot->setCurrentPageProductGroup($currentPage);
 
-        $product = Product::where("name", $userText)->get();
+        $product = Product::where("name", $userText)->first();
         if (!$product->isEmpty()) {
-            $this->bot->setProductId($product->first()->id);
+            $this->bot->setProductId($product->id);
             $this->afterSelectedProduct();
             exit;
         }
-
-        if (!Product::where("name", "LIKE", "%{$userText}%")->get()->isEmpty()) {
+        $product = Product::where("name", "LIKE", "{$userText}%")->get();
+        if (!$product->isEmpty() && $product->count() < 15) {
             $this->Pr_searchProducts();
             exit;
         }
 
-        $productGroup = ProductGroup::where('name', $userText)->get();
+        $productGroup = ProductGroup::where('name', $userText)->first();
         if (!$productGroup->isEmpty()) {
-            $this->bot->setProductGroupId($productGroup->first()->id);
+            $this->bot->setProductGroupId($productGroup->id);
             $this->Pr_sendTextBrand();
             exit;
         }
 
         $this->bot->setText('Виберіть із списку групу в яку входить препарат');
-        $prodGroupNames = ProductGroup::where("name", "LIKE", "%{$userText}%")->limit(14)->pluck('name')->toArray();
+        $prodGroupNames = ProductGroup::where("name", "LIKE", "{$userText}%")->limit(14)->pluck('name')->toArray();
 
         if (empty($prodGroupNames)) {
             $this->bot->setText('Введіть перші 3 букви назви препарату або виберіть із списку групу в яку входить препарат');
@@ -68,7 +69,7 @@ trait ProductsFlow
     {
         $userText = $this->bot->getUserText();
         $productNames = Product::where("name", "LIKE", "{$userText}%")
-            ->limit(12)
+            ->limit(15)
             ->pluck('name')
             ->toArray();
         $this->bot->setText('Виберіть із списку препарат');
@@ -82,6 +83,13 @@ trait ProductsFlow
     {
         $this->bot->setCurrentMethod(Logic::METHOD_PR_SEND_TEXT_BRAND);
         $productGroup = ProductGroup::find($this->bot->getProductGroupId());
+        $userText = $this->bot->getUserText();
+
+        $band = Brand::where('name', $userText)->first();
+        if($band->isEmpty()){
+            $this->bot->setBrandId($band->id);
+        }
+
         $this->bot->setText('Виберіть із списку бренд');
         $this->bot->setKeyboard($productGroup->getBrandNames());
         $this->bot->send(BaseBot::KEYBOARD);
@@ -105,9 +113,9 @@ trait ProductsFlow
             ->pluck('name')
             ->toArray();
 
-        $product = Product::where("name", $userText)->get();
+        $product = Product::where("name", $userText)->first();
         if (!$product->isEmpty()) {
-            $this->bot->setProductId($product->first()->id);
+            $this->bot->setProductId($product->id);
             $this->afterSelectedProduct();
 
         }

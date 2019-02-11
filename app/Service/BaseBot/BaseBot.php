@@ -135,6 +135,19 @@ class BaseBot
         return $this->currentPageProduct;
     }
 
+
+    public function getBrandId()
+    {
+        return $this->brandId;
+    }
+
+
+    public function setBrandId($brandId): void
+    {
+        $this->brandId = $brandId;
+        $this->saveCache();
+    }
+
     public function setCurrentPageProduct(int $currentPageProduct): void
     {
         $this->currentPageProduct = $currentPageProduct;
