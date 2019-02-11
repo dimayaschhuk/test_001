@@ -127,7 +127,7 @@ trait ProductsFlow
         $currentPage = ($userText == Logic::BUTTON_FORWARD) ? ++$currentPage : $currentPage;
         $this->bot->setCurrentPageProduct($currentPage);
 
-        $this->bot->sendText('qwe');
+
         $productNames = Product::where("name", "LIKE", "{$userText}%")
             ->where('brandId', $brandId)
             ->limit(12)
@@ -135,7 +135,7 @@ trait ProductsFlow
             ->toArray();
 
         $product = Product::where("name", $userText)->where('brandId', $brandId)->first();
-        if (!$product->isEmpty()) {
+        if (!empty($product)) {
             $this->bot->setProductId($product->id);
             $this->afterSelectedProduct();
         }

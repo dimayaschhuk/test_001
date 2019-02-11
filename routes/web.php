@@ -111,11 +111,45 @@ Route::get('/testMyTelegramBot', function () {
 
 Route::get('/testBot', function () {
     {
-        $band = Brand::where('name', 'Ukravit')->first();
-        if (!empty($band)) {
-            dd($band->id);
+        $userText = 'Ukravit';
+        $productGroupId = 1;
+        $brandId = 1;
+        $currentPage = 1;
+        $currentPage = ($userText != Logic::BUTTON_BACK) ? $currentPage : (($currentPage > 1) ? --$currentPage : $currentPage);
+        $currentPage = ($userText == Logic::BUTTON_FORWARD) ? ++$currentPage : $currentPage;
+
+        $productNames = Product::where("name", "LIKE", "{$userText}%")
+            ->where('brandId', $brandId)
+            ->limit(12)
+            ->pluck('name')
+            ->toArray();
+
+
+        $product = Product::where("name", $userText)->where('brandId', $brandId)->first();
+        if (!empty($product)) {
+            $this->bot->setProductId($product->id);
+            $this->afterSelectedProduct();
         }
-        dd('not');
+
+        if (empty($productNames)) {
+            $productNames = Product::where('groupId', $productGroupId)
+                ->where('brandId', $brandId)
+                ->offset(($currentPage - 1) * 15)->limit($currentPage * 15)
+                ->pluck('name')->toArray();
+
+            if (!empty($productNames)) {
+                $productNames[] = Logic::BUTTON_FORWARD;
+            }
+            $productNames[] = Logic::BUTTON_BACK;
+        } else {
+            $productNames[] = Logic::BUTTON_ALL_PRODUCT;
+        }
+
+dd($productNames    );
+        $this->bot->setText('Виберіть із списку препарат');
+
+        $this->bot->setKeyboard($productNames);
+        $this->bot->send(BaseBot::KEYBOARD);
     }
 });
 
