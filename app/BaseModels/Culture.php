@@ -9,16 +9,16 @@ class Culture extends Model
 {
     protected $table = 'pd_Culture';
 
-    public $fillable = [
-        'name',
-        'guid',
-        'picture',
-        'description',
-        'groupId',
-        'emptySchemaImage',
-        'type',
-        'ord',
-    ];
+//    public $fillable = [
+//        'name',
+//        'guid',
+//        'picture',
+//        'description',
+//        'groupId',
+//        'emptySchemaImage',
+//        'type',
+//        'ord',
+//    ];
 
 
     public function technologies()

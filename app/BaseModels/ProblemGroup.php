@@ -9,9 +9,9 @@ class ProblemGroup extends Model
 {
     protected $table = 'pd_VerminGroup';
 
-    public $fillable = [
-        'name',
-    ];
+//    public $fillable = [
+//        'name',
+//    ];
 
     public function problems()
     {

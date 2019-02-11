@@ -13,6 +13,7 @@ trait ProductsFlow
 {
 
     public function sendTextProductGroup(){
+
         $this->bot->sendText('sendTextProductGroup');
     }
 }

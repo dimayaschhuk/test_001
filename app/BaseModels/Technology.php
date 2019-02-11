@@ -8,9 +8,9 @@ class Technology extends Model
 {
     protected $table = 'pd_TechnologyCropProcessing';
 
-    public $fillable = [
-        'productId',
-    ];
+//    public $fillable = [
+//        'productId',
+//    ];
 
     protected $appends = [
         'problem_groups',

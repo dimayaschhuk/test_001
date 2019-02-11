@@ -8,13 +8,13 @@ class Problem extends Model
 {
     protected $table = 'pd_Vermin';
 
-    public $fillable = [
-        'name',
-        'guid',
-        'groupId',
-        'photo',
-        'ord',
-    ];
+//    public $fillable = [
+//        'name',
+//        'guid',
+//        'groupId',
+//        'photo',
+//        'ord',
+//    ];
 
     public function technologies()
     {
