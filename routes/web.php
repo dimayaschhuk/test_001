@@ -89,7 +89,7 @@ Route::get('/testMyViberBot', function () {
         $chatId="cT0AJq4mBsVbUX1ITQRd4w==";
         $baseBot = new BaseBot(BaseBot::TYPE_VIBER, $chatId);
         $baseBot->setUserText($text);
-        $baseBot->runMethod();
+        $baseBot->sendText('testMyViberBot');
         dd('testMyViberBot');
     }
 });
@@ -100,7 +100,7 @@ Route::get('/testMyTelegramBot', function () {
         $chatId="563738410";
         $baseBot = new BaseBot(BaseBot::TYPE_TELGRAM, $chatId);
         $baseBot->setUserText($text);
-        $baseBot->runMethod();
+        $baseBot->sendText('testMyViberBot');
         dd('testMyTelegramBot');
     }
 });
