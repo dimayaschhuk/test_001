@@ -12,11 +12,13 @@ class BaseBot
     public $currentFlow;
     public $cacheId;
 
+    public $problemId;
+
     protected $typeBot;
     protected $id;
     protected $userText;
     protected $problemGroupId;
-    protected $problemId;
+
     protected $brandId;
     protected $productId;
     protected $cultureId;
@@ -66,17 +68,13 @@ class BaseBot
         $logic->runMethod();
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getProblemId()
     {
         return $this->problemId;
     }
 
-    /**
-     * @param mixed $problemId
-     */
+
     public function setProblemId($probId): void
     {
         $this->problemId = $probId;
