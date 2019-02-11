@@ -82,11 +82,6 @@ class BaseBot
     }
 
 
-    public function setProductId($productId): void
-    {
-        $this->productId = $productId;
-    }
-
 
     public function getProblemGroupId()
     {
@@ -97,11 +92,6 @@ class BaseBot
     public function getUserText()
     {
         return $this->userText;
-    }
-
-    public function setUserText($userText): void
-    {
-        $this->userText = $userText;
     }
 
     public function getText()
@@ -123,6 +113,18 @@ class BaseBot
     public function getCultureId()
     {
         return $this->cultureId;
+    }
+
+    public function setUserText($userText): void
+    {
+        $this->userText = $userText;
+        $this->saveCache();
+
+    }
+    public function setProductId($productId): void
+    {
+        $this->productId = $productId;
+        $this->saveCache();
     }
 
     public function setProblemId($probId): void
