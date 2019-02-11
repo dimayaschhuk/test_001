@@ -99,7 +99,7 @@ trait ProductsFlow
         if (empty($productGroup->getBrandNames())) {
             $this->bot->sendText('Брендів до цієї групи не знайдено');
             $this->bot->setText('');
-//            $this->Pr_sendTextProductGroup();
+            $this->bot->setCurrentMethod(Logic::METHOD_PR_SEND_TEXT_PRODUCT_GROUP);
             exit;
         } else {
             if (count($productGroup->getBrandNames()) == 1) {
