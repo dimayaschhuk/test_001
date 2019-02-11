@@ -28,7 +28,7 @@ trait ProductsFlow
         $this->bot->setCurrentPageProductGroup($currentPage);
 
         $product = Product::where("name", $userText)->first();
-        if (!$product->isEmpty()) {
+        if (!empty($product)) {
             $this->bot->setProductId($product->id);
             $this->afterSelectedProduct();
             exit;
@@ -40,7 +40,7 @@ trait ProductsFlow
         }
 
         $productGroup = ProductGroup::where('name', $userText)->first();
-        if (!$productGroup->isEmpty()) {
+        if (!empty($productGroup)) {
             $this->bot->setProductGroupId($productGroup->id);
             $this->Pr_sendTextBrand();
             exit;
@@ -86,7 +86,7 @@ trait ProductsFlow
         $userText = $this->bot->getUserText();
 
         $band = Brand::where('name', $userText)->first();
-        if($band->isEmpty()){
+        if(!empty($band)){
             $this->bot->setBrandId($band->id);
         }
 

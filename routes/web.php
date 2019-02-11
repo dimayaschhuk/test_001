@@ -110,9 +110,9 @@ Route::get('/testMyTelegramBot', function () {
 
 Route::get('/testBot', function () {
     {
-        $product = Product::where("name", 'Ачіба')->get();
+        $product = Product::where("name", 'f')->first();
 
-        dd($product->first()->id);
+        dd(empty($product));
 
     }
 });
