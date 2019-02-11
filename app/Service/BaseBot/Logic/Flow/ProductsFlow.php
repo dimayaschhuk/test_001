@@ -101,7 +101,6 @@ trait ProductsFlow
             $this->bot->sendText('Брендів до цієї групи не знайдено');
             $this->bot->setText('');
             $this->bot->setCurrentMethod(Logic::METHOD_PR_SEND_TEXT_PRODUCT_GROUP);
-            $this->runMethod();
             exit;
         } else {
             if (count($productGroup->getBrandNames()) == 1) {
