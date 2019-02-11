@@ -111,7 +111,7 @@ Route::get('/testMyTelegramBot', function () {
 
 Route::get('/testBot', function () {
     {
-        $band = Brand::where('name', 'Syngenta')->first();
+        $band = Brand::where('name', 'Ukravit')->first();
         if (!empty($band)) {
             dd($band->id);
         }
