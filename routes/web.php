@@ -11,6 +11,7 @@
 |
 */
 
+use App\BaseModels\Brand;
 use App\BaseModels\Culture;
 use App\BaseModels\Problem;
 use App\BaseModels\ProblemGroup;
@@ -110,10 +111,11 @@ Route::get('/testMyTelegramBot', function () {
 
 Route::get('/testBot', function () {
     {
-        $product = Product::where("name", 'f')->first();
-
-        dd(empty($product));
-
+        $band = Brand::where('name', 'Syngenta')->first();
+        if (!empty($band)) {
+            dd($band->id);
+        }
+        dd('not');
     }
 });
 

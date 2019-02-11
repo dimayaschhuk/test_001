@@ -87,14 +87,19 @@ trait ProductsFlow
 
         $this->bot->sendText('sfsf');
         $band = Brand::where('name', $userText)->first();
-        if(!empty($band)){
+        if (!empty($band)) {
             $this->bot->setBrandId($band->id);
             $this->Pr_sendTextProducts();
         }
 
-        $this->bot->setText('Виберіть із списку бренд');
-        $this->bot->setKeyboard($productGroup->getBrandNames());
-        $this->bot->send(BaseBot::KEYBOARD);
+        if (empty($productGroup->getBrandNames())) {
+            $this->bot->sendText('Брендів до цієї групи не знайдено');
+            $this->Pr_sendTextProductGroup();
+        } else {
+            $this->bot->setText('Виберіть із списку бренд');
+            $this->bot->setKeyboard($productGroup->getBrandNames());
+            $this->bot->send(BaseBot::KEYBOARD);
+        }
 
 
     }
@@ -112,12 +117,12 @@ trait ProductsFlow
         $this->bot->setCurrentPageProduct($currentPage);
 
         $productNames = Product::where("name", "LIKE", "{$userText}%")
-            ->where('brandId',$brandId)
+            ->where('brandId', $brandId)
             ->limit(12)
             ->pluck('name')
             ->toArray();
 
-        $product = Product::where("name", $userText)->where('brandId',$brandId)->first();
+        $product = Product::where("name", $userText)->where('brandId', $brandId)->first();
         if (!$product->isEmpty()) {
             $this->bot->setProductId($product->id);
             $this->afterSelectedProduct();
@@ -125,7 +130,7 @@ trait ProductsFlow
 
         if (empty($productNames)) {
             $productNames = Product::where('groupId', $productGroupId)
-                ->where('brandId',$brandId)
+                ->where('brandId', $brandId)
                 ->offset(($currentPage - 1) * 15)->limit($currentPage * 15)
                 ->pluck('name')->toArray();
 
