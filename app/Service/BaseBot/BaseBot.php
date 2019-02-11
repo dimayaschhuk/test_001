@@ -11,7 +11,7 @@ class BaseBot
     public $currentMethod;
     public $currentFlow;
     public $cacheId;
-
+    public $currentPageProductGroup = 1;
 
 
     protected $typeBot;
@@ -75,12 +75,10 @@ class BaseBot
     }
 
 
-
     public function getProductId()
     {
         return $this->productId;
     }
-
 
 
     public function getProblemGroupId()
@@ -121,6 +119,7 @@ class BaseBot
         $this->saveCache();
 
     }
+
     public function setProductId($productId): void
     {
         $this->productId = $productId;
