@@ -26,15 +26,22 @@ trait ProductsFlow
         $currentPage = ($userText == Logic::BUTTON_FORWARD) ? ++$currentPage : $currentPage;
         $this->bot->setCurrentPageProductGroup($currentPage);
 
+        $product = Product::where("name", $userText)->get();
+        if (!$product->isEmpty()) {
+            $this->bot->setProductId($product->first()->id);
+            $this->afterSelectedProduct();
+            exit;
+        }
+
         if (!Product::where("name", "LIKE", "%{$userText}%")->get()->isEmpty()) {
-            $this->Pr_sendTextProducts();
+            $this->Pr_searchProducts();
             exit;
         }
 
         $productGroup = ProductGroup::where('name', $userText)->get();
         if (!$productGroup->isEmpty()) {
             $this->bot->setProductGroupId($productGroup->first()->id);
-            $this->Pr_sendTextProducts();
+            $this->Pr_sendTextBrand();
             exit;
         }
 
@@ -56,6 +63,32 @@ trait ProductsFlow
         $this->bot->setKeyboard($prodGroupNames);
         $this->bot->send(BaseBot::KEYBOARD);
     }
+
+    public function Pr_searchProducts()
+    {
+        $userText = $this->bot->getUserText();
+        $productNames = Product::where("name", "LIKE", "{$userText}%")
+            ->limit(12)
+            ->pluck('name')
+            ->toArray();
+        $this->bot->setText('Виберіть із списку препарат');
+
+        $this->bot->setKeyboard($productNames);
+        $this->bot->send(BaseBot::KEYBOARD);
+
+    }
+
+    public function Pr_sendTextBrand()
+    {
+        $this->bot->setCurrentMethod(Logic::METHOD_PR_SEND_TEXT_BRAND);
+        $productGroup = ProductGroup::find($this->bot->getProductGroupId());
+        $this->bot->setText('Виберіть із списку бренд');
+        $this->bot->setKeyboard($productGroup->getBrandNames());
+        $this->bot->send(BaseBot::KEYBOARD);
+
+
+    }
+
 
     public function Pr_sendTextProducts()
     {
@@ -104,7 +137,6 @@ trait ProductsFlow
         $this->bot->send(BaseBot::KEYBOARD);
 
     }
-
 
 
 }

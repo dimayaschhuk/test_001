@@ -35,6 +35,7 @@ class Logic
 
     const METHOD_PR_SEND_TEXT_PRODUCT_GROUP = 'Pr_sendTextProductGroup';
     const METHOD_PR_SEND_TEXT_PRODUCT = 'Pr_sendTextProducts';
+    const METHOD_PR_SEND_TEXT_BRAND = 'Pr_sendTextBrand';
 
     const FLOW_PROTECT_CULTURE = 'protectCulture';
     const FLOW_PRODUCT = 'product';
