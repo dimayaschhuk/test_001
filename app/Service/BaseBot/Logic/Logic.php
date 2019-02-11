@@ -20,6 +20,9 @@ class Logic
     use ProductsFlow;
     protected $bot;
 
+    const BUTTON_BACK = 'Назад';
+    const BUTTON_FORWARD = 'Вперед';
+
     const METHOD_WELCOME = 'welcome';
     const METHOD_SELECT_FLOW = 'selectFlow';
     const METHOD_SEND_TEXT_CULTURE = 'sendTextCulture';
