@@ -79,31 +79,31 @@ trait ProductsFlow
 
     }
 
-    public function Pr_sendTextBrand()
-    {
-        $this->bot->setCurrentMethod(Logic::METHOD_PR_SEND_TEXT_BRAND);
-        $productGroup = ProductGroup::find($this->bot->getProductGroupId());
-        $userText = $this->bot->getUserText();
-
-
-        $band = Brand::where('name', $userText)->first();
-        if (!empty($band)) {
-            $this->bot->sendText('!empty($band)');
-            $this->bot->setBrandId($band->id);
-            $this->Pr_sendTextProducts();
-        }
-        $this->bot->sendText('dsfsdfsd');
-        if (empty($productGroup->getBrandNames())) {
-            $this->bot->sendText('Брендів до цієї групи не знайдено');
-            $this->Pr_sendTextProductGroup();
-        } else {
-            $this->bot->setText('Виберіть із списку бренд');
-            $this->bot->setKeyboard($productGroup->getBrandNames());
-            $this->bot->send(BaseBot::KEYBOARD);
-        }
-
-
-    }
+//    public function Pr_sendTextBrand()
+//    {
+//        $this->bot->setCurrentMethod(Logic::METHOD_PR_SEND_TEXT_BRAND);
+//        $productGroup = ProductGroup::find($this->bot->getProductGroupId());
+//        $userText = $this->bot->getUserText();
+//
+//
+//        $band = Brand::where('name', $userText)->first();
+//        if (!empty($band)) {
+//            $this->bot->sendText('!empty($band)');
+//            $this->bot->setBrandId($band->id);
+//            $this->Pr_sendTextProducts();
+//        }
+//        $this->bot->sendText('dsfsdfsd');
+//        if (empty($productGroup->getBrandNames())) {
+//            $this->bot->sendText('Брендів до цієї групи не знайдено');
+//            $this->Pr_sendTextProductGroup();
+//        } else {
+//            $this->bot->setText('Виберіть із списку бренд');
+//            $this->bot->setKeyboard($productGroup->getBrandNames());
+//            $this->bot->send(BaseBot::KEYBOARD);
+//        }
+//
+//
+//    }
 
 
     public function Pr_sendTextProducts()
