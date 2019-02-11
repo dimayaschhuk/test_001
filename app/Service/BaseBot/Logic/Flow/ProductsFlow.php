@@ -22,12 +22,12 @@ trait ProductsFlow
         $currentPage = $this->bot->currentPageProductGroup;
         if ($userText == Logic::BUTTON_BACK) {
             if ($currentPage > 1) {
-                $currentPage--;
+                --$currentPage;
             }
         }
 
         if ($userText == Logic::BUTTON_FORWARD) {
-            $currentPage++;
+            ++$currentPage;
 
         }
 
