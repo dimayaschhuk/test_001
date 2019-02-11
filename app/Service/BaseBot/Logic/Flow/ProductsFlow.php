@@ -93,9 +93,6 @@ trait ProductsFlow
 //            $this->bot->setBrandId($band->id);
 //            $this->Pr_sendTextProducts();
             exit;
-        }else{
-            $this->bot->sendText('false');
-            exit;
         }
 
 
