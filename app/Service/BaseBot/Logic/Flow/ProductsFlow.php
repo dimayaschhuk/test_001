@@ -42,7 +42,7 @@ trait ProductsFlow
         $prodGroupNames = ProductGroup::where("name", "LIKE", "%{$userText}%")->limit(11)->pluck('name')->toArray();
 
         if (empty($prodGroupNames)) {
-            $this->bot->setText('Введіть перші букви назви препарату або виберіть із списку групу в яку входить препарат');
+            $this->bot->setText('Введіть перші 3 букви назви препарату або виберіть із списку групу в яку входить препарат');
             $prodGroupNames = ProductGroup::offset(($currentPage - 1) * 9)->limit($currentPage * 9)->pluck('name')->toArray();
             $prodGroupNames[] = Logic::BUTTON_BACK;
             if (!empty($prodGroupNames)) {
@@ -66,7 +66,7 @@ trait ProductsFlow
         $currentPage = ($userText == Logic::BUTTON_FORWARD) ? ++$currentPage : $currentPage;
         $this->bot->setCurrentPageProduct($currentPage);
 
-        $productNames = Product::where("name", "LIKE", "%{$userText}%")
+        $productNames = Product::where("name", "LIKE", "{$userText}%")
             ->limit(12)
             ->pluck('name')
             ->toArray();
