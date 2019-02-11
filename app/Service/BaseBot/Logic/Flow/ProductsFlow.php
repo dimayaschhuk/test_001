@@ -94,11 +94,19 @@ trait ProductsFlow
             exit;
         }
 
+
         if (empty($productGroup->getBrandNames())) {
             $this->bot->sendText('Брендів до цієї групи не знайдено');
             $this->Pr_sendTextProductGroup();
             exit;
         } else {
+            if (count($productGroup->getBrandNames()) == 1) {
+                $this->bot->setText('До даної групи підходить тільки один бренд:' . $productGroup->getBrandNames()[0]);
+                $band = Brand::where('name', $productGroup->getBrandNames()[0])->first();
+                $this->bot->setBrandId($band->id);
+                $this->Pr_sendTextProducts();
+                exit;
+            }
             $this->bot->setText('Виберіть із списку бренд');
             $this->bot->setKeyboard($productGroup->getBrandNames());
             $this->bot->send(BaseBot::KEYBOARD);
