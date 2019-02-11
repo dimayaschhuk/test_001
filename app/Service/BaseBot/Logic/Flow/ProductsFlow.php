@@ -88,6 +88,7 @@ trait ProductsFlow
         $band = Brand::where('name', $userText)->first();
         if(!empty($band)){
             $this->bot->setBrandId($band->id);
+            $this->Pr_sendTextProducts();
         }
 
         $this->bot->setText('Виберіть із списку бренд');
@@ -103,30 +104,27 @@ trait ProductsFlow
         $this->bot->setCurrentMethod(Logic::METHOD_PR_SEND_TEXT_PRODUCT);
         $userText = $this->bot->getUserText();
         $productGroupId = $this->bot->getProductGroupId();
+        $brandId = $this->bot->getBrandId();
         $currentPage = $this->bot->getCurrentPageProduct();
         $currentPage = ($userText != Logic::BUTTON_BACK) ? $currentPage : (($currentPage > 1) ? --$currentPage : $currentPage);
         $currentPage = ($userText == Logic::BUTTON_FORWARD) ? ++$currentPage : $currentPage;
         $this->bot->setCurrentPageProduct($currentPage);
 
         $productNames = Product::where("name", "LIKE", "{$userText}%")
+            ->where('brandId',$brandId)
             ->limit(12)
             ->pluck('name')
             ->toArray();
 
-        $product = Product::where("name", $userText)->first();
+        $product = Product::where("name", $userText)->where('brandId',$brandId)->first();
         if (!$product->isEmpty()) {
             $this->bot->setProductId($product->id);
             $this->afterSelectedProduct();
-
-        }
-
-        if (empty($productNames) && empty($productGroupId)) {
-            $this->Pr_sendTextProductGroup();
-            exit;
         }
 
         if (empty($productNames)) {
             $productNames = Product::where('groupId', $productGroupId)
+                ->where('brandId',$brandId)
                 ->offset(($currentPage - 1) * 15)->limit($currentPage * 15)
                 ->pluck('name')->toArray();
 
