@@ -85,8 +85,8 @@ Route::get('/getMyCacheViber', function () {
 
 Route::get('/testMyViberBot', function () {
     {
-        $text='1111';
-        $chatId="cT0AJq4mBsVbUX1ITQRd4w==";
+        $text = '1111';
+        $chatId = "cT0AJq4mBsVbUX1ITQRd4w==";
         $baseBot = new BaseBot(BaseBot::TYPE_VIBER, $chatId);
         $baseBot->setUserText($text);
         $baseBot->sendText('testMyViberBot');
@@ -96,8 +96,8 @@ Route::get('/testMyViberBot', function () {
 
 Route::get('/testMyTelegramBot', function () {
     {
-        $text='1111';
-        $chatId="563738410";
+        $text = '1111';
+        $chatId = "563738410";
         $baseBot = new BaseBot(BaseBot::TYPE_TELGRAM, $chatId);
         $baseBot->setUserText($text);
         $baseBot->sendText('testMyTelegramBot');
@@ -112,7 +112,7 @@ Route::get('/testBot', function () {
         $userText = 'Парша';
 
         if ($culture->checkProblem($userText)) {
-           dd('stop');
+            dd('stop');
             exit;
         }
         dd('dd');
@@ -144,28 +144,36 @@ Route::get('/MIGRATE', function () {
         unset($files[0]);
         unset($files[1]);
 
-        foreach ($files as $file) {
-            $filename = $dir . "/" . $file;
-            $templine = '';
-            $lines = file($filename);
-            foreach ($lines as $line) {
+        try {
+            foreach ($files as $file) {
+                $filename = $dir . "/" . $file;
+                $templine = '';
+                $lines = file($filename);
+                foreach ($lines as $line) {
 
-                if (substr($line, 0, 2) == '--' || $line == '') {
-                    continue;
-                }
+                    if (substr($line, 0, 2) == '--' || $line == '') {
+                        continue;
+                    }
 
-                $templine .= $line;
+                    $templine .= $line;
 
-                if (substr(trim($line), -1, 1) == ';') {
+                    if (substr(trim($line), -1, 1) == ';') {
 
-                    \Illuminate\Support\Facades\DB::select($templine);
+                        \Illuminate\Support\Facades\DB::select($templine);
 //                mysqli_query($templine) or print('Error performing query \'<strong>' . $templine . '\': ' . mysqli_error() . '<br /><br />');
-                    $templine = '';
+                        $templine = '';
+                    }
                 }
+
+                dump('Table successfully');
             }
+        } catch (ErrorException $errorException) {
+            dump('ErrorException');
         }
 
-        echo "Tables imported successfully";
+
+        dd('Table successfully');
+
     }
 });
 
