@@ -126,18 +126,17 @@ trait ProtectCulture
 
     public function sendTextProblem()
     {
-        $this->bot->sendText('1');
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM);
         $culture = Culture::find($this->bot->getCultureId());
         $userText = $this->bot->getUserText();
 
         if ($culture->checkProblem($userText)) {
-            $this->bot->sendText('2');
+            $this->bot->sendText('name: '.Problem::where('name', $userText)->first()->name);
             $this->bot->setProblemId(Problem::where('name', $userText)->first()->id);
             $this->sendTextProduct();
             exit;
         }
-        $this->bot->sendText('3');
+
         if (empty($culture->getProblemNames($this->bot->getProblemGroupId()))) {
             if ($culture->getProblemNames()) {
                 $this->bot->sentText('До даної культури немає проблем');
