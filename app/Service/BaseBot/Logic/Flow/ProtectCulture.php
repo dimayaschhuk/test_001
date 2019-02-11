@@ -83,7 +83,7 @@ trait ProtectCulture
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM_GROUP);
         $culture = Culture::find($this->bot->getCultureId());
 
-        $this->bot->setText('sendTextProblemGroup'.$culture->name);
+        $this->bot->sendText('sendTextProblemGroup'.$culture->name);
         if ($culture->checkProblem($this->bot->getUserText())) {
             $this->bot->sentText('2');
             $this->sendTextProblem();
