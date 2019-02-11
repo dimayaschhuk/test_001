@@ -96,9 +96,6 @@ trait ProtectCulture
             }
 
             if ($culture->checkProblemGroup($userText)) {
-
-                $this->bot->sendText('sendTextProblem');
-
                 $this->bot->setProblemGroupId(ProblemGroup::where('name', $userText)->first()->id);
                 $this->sendTextProblem();
                 exit;
@@ -159,13 +156,14 @@ trait ProtectCulture
 
     public function sendTextProduct()
     {
-        $this->bot->sendText('dddddd');
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PRODUCT);
         $culture = Culture::find($this->bot->getCultureId());
         $productsNames = $culture->getProductsNames($this->bot->getProblemId());
+        $problemId = $this->bot->getProblemId();
+        $userText = $this->bot->getUserText();
 
-        if ($culture->checkProduct($this->bot->getUserText(), $this->bot->getProblemId())) {
-            $key = array_search($this->bot->getUserText(), $productsNames);
+        if ($culture->checkProduct($userText, $problemId)) {
+            $key = array_search($userText, $productsNames);
             if (isset($productsNames[$key])) {
                 $product = Product::where('name', $productsNames[$key])->first();
                 $this->bot->setProductId($product->id);
