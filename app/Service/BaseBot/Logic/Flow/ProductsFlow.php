@@ -25,9 +25,11 @@ trait ProductsFlow
         $currentPage = ($userText != Logic::BUTTON_BACK) ? $currentPage : (($currentPage > 1) ? --$currentPage : $currentPage);
         $currentPage = ($userText == Logic::BUTTON_FORWARD) ? ++$currentPage : $currentPage;
         $this->bot->setCurrentPageProductGroup($currentPage);
-        $offset = ($currentPage - 1) * 9;
-        $limit = $currentPage * 9;
 
+        if (!Product::where("name", "LIKE", "%{$userText}%")->get()->isEmpty()) {
+            $this->Pr_sendTextProducts();
+            exit;
+        }
 
         $productGroup = ProductGroup::where('name', $userText)->get();
         if (!$productGroup->isEmpty()) {
@@ -36,41 +38,61 @@ trait ProductsFlow
             exit;
         }
 
-        $product = Product::where("name", "LIKE", "%{$userText}%")->get();
-        if (!$product->isEmpty()) {
-            $this->Pr_sendTextProducts();
-            exit;
-        }
-
-
         $this->bot->setText('Виберіть із списку групу в яку входить препарат');
-        $prodGroupNames = ProductGroup::where("name", "LIKE", "%{$userText}%")
-            ->offset($offset)
-            ->limit($limit)
-            ->pluck('name')
-            ->toArray();
-        $this->bot->sendText('count: '. count($prodGroupNames));
+        $prodGroupNames = ProductGroup::where("name", "LIKE", "%{$userText}%")->limit(11)->pluck('name')->toArray();
 
         if (empty($prodGroupNames)) {
             $this->bot->setText('Введіть перші букви назви препарату або виберіть із списку групу в яку входить препарат');
-            $prodGroupNames = ProductGroup::offset($offset)
-                ->limit($limit)
-                ->pluck('name')
-                ->toArray();
+            $prodGroupNames = ProductGroup::offset(($currentPage - 1) * 9)->limit($currentPage * 9)->pluck('name')->toArray();
+            $prodGroupNames[] = Logic::BUTTON_BACK;
+            if (!empty($prodGroupNames)) {
+                $prodGroupNames[] = Logic::BUTTON_FORWARD;
+            }
         } else {
             $prodGroupNames[] = Logic::BUTTON_ALL_PRODUCT_GROUP;
         }
 
-        if (!empty($prodGroupNames)) {
-            $prodGroupNames[] = Logic::BUTTON_FORWARD;
-        }
-        $prodGroupNames[] = Logic::BUTTON_BACK;
         $this->bot->setKeyboard($prodGroupNames);
         $this->bot->send(BaseBot::KEYBOARD);
     }
 
     public function Pr_sendTextProducts()
     {
-        $this->bot->sendText('Pr_sendTextProducts');
+        $this->bot->setCurrentMethod(Logic::METHOD_PR_SEND_TEXT_PRODUCT);
+        $userText = $this->bot->getUserText();
+        $productGroupId = $this->bot->getProductGroupId();
+        $currentPage = $this->bot->getCurrentPageProduct();
+        $currentPage = ($userText != Logic::BUTTON_BACK) ? $currentPage : (($currentPage > 1) ? --$currentPage : $currentPage);
+        $currentPage = ($userText == Logic::BUTTON_FORWARD) ? ++$currentPage : $currentPage;
+        $this->bot->setCurrentPageProduct($currentPage);
+
+        $productNames = Product::where("name", "LIKE", "%{$userText}%")
+            ->limit(12)
+            ->pluck('name')
+            ->toArray();
+
+        if (empty($productNames) && empty($productGroupId)) {
+            $this->Pr_sendTextProductGroup();
+            exit;
+        }
+
+        if (empty($productNames)) {
+            $productNames = Product::where('groupId', $productGroupId)
+                ->offset(($currentPage - 1) * 9)->limit($currentPage * 9)
+                ->pluck('name')->toArray();
+            $productNames[] = Logic::BUTTON_BACK;
+            if (!empty($products)) {
+                $productNames[] = Logic::BUTTON_FORWARD;
+            }
+        } else {
+            $productNames[] = Logic::BUTTON_ALL_PRODUCT;
+        }
+
+
+        $this->bot->setText('Виберіть із списку препарат');
+
+        $this->bot->setKeyboard($productNames);
+        $this->bot->send(BaseBot::KEYBOARD);
+
     }
 }
