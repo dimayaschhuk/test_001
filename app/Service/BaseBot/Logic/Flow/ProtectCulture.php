@@ -52,26 +52,31 @@ trait ProtectCulture
 
     public function searchCulture()
     {
-        if (Culture::where('name', $this->bot->getUserText())->count() === 1) {
-            $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM_GROUP);
-            $this->bot->setCultureId(Culture::where('name', $this->bot->getUserText())->value('id'));
-            $this->sendTextProblemGroup();
-            exit;
+        try{
+            if (Culture::where('name', $this->bot->getUserText())->count() === 1) {
+                $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM_GROUP);
+                $this->bot->setCultureId(Culture::where('name', $this->bot->getUserText())->value('id'));
+                $this->sendTextProblemGroup();
+                exit;
+            }
+
+            if (Culture::where('name', 'LIKE', "%{$this->bot->getUserText()}%")->count() === 0) {
+                $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_CULTURE);
+                $this->sendTextCulture();
+                exit;
+            }
+            $cultureNames = Culture::where('name', 'LIKE', "{$this->bot->getUserText()}%")
+                ->limit(12)
+                ->pluck('name')
+                ->toArray();
+
+            $this->bot->setText('Виберіть із списка одну культуру яка вам найбільше підходить');
+            $this->bot->setKeyboard($cultureNames);
+            $this->bot->send(BaseBot::KEYBOARD);
+        }catch (\ErrorException $e){
+            $this->bot->sendText('error searchCulture');
         }
 
-        if (Culture::where('name', 'LIKE', "%{$this->bot->getUserText()}%")->count() === 0) {
-            $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_CULTURE);
-            $this->sendTextCulture();
-            exit;
-        }
-        $cultureNames = Culture::where('name', 'LIKE', "{$this->bot->getUserText()}%")
-            ->limit(12)
-            ->pluck('name')
-            ->toArray();
-
-        $this->bot->setText('Виберіть із списка одну культуру яка вам найбільше підходить');
-        $this->bot->setKeyboard($cultureNames);
-        $this->bot->send(BaseBot::KEYBOARD);
 
     }
 
@@ -89,7 +94,7 @@ trait ProtectCulture
             $this->sendTextProblem();
             exit;
         }
-        
+
         $this->bot->sentText('3');
 
         if ($culture->checkProblemGroup($this->bot->getUserText())) {
