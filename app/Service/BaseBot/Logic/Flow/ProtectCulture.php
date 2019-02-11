@@ -52,8 +52,6 @@ trait ProtectCulture
 
     public function searchCulture()
     {
-
-        $this->bot->sendText('searchCulture');
         if (Culture::where('name', $this->bot->getUserText())->count() === 1) {
             $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM_GROUP);
             $this->bot->setCultureId(Culture::where('name', $this->bot->getUserText())->value('id'));
@@ -82,6 +80,7 @@ trait ProtectCulture
 
     public function sendTextProblemGroup()
     {
+        $this->bot->sendText('sendTextProblemGroup');
         $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM_GROUP);
         $culture = Culture::find($this->bot->getCultureId());
 
