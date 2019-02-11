@@ -52,7 +52,7 @@ trait ProtectCulture
 
     public function searchCulture()
     {
-        try{
+        try {
             if (Culture::where('name', $this->bot->getUserText())->count() === 1) {
                 $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM_GROUP);
                 $this->bot->setCultureId(Culture::where('name', $this->bot->getUserText())->value('id'));
@@ -73,7 +73,7 @@ trait ProtectCulture
             $this->bot->setText('Виберіть із списка одну культуру яка вам найбільше підходить');
             $this->bot->setKeyboard($cultureNames);
             $this->bot->send(BaseBot::KEYBOARD);
-        }catch (\ErrorException $e){
+        } catch (\ErrorException $e) {
             $this->bot->sendText('error searchCulture');
         }
 
@@ -86,22 +86,22 @@ trait ProtectCulture
     public function sendTextProblemGroup()
     {
 
-        try{
+        try {
             $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM_GROUP);
             $culture = Culture::find($this->bot->getCultureId());
-            $this->bot->sentText('1');
-
-            if ($culture->checkProblem($this->bot->getUserText())) {
-                $this->bot->sentText('2');
+            $userText = $this->bot->getUserText();
+            $this->bot->sendText('1');
+            if ($culture->checkProblem($userText)) {
+                $this->bot->sendText('2');
                 $this->sendTextProblem();
                 exit;
             }
 
-            $this->bot->sentText('3');
+            $this->bot->sendText('3');
 
-            if ($culture->checkProblemGroup($this->bot->getUserText())) {
+            if ($culture->checkProblemGroup($userText)) {
                 $this->bot->sentText('4');
-                $this->bot->setProblemGroupId(ProblemGroup::where('name', $this->bot->getUserText())->first()->id);
+                $this->bot->setProblemGroupId(ProblemGroup::where('name', $userText)->first()->id);
                 $this->sendTextProblem();
                 exit;
             }
@@ -111,17 +111,16 @@ trait ProtectCulture
                 $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_CULTURE);
                 $this->sendTextCulture();
             } else {
-                $this->bot->sentText('6');
+                $this->bot->sendText('6');
                 $this->bot->setText('Виберіть із списка групу в яку входить ваша проблема');
                 $this->bot->setKeyboard($culture->getProblemGroupNames());
                 $this->bot->send(BaseBot::KEYBOARD);
                 exit;
 
             }
-        }catch (\ErrorException $errorException){
+        } catch (\ErrorException $errorException) {
             $this->bot->sendText('error sendTextProblemGroup');
         }
-
 
 
     }
