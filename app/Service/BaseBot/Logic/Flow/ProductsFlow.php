@@ -32,7 +32,11 @@ trait ProductsFlow
 
         }
         $this->bot->setCurrentPageProductGroup($currentPage);
+        $a=$currentPage - 1 * 9;
+        $b=$currentPage * 9;
+        $this->bot->sendText('offset' . $a.' limit' .$b);
         $this->bot->setText('Введіть перші букви назви препарату або виберіть із списку групу в яку входить препарат');
+
 
         $prodGroupNames = \App\BaseModels\ProductGroup::offset($currentPage - 1 * 9)
             ->limit($currentPage * 9)
