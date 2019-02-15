@@ -32,7 +32,15 @@ trait ProtectCulture
     public function searchCulture()
     {
         try {
-            if (Culture::where('name', $this->bot->getUserText())->count() === 1) {
+            $nameCultures = Culture::where('name', $this->bot->getUserText())->pluck('name')->toArray();
+            $name = '';
+            foreach ($nameCultures as $key => $nameCulture) {
+                if ($name == $nameCulture) {
+                    unset($nameCultures[$key]);
+                }
+                $name = $nameCulture;
+            }
+            if (count($nameCultures) === 1) {
                 $this->bot->setCurrentMethod(Logic::METHOD_SEND_TEXT_PROBLEM_GROUP);
                 $this->bot->setCultureId(Culture::where('name', $this->bot->getUserText())->value('id'));
                 $this->sendTextProblemGroup();
