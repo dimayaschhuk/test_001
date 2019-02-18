@@ -9,7 +9,9 @@
 namespace App\Service\BaseBot\Logic;
 
 
+use App\BaseModels\Culture;
 use App\BaseModels\Product;
+use App\BaseModels\Technology;
 use App\Service\BaseBot\BaseBot;
 
 trait Methods
@@ -87,6 +89,42 @@ trait Methods
     {
         if($this->bot->getCultureId()){
             $this->bot->sendText('applicationCulture');
+        }else{
+            $technologies = Technology::where('productId', $this->bot->getProductId())->get();
+            $text = [];
+            foreach ($technologies as $technology) {
+                $textTechnology = 'consumptionNormMin:' . $technology->consumptionNormMin . ","
+                    . "consumptionNormMax:" . $technology->consumptionNormMax . ","
+                    . "maxTreatmentCount:" . $technology->consumptionNormMax . ","
+                    ."amountUnit" . $technology->amountUnit . ","
+                    ."areaUnit" . $technology->areaUnit . ","
+                    ."consumptionNormMinFluid" . $technology->consumptionNormMinFluid . ","
+                    ."consumptionNormMaxFluid" . $technology->consumptionNormMaxFluid . ","
+                    ."amountUnitFluid" . $technology->amountUnitFluid . ","
+                    ."areaUnitFluid" . $technology->areaUnitFluid . ","
+                    ."watingTime" . $technology->watingTime . ","
+                    ."watingTerms". $technology->watingTerms . ","
+                    ."features". $technology->features . ",";
+                $cultureId=\Illuminate\Support\Facades\DB::table('pd_CultureForCropProcessing')
+                    ->where('cropProcessingId',$technology->id)
+                    ->pluck('cultureId')
+                    ->toArray();
+                $cultureNames=Culture::whereIn('id',$cultureId)
+                    ->pluck('name')
+                    ->toArray();
+                $nameCulture='';
+                foreach ($cultureNames as $cultureName){
+                    $nameCulture.=$cultureName.',';
+                }
+
+
+                $text[]=['technology'=>$textTechnology,'culture'=>$nameCulture];
+            }
+
+            foreach ($text as $item){
+                $this->bot->sendText('Для:'.$item['culture']);
+                $this->bot->sendText('Для:'.$item['technology']);
+            }
         }
         $this->bot->sendText('else');
     }
