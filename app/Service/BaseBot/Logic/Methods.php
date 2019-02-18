@@ -101,7 +101,7 @@ trait Methods
     public function description()
     {
         $productDescription = Product::find($this->bot->getProductId())->shortDescription;
-        $this->bot->sendText($productDescription);
+        $this->bot->sendText(strip_tags($productDescription));
     }
 
     public function price()
