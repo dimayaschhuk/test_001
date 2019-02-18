@@ -48,6 +48,7 @@ trait Methods
 
     public function afterSelectedProduct()
     {
+        $this->bot->sendText('afterSelectedProduct');
         $this->bot->setCurrentMethod(Logic::METHOD_AFTER_SELECTED_PRODUCT);
         $text = $this->bot->getUserText();
         if ($text === Logic::APPLICATION_CULTURE) {
