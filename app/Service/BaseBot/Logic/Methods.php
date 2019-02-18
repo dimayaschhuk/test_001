@@ -79,6 +79,7 @@ trait Methods
             'Опис',
             'Ціни і наявність',
         ]);
+        $this->bot->send(BaseBot::KEYBOARD);
     }
 
     public function applicationCulture()
