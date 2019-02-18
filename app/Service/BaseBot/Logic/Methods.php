@@ -122,8 +122,8 @@ trait Methods
             }
 
             foreach ($text as $item){
-                $this->bot->sendText('Для:'.$item['culture']);
-                $this->bot->sendText('Для:'.$item['technology']);
+                $this->bot->sendText('Культури:'.$item['culture']);
+                $this->bot->sendText('Застосування:'.$item['technology']);
             }
         }
         $this->bot->sendText('else');
