@@ -9,6 +9,7 @@
 namespace App\Service\BaseBot\Logic;
 
 
+use App\BaseModels\Product;
 use App\Service\BaseBot\BaseBot;
 
 trait Methods
@@ -94,17 +95,18 @@ trait Methods
 
     public function learnMore()
     {
-        $this->bot->sendText('learnMore');
+        $this->bot->sendText('чиїсь контакти');
     }
 
     public function description()
     {
-        $this->bot->sendText('description');
+        $productDescription = Product::find($this->bot->getProductId())->shortDescription;
+        $this->bot->sendText($productDescription);
     }
 
     public function price()
     {
-        $this->bot->sendText('price');
+        $this->bot->sendText('бази з цінами поки немає');
     }
 
 
