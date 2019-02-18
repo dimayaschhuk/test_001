@@ -85,7 +85,10 @@ trait Methods
 
     public function applicationCulture()
     {
-        $this->bot->sendText('applicationCulture');
+        if($this->bot->getCultureId()){
+            $this->bot->sendText('applicationCulture');
+        }
+        $this->bot->sendText('else');
     }
 
     public function problem()
