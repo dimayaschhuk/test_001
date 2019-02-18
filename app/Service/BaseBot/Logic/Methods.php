@@ -95,7 +95,8 @@ trait Methods
 
     public function learnMore()
     {
-        $this->bot->sendText('чиїсь контакти');
+        $this->bot->sendText('менеджер Іван Іванович Іванов');
+        $this->bot->sendText('+38(068)77-77-7777, +38(095)22-22-2222');
     }
 
     public function description()
