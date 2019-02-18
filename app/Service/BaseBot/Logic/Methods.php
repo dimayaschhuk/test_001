@@ -45,8 +45,65 @@ trait Methods
         exit;
     }
 
+
     public function afterSelectedProduct()
     {
-        $this->bot->sendText('afterSelectedProduct');
+        $this->bot->setCurrentMethod(Logic::METHOD_AFTER_SELECTED_PRODUCT);
+        $text = $this->bot->getUserText();
+        if ($text === Logic::APPLICATION_CULTURE) {
+            $this->applicationCulture();
+            exit;
+        }
+        if ($text === Logic::PROBLEN) {
+            $this->problem();
+            exit;
+        }
+        if ($text === Logic::LEARN_MORE) {
+            $this->learnMore();
+            exit;
+        }
+        if ($text === Logic::DESCRIPTION) {
+            $this->description();
+            exit;
+        }
+        if ($text === Logic::PRICE) {
+            $this->price();
+            exit;
+        }
+        $this->bot->setText('Що саме вас цікавить?');
+        $this->bot->setKeyboard([
+            'Застосування на культурі',
+            'Проблематика',
+            'Дізнатися більше',
+            'Опис',
+            'Ціни і наявність',
+        ]);
     }
+
+    public function applicationCulture()
+    {
+        $this->bot->sendText('applicationCulture');
+    }
+
+    public function problem()
+    {
+        $this->bot->sendText('problem');
+    }
+
+    public function learnMore()
+    {
+        $this->bot->sendText('learnMore');
+    }
+
+    public function description()
+    {
+        $this->bot->sendText('description');
+    }
+
+    public function price()
+    {
+        $this->bot->sendText('price');
+    }
+
+
 }

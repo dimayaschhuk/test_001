@@ -37,11 +37,20 @@ class Logic
     const METHOD_PR_SEND_TEXT_PRODUCT = 'Pr_sendTextProducts';
     const METHOD_PR_SEND_TEXT_BRAND = 'Pr_sendTextBrand';
 
+    const METHOD_AFTER_SELECTED_PRODUCT = 'afterSelectedProduct';
+
     const FLOW_PROTECT_CULTURE = 'protectCulture';
     const FLOW_PRODUCT = 'product';
 
     const FLOW_PROTECT_CULTURE_UA = "Захист культури";
     const FLOW_PRODUCT_UA = 'Продукти';
+
+    const APPLICATION_CULTURE = 'Застосування на культурі';
+    const PROBLEN = 'Проблематика';
+    const LEARN_MORE = 'Дізнатися більше';
+    const DESCRIPTION = 'Опис';
+    const PRICE = 'Ціни і наявність';
+
 
 
     public function __construct(BaseBot $baseBot)
@@ -59,6 +68,9 @@ class Logic
 
         if ($this->bot->currentMethod == self::METHOD_SELECT_FLOW) {
             $this->selectFlow();
+        }
+        if ($this->bot->currentMethod == self::METHOD_AFTER_SELECTED_PRODUCT) {
+            $this->afterSelectedProduct();
         }
 
 
