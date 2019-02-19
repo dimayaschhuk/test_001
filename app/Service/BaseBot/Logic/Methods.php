@@ -104,80 +104,80 @@ trait Methods
                     $technology->consumptionNormMin != '' &&
                     $technology->consumptionNormMin != ' ' &&
                     $technology->consumptionNormMin != '-') {
-                    $textTechnology.= 'Споживання min:' . $technology->consumptionNormMin . ",\n";
+                    $textTechnology.= 'Споживання min: ' . $technology->consumptionNormMin . ",\n";
                 }
                 if ($technology->consumptionNormMax != NULL &&
                     $technology->consumptionNormMax != '' &&
                     $technology->consumptionNormMax != ' ' &&
                     $technology->consumptionNormMax != '-') {
-                    $textTechnology.= "Споживання max:" . $technology->consumptionNormMax . ",\n";
+                    $textTechnology.= "Споживання max: " . $technology->consumptionNormMax . ",\n";
                 }
 
                 if ($technology->maxTreatmentCount != NULL &&
                     $technology->maxTreatmentCount != '' &&
                     $technology->maxTreatmentCount != ' ' &&
                     $technology->maxTreatmentCount != '-') {
-                    $textTechnology.= "max кіл. лікування:" . $technology->maxTreatmentCount . ",\n";
+                    $textTechnology.= "max кіл. лікування: " . $technology->maxTreatmentCount . ",\n";
                 }
                 if ($technology->amountUnit != NULL &&
                     $technology->amountUnit != '' &&
                     $technology->amountUnit != ' ' &&
                     $technology->amountUnit != '-') {
-                    $textTechnology.= "Кількість одиниці" . $technology->amountUnit . ",\n";
+                    $textTechnology.= "Кількість одиниці: " . $technology->amountUnit . ",\n";
                 }
                 if ($technology->areaUnit != NULL &&
                     $technology->areaUnit != '' &&
                     $technology->areaUnit != ' ' &&
                     $technology->areaUnit != '-') {
-                    $textTechnology.= "Площа одиниці" . $technology->areaUnit . ",\n";
+                    $textTechnology.= "Площа одиниці: " . $technology->areaUnit . ",\n";
                 }
 
                 if ($technology->consumptionNormMinFluid != NULL &&
                     $technology->consumptionNormMinFluid != '' &&
                     $technology->consumptionNormMinFluid != ' ' &&
                     $technology->consumptionNormMinFluid != '-') {
-                    $textTechnology.= "Споживання min Fluid " . $technology->consumptionNormMinFluid . ",\n";
+                    $textTechnology.= "Споживання min Fluid: " . $technology->consumptionNormMinFluid . ",\n";
                 }
 
                 if ($technology->consumptionNormMaxFluid != NULL &&
                     $technology->consumptionNormMaxFluid != '' &&
                     $technology->consumptionNormMaxFluid != ' ' &&
                     $technology->consumptionNormMaxFluid != '-') {
-                    $textTechnology.= "Споживання max Fluid" . $technology->consumptionNormMaxFluid . ",\n";
+                    $textTechnology.= "Споживання max Fluid: " . $technology->consumptionNormMaxFluid . ",\n";
                 }
                 if ($technology->amountUnitFluid != NULL &&
                     $technology->amountUnitFluid != '' &&
                     $technology->amountUnitFluid != ' ' &&
                     $technology->amountUnitFluid != '-') {
-                    $textTechnology.= "Кількість одиниці Fluid" . $technology->amountUnitFluid . ",\n";
+                    $textTechnology.= "Кількість одиниці Fluid: " . $technology->amountUnitFluid . ",\n";
                 }
 
                 if ($technology->areaUnitFluid != NULL &&
                     $technology->areaUnitFluid != '' &&
                     $technology->areaUnitFluid != ' ' &&
                     $technology->areaUnitFluid != '-') {
-                    $textTechnology.= "Площа одиниці Fluid" . $technology->areaUnitFluid . ",\n";
+                    $textTechnology.= "Площа одиниці Fluid: " . $technology->areaUnitFluid . ",\n";
                 }
 
                 if ($technology->watingTime != NULL &&
                     $technology->watingTime != '' &&
                     $technology->watingTime != ' ' &&
                     $technology->watingTime != '-') {
-                    $textTechnology.= "Час очікування" . $technology->watingTime . ",\n";
+                    $textTechnology.= "Час очікування: " . $technology->watingTime . ",\n";
                 }
 
                 if ($technology->watingTerms != NULL &&
                     $technology->watingTerms != '' &&
                     $technology->watingTerms != ' ' &&
                     $technology->watingTerms != '-') {
-                    $textTechnology.= "Умови харчування" . $technology->watingTerms . ",\n";
+                    $textTechnology.= "Умови харчування: " . $technology->watingTerms . ",\n";
                 }
 
                 if ($technology->features != NULL &&
                     $technology->features != '' &&
                     $technology->features != ' ' &&
                     $technology->features != '-') {
-                    $textTechnology.= "Функции" . $technology->features . ",\n";
+                    $textTechnology.= "Функции: " . $technology->features . ",\n";
                 }
 
                 $cultureId = \Illuminate\Support\Facades\DB::table('pd_CultureForCropProcessing')
