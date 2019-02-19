@@ -60,8 +60,8 @@ class Logic
 
     public function runMethod()
     {
-        $this->bot->sendText('text: ' . $this->bot->getUserText());
-        $this->bot->sendText('method' . $this->bot->currentMethod);
+//        $this->bot->sendText('text: ' . $this->bot->getUserText());
+//        $this->bot->sendText('method' . $this->bot->currentMethod);
         if ($this->bot->getUserText() == BaseBot::BUTTON_GO_BACK) {
             $this->goBack();
         }
