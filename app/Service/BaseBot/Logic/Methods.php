@@ -14,6 +14,7 @@ use App\BaseModels\Problem;
 use App\BaseModels\Product;
 use App\BaseModels\Technology;
 use App\Service\BaseBot\BaseBot;
+use Illuminate\Support\Facades\DB;
 
 trait Methods
 {
@@ -101,8 +102,16 @@ trait Methods
     public function applicationCulture()
     {
         $text = $this->bot->getUserText();
-        if ($this->bot->getCultureId() && $text != 'По всіх культурах') {
+        if ($this->bot->getCultureId()) {
             $this->bot->setCurrentMethod(Logic::APPLICATION_CULTURE);
+            if ($text != 'По всіх культурах') {
+                $this->getApplicationCulture();
+                exit;
+            }
+            if ($text != 'Вибраній культурі') {
+                $this->getApplicationCulture(TRUE);
+                exit;
+            }
             $this->bot->setText('Вас цікавить?');
             $this->bot->setKeyboard([
                 'По всіх культурах',
@@ -110,89 +119,98 @@ trait Methods
             ]);
             $this->bot->send(BaseBot::KEYBOARD);
         } else {
-            $technologies = Technology::where('productId', $this->bot->getProductId())->get();
-            $text = [];
-            foreach ($technologies as $technology) {
-                $textTechnology = '';
-                if (!$technology->isEmpty($technology->consumptionNormMin)) {
-                    $textTechnology .= 'Споживання min: ' . $technology->consumptionNormMin . ",\n";
-                }
-                if (!$technology->isEmpty($technology->consumptionNormMax)) {
-                    $textTechnology .= "Споживання max: " . $technology->consumptionNormMax . ",\n";
-                }
-                if (!$technology->isEmpty($technology->amountUnit) && !$technology->isEmpty($technology->areaUnit)) {
-                    $textTechnology .= "Одиниці: " . $technology->amountUnit . "/" . $technology->areaUnit . ",\n";
-                }
-                if (!$technology->isEmpty($technology->maxTreatmentCount)) {
-                    $textTechnology .= "max кіл. лікування: " . $technology->maxTreatmentCount . ",\n";
-                }
-
-
-                if (!$technology->isEmpty($technology->consumptionNormMinFluid)) {
-                    $textTechnology .= "Споживання min Fluid: " . $technology->consumptionNormMinFluid . ",\n";
-                }
-
-                if (!$technology->isEmpty($technology->consumptionNormMaxFluid)) {
-                    $textTechnology .= "Споживання max Fluid: " . $technology->consumptionNormMaxFluid . ",\n";
-                }
-                if (!$technology->isEmpty($technology->amountUnitFluid) &&
-                    !$technology->isEmpty($technology->areaUnitFluid)) {
-                    $textTechnology .=
-                        "Одиниці Fluid: " . $technology->amountUnitFluid ."/".$technology->areaUnitFluid. ",\n";
-                }
-
-
-                if (!$technology->isEmpty($technology->watingTime)) {
-                    $textTechnology .= "Час очікування: " . $technology->watingTime . ",\n";
-                }
-
-                if (!$technology->isEmpty($technology->watingTerms)) {
-                    $textTechnology .= "Умови : " . $technology->watingTerms . ",\n";
-                }
-
-                if (!$technology->isEmpty($technology->features)) {
-                    $textTechnology .= "Функции: " . $technology->features . ",\n";
-                }
-
-                $cultureId = \Illuminate\Support\Facades\DB::table('pd_CultureForCropProcessing')
-                    ->where('cropProcessingId', $technology->id)
-                    ->pluck('cultureId')
-                    ->toArray();
-                $cultureNames = Culture::whereIn('id', $cultureId)
-                    ->pluck('name')
-                    ->toArray();
-                $nameCulture = '';
-                foreach ($cultureNames as $cultureName) {
-                    $nameCulture .= $cultureName . ',';
-                }
-
-                $problemId = \Illuminate\Support\Facades\DB::table('pd_VerminForCropProcessing')
-                    ->where('cropProcessingId', $technology->id)
-                    ->pluck('verminId')
-                    ->toArray();
-                $problemNames = Problem::whereIn('id', $problemId)
-                    ->pluck('name')
-                    ->toArray();
-                $problemName = '';
-                foreach ($problemNames as $name) {
-                    $problemName .= $name . ',';
-                }
-
-                $text[] = ['technology' => $textTechnology, 'culture' => $nameCulture, 'problem' => $problemName];
-            }
-
-            foreach ($text as $item) {
-                $this->bot->sendText('Культури:' . $item['culture']);
-                $this->bot->sendText('Проблеми:' . $item['problem']);
-                $this->bot->sendText('Застосування:' . $item['technology']);
-            }
+            $this->getApplicationCulture();
         }
 
     }
 
-    public function getApplicationCulture()
+    public function getApplicationCulture($flag = FALSE)
     {
 
+        if($flag){
+            $technologIDs=DB::table('pd_CultureForCropProcessing')
+                ->where('cultureId',$this->bot->getCultureId())->pluck('cropProcessingId')->toArray();
+            $technologies = Technology::where('productId', $this->bot->getProductId())->whereIn('id',$technologIDs)->get();
+        }else{
+            $technologies = Technology::where('productId', $this->bot->getProductId())->get();
+        }
+
+        $text = [];
+        foreach ($technologies as $technology) {
+            $textTechnology = '';
+            if (!$technology->isEmpty($technology->consumptionNormMin)) {
+                $textTechnology .= 'Споживання min: ' . $technology->consumptionNormMin . ",\n";
+            }
+            if (!$technology->isEmpty($technology->consumptionNormMax)) {
+                $textTechnology .= "Споживання max: " . $technology->consumptionNormMax . ",\n";
+            }
+            if (!$technology->isEmpty($technology->amountUnit) && !$technology->isEmpty($technology->areaUnit)) {
+                $textTechnology .= "Одиниці: " . $technology->amountUnit . "/" . $technology->areaUnit . ",\n";
+            }
+            if (!$technology->isEmpty($technology->maxTreatmentCount)) {
+                $textTechnology .= "max кіл. лікування: " . $technology->maxTreatmentCount . ",\n";
+            }
+
+
+            if (!$technology->isEmpty($technology->consumptionNormMinFluid)) {
+                $textTechnology .= "Споживання min Fluid: " . $technology->consumptionNormMinFluid . ",\n";
+            }
+
+            if (!$technology->isEmpty($technology->consumptionNormMaxFluid)) {
+                $textTechnology .= "Споживання max Fluid: " . $technology->consumptionNormMaxFluid . ",\n";
+            }
+
+            if (!$technology->isEmpty($technology->amountUnitFluid) &&
+                !$technology->isEmpty($technology->areaUnitFluid)) {
+                $textTechnology .=
+                    "Одиниці Fluid: " . $technology->amountUnitFluid . "/" . $technology->areaUnitFluid . ",\n";
+            }
+
+
+            if (!$technology->isEmpty($technology->watingTime)) {
+                $textTechnology .= "Час очікування: " . $technology->watingTime . ",\n";
+            }
+
+            if (!$technology->isEmpty($technology->watingTerms)) {
+                $textTechnology .= "Умови : " . $technology->watingTerms . ",\n";
+            }
+
+            if (!$technology->isEmpty($technology->features)) {
+                $textTechnology .= "Функции: " . $technology->features . ",\n";
+            }
+
+            $cultureId = \Illuminate\Support\Facades\DB::table('pd_CultureForCropProcessing')
+                ->where('cropProcessingId', $technology->id)
+                ->pluck('cultureId')
+                ->toArray();
+            $cultureNames = Culture::whereIn('id', $cultureId)
+                ->pluck('name')
+                ->toArray();
+            $nameCulture = '';
+            foreach ($cultureNames as $cultureName) {
+                $nameCulture .= $cultureName . ',';
+            }
+
+            $problemId = \Illuminate\Support\Facades\DB::table('pd_VerminForCropProcessing')
+                ->where('cropProcessingId', $technology->id)
+                ->pluck('verminId')
+                ->toArray();
+            $problemNames = Problem::whereIn('id', $problemId)
+                ->pluck('name')
+                ->toArray();
+            $problemName = '';
+            foreach ($problemNames as $name) {
+                $problemName .= $name . ',';
+            }
+
+            $text[] = ['technology' => $textTechnology, 'culture' => $nameCulture, 'problem' => $problemName];
+        }
+
+        foreach ($text as $item) {
+            $this->bot->sendText('Культури:' . $item['culture']);
+            $this->bot->sendText('Проблеми:' . $item['problem']);
+            $this->bot->sendText('Застосування:' . $item['technology']);
+        }
     }
 
     public function problem()
