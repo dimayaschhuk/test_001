@@ -26,12 +26,12 @@ class Logic
     const BUTTON_ALL_PRODUCT = 'Всі препарати';
 
     const METHOD_WELCOME = 'welcome';
-    const METHOD_SELECT_FLOW = 'selectFlow';
-    const METHOD_SEND_TEXT_CULTURE = 'sendTextCulture';
+    const METHOD_SELECT_FLOW = 'Вибір гілки';
+    const METHOD_SEND_TEXT_CULTURE = 'Вибір культури';
     const METHOD_SEARCH_CULTURE = 'searchCulture';
-    const METHOD_SEND_TEXT_PROBLEM_GROUP = 'sendTextProblemGroup';
-    const METHOD_SEND_TEXT_PROBLEM = 'sendTextProblem';
-    const METHOD_SEND_TEXT_PRODUCT = 'sendTextProduct';
+    const METHOD_SEND_TEXT_PROBLEM_GROUP = 'Вибір групи проблем';
+    const METHOD_SEND_TEXT_PROBLEM = 'Вибір проблеми';
+    const METHOD_SEND_TEXT_PRODUCT = 'Вибір Продукта';
 
     const METHOD_PR_SEND_TEXT_PRODUCT_GROUP = 'Pr_sendTextProductGroup';
     const METHOD_PR_SEND_TEXT_PRODUCT = 'Pr_sendTextProducts';
