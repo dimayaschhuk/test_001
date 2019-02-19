@@ -104,11 +104,11 @@ trait Methods
         $text = $this->bot->getUserText();
         if ($this->bot->getCultureId()) {
             $this->bot->setCurrentMethod(Logic::APPLICATION_CULTURE);
-            if ($text != 'По всіх культурах') {
+            if ($text == 'По всіх культурах') {
                 $this->getApplicationCulture();
                 exit;
             }
-            if ($text != 'Вибраній культурі') {
+            if ($text == 'Вибраній культурі') {
                 $this->getApplicationCulture(TRUE);
                 exit;
             }
