@@ -21,9 +21,10 @@ trait Methods
 
     public function goBack()
     {
-        $this->bot->setText("Куди саме ви хочете вернутися");
+        $this->bot->setText("Куди саме ви хочете повернутися");
         $keyboard = ['Виір гілки'];
         if ($this->bot->getCurrentFlow()) {
+            $keyboard[]='ssss';
             $keyboard = array_merge($keyboard, $this->getMethod()[$this->bot->getCurrentFlow()]);
         }
         $this->bot->setKeyboard($keyboard);
