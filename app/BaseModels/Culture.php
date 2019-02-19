@@ -72,7 +72,7 @@ class Culture extends Model
     public function getProblemNames($problemGroupId = NULL)
     {
         $problemNames = [];
-        if ($problemGroupId == NULL) {
+        if ($problemGroupId === NULL) {
             foreach ($this->getProblemGroup() as $key => $item) {
                 $trimProblemName = [];
                 foreach ($item['problemName'] as $value) {
