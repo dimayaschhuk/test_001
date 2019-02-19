@@ -54,10 +54,13 @@ trait ProductsFlow
             $this->bot->setText('Введіть перші 3 букви назви препарату або виберіть із списку групу в яку входить препарат');
             $prodGroupNames = ProductGroup::offset(($currentPage - 1) * 15)->limit($currentPage * 15)->pluck('name')->toArray();
 
-            if (!empty($prodGroupNames)) {
-                $prodGroupNames[] = Logic::BUTTON_FORWARD;
+            if (count($prodGroupNames) > 14 || $currentPage != 1) {
+                if (!empty($prodGroupNames)) {
+                    $prodGroupNames[] = Logic::BUTTON_FORWARD;
+                }
+                $prodGroupNames[] = Logic::BUTTON_BACK;
             }
-            $prodGroupNames[] = Logic::BUTTON_BACK;
+
         } else {
             $prodGroupNames[] = Logic::BUTTON_ALL_PRODUCT_GROUP;
         }
@@ -147,6 +150,7 @@ trait ProductsFlow
                 ->offset(($currentPage - 1) * 15)->limit($currentPage * 15)
                 ->pluck('name')->toArray();
 
+            if(count($productNames)>14 || $currentPage!=1)
             if (!empty($productNames)) {
                 $productNames[] = Logic::BUTTON_FORWARD;
             }
