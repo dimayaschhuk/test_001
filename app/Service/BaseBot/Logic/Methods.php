@@ -87,24 +87,31 @@ trait Methods
 
     public function applicationCulture()
     {
+
         if($this->bot->getCultureId()){
-            $this->bot->sendText('applicationCulture');
+            $this->bot->setText('Вас цікавить?');
+            $this->bot->setKeyboard([
+                'По всіх культурах',
+                'Вибраній культурі',
+            ]);
+            $this->bot->send(BaseBot::KEYBOARD);
         }else{
             $technologies = Technology::where('productId', $this->bot->getProductId())->get();
             $text = [];
             foreach ($technologies as $technology) {
-                $textTechnology = 'consumptionNormMin:' . $technology->consumptionNormMin . ","
-                    . "consumptionNormMax:" . $technology->consumptionNormMax . ","
-                    . "maxTreatmentCount:" . $technology->consumptionNormMax . ","
-                    ."amountUnit" . $technology->amountUnit . ","
-                    ."areaUnit" . $technology->areaUnit . ","
-                    ."consumptionNormMinFluid" . $technology->consumptionNormMinFluid . ","
-                    ."consumptionNormMaxFluid" . $technology->consumptionNormMaxFluid . ","
-                    ."amountUnitFluid" . $technology->amountUnitFluid . ","
-                    ."areaUnitFluid" . $technology->areaUnitFluid . ","
-                    ."watingTime" . $technology->watingTime . ","
-                    ."watingTerms". $technology->watingTerms . ","
-                    ."features". $technology->features . ",";
+                $textTechnology =
+                    'Споживання min:' . $technology->consumptionNormMin . ",\n"
+                    . "Споживання max:" . $technology->consumptionNormMax . ",\n"
+                    . "max кіл. лікування:" . $technology->consumptionNormMax . ",\n"
+                    ."Кількість одиниці" . $technology->amountUnit . ",\n"
+                    ."Площа одиниці" . $technology->areaUnit . ",\n"
+                    ."Споживання min Fluid " . $technology->consumptionNormMinFluid . ",\n"
+                    ."Споживання max Fluid" . $technology->consumptionNormMaxFluid . ",\n"
+                    ."Кількість одиниці Fluid" . $technology->amountUnitFluid . ",\n"
+                    ."Площа одиниці Fluid" . $technology->areaUnitFluid . ",\n"
+                    ."Час очікування" . $technology->watingTime . ",\n"
+                    ."Умови харчування". $technology->watingTerms . ",\n"
+                    ."Функции". $technology->features . ",\n";
                 $cultureId=\Illuminate\Support\Facades\DB::table('pd_CultureForCropProcessing')
                     ->where('cropProcessingId',$technology->id)
                     ->pluck('cultureId')
@@ -126,7 +133,7 @@ trait Methods
                 $this->bot->sendText('Застосування:'.$item['technology']);
             }
         }
-        $this->bot->sendText('else');
+
     }
 
     public function problem()
