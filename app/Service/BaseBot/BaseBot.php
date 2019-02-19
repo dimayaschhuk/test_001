@@ -37,6 +37,7 @@ class BaseBot
     const TYPE_TELGRAM = "TELEGRAM";
     const FIRST_METHOD = "welcome";
     const TIME_CACHE = 1;
+    const BUTTON_GO_BACK = 'Повернутися назад';
 
 
     public function __construct($typeBot, $id)
@@ -49,13 +50,14 @@ class BaseBot
 
     public function send($typeMessage)
     {
-        if ($typeMessage == self::KEYBOARD) {
-            send_keyboard($this->typeBot, $this);
-        }
-
-        if ($typeMessage == self::TEXT) {
-            send_text($this->typeBot, $this);
-        }
+        send_keyboard($this->typeBot, $this);
+//        if ($typeMessage == self::KEYBOARD) {
+//            send_keyboard($this->typeBot, $this);
+//        }
+//
+//        if ($typeMessage == self::TEXT) {
+//            send_text($this->typeBot, $this);
+//        }
 
     }
 
@@ -108,6 +110,7 @@ class BaseBot
 
     public function getKeyboard()
     {
+        $this->keyboard[] = self::BUTTON_GO_BACK;
         return $this->keyboard;
     }
 
