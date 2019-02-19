@@ -10,6 +10,7 @@ namespace App\Service\BaseBot\Logic;
 
 
 use App\BaseModels\Culture;
+use App\BaseModels\Problem;
 use App\BaseModels\Product;
 use App\BaseModels\Technology;
 use App\Service\BaseBot\BaseBot;
@@ -204,12 +205,24 @@ trait Methods
                     $nameCulture .= $cultureName . ',';
                 }
 
+                $problemId = \Illuminate\Support\Facades\DB::table('pd_VerminForCropProcessing')
+                    ->where('cropProcessingId', $technology->id)
+                    ->pluck('verminId')
+                    ->toArray();
+                $problemNames = Problem::whereIn('id', $problemId)
+                    ->pluck('name')
+                    ->toArray();
+                $problemName = '';
+                foreach ($problemNames as $name) {
+                    $problemName .= $name . ',';
+                }
 
-                $text[] = ['technology' => $textTechnology, 'culture' => $nameCulture];
+                $text[] = ['technology' => $textTechnology, 'culture' => $nameCulture,'problem'=>$problemName];
             }
 
             foreach ($text as $item) {
                 $this->bot->sendText('Культури:' . $item['culture']);
+                $this->bot->sendText('Проблеми:' . $item['problem']);
                 $this->bot->sendText('Застосування:' . $item['technology']);
             }
         }
