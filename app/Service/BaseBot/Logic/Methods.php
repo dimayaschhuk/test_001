@@ -19,9 +19,8 @@ trait Methods
 
     public function goBack()
     {
-        $this->bot->sendText('dddd');
         $this->bot->setText("Куди саме ви хочете вернутися");
-        $keyboard=['Виір гілки'];
+        $keyboard = ['Виір гілки'];
         if ($this->bot->getCurrentFlow()) {
             $keyboard = array_merge($keyboard, $this->getMethod()[$this->bot->getCurrentFlow()]);
         }
@@ -232,7 +231,14 @@ trait Methods
     public function description()
     {
         $productDescription = Product::find($this->bot->getProductId())->shortDescription;
-        $this->bot->sendText(strip_tags($productDescription));
+        $text = strip_tags($productDescription);
+        if ($text != NULL && $text != '' && $text != ' ' && $text != '-') {
+            $this->bot->sendText($text);
+        }else{
+            $this->bot->sendText("Опис не найдено");
+        }
+
+
     }
 
     public function price()
