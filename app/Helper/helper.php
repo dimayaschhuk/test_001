@@ -91,8 +91,8 @@ if (!function_exists('send_keyboard_telegram')) {
     {
         $keyboard = $baseBot->getKeyboard();
         $countButtons = count($keyboard);
-        if ($countButtons > 3) {
-            $keyboard = array_chunk($keyboard, 3);
+        if ($countButtons > 2) {
+            $keyboard = array_chunk($keyboard, 2);
         } else {
             $keyboard = [$keyboard];
         }
@@ -125,7 +125,7 @@ if (!function_exists('send_keyboard_viber')) {
         $buttons = [];
         $rows = 1;
         $columns = (count($baseBot->getKeyboard()) == 2) ? 3 : 6;
-        $columns = (count($baseBot->getKeyboard()) > 2) ? 2 : $columns;
+        $columns = (count($baseBot->getKeyboard()) > 2) ? 3 : $columns;
 
 
         foreach ($baseBot->getKeyboard() as $item) {
