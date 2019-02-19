@@ -19,6 +19,7 @@ trait Methods
 
     public function goBack()
     {
+        $this->bot->sendText('dddd');
         $this->bot->setText("Куди саме ви хочете вернутися");
         $keyboard=['Виір гілки'];
         if ($this->bot->getCurrentFlow()) {
@@ -26,6 +27,7 @@ trait Methods
         }
         $this->bot->setKeyboard($keyboard);
         $this->bot->send(BaseBot::KEYBOARD);
+        exit;
     }
 
     public function welcome()

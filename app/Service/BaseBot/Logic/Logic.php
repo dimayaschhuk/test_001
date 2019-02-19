@@ -52,7 +52,6 @@ class Logic
     const PRICE = 'Ціни і наявність';
 
 
-
     public function __construct(BaseBot $baseBot)
     {
         $this->bot = $baseBot;
@@ -61,10 +60,10 @@ class Logic
 
     public function runMethod()
     {
-
-        if($this->bot->getUserText()==BaseBot::BUTTON_GO_BACK){
+        $this->bot->sendText('text: ' . $this->bot->getUserText());
+        $this->bot->sendText('method' . $this->bot->currentMethod);
+        if ($this->bot->getUserText() == BaseBot::BUTTON_GO_BACK) {
             $this->goBack();
-            exit;
         }
         if ($this->bot->currentMethod == self::METHOD_WELCOME) {
             $this->welcome();
