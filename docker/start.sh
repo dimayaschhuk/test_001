@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-docker-compose -p ibeacons up -d
+docker-compose -p bot up -d

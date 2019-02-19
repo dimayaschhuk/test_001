@@ -110,47 +110,46 @@ Route::get('/testMyTelegramBot', function () {
 
 
 Route::get('/testBot', function () {
-    {
-        $userText = 'Ukravit';
-        $productGroupId = 1;
-        $brandId = 1;
-        $currentPage = 1;
-        $currentPage = ($userText != Logic::BUTTON_BACK) ? $currentPage : (($currentPage > 1) ? --$currentPage : $currentPage);
-        $currentPage = ($userText == Logic::BUTTON_FORWARD) ? ++$currentPage : $currentPage;
 
-        $productNames = Product::where("name", "LIKE", "{$userText}%")
-            ->where('brandId', $brandId)
-            ->limit(12)
-            ->pluck('name')
-            ->toArray();
+    $baseBot = new BaseBot(BaseBot::TYPE_TELGRAM, "web");
+    $baseBot->setProductId(1);
+    if ($baseBot->getCultureId()) {
 
-
-        $product = Product::where("name", $userText)->where('brandId', $brandId)->first();
-        if (!empty($product)) {
-            $this->bot->setProductId($product->id);
-            $this->afterSelectedProduct();
-        }
-
-        if (empty($productNames)) {
-            $productNames = Product::where('groupId', $productGroupId)
-                ->where('brandId', $brandId)
-                ->offset(($currentPage - 1) * 15)->limit($currentPage * 15)
-                ->pluck('name')->toArray();
-
-            if (!empty($productNames)) {
-                $productNames[] = Logic::BUTTON_FORWARD;
+    } else {
+        $technologies = \App\BaseModels\Technology::where('productId', $baseBot->getProductId())->get();
+        $text = [];
+        foreach ($technologies as $technology) {
+            $textTechnology = 'consumptionNormMin:' . $technology->consumptionNormMin . ","
+                . "consumptionNormMax:" . $technology->consumptionNormMax . ","
+                . "maxTreatmentCount:" . $technology->consumptionNormMax . ","
+                ."amountUnit" . $technology->amountUnit . ","
+                ."areaUnit" . $technology->areaUnit . ","
+                ."consumptionNormMinFluid" . $technology->consumptionNormMinFluid . ","
+                ."consumptionNormMaxFluid" . $technology->consumptionNormMaxFluid . ","
+                ."amountUnitFluid" . $technology->amountUnitFluid . ","
+                ."areaUnitFluid" . $technology->areaUnitFluid . ","
+                ."watingTime" . $technology->watingTime . ","
+                ."watingTerms". $technology->watingTerms . ","
+                ."features". $technology->features . ",";
+            $cultureId=\Illuminate\Support\Facades\DB::table('pd_CultureForCropProcessing')
+                ->where('cropProcessingId',$technology->id)
+                ->pluck('cultureId')
+                ->toArray();
+            $cultureNames=Culture::whereIn('id',$cultureId)
+                ->pluck('name')
+                ->toArray();
+            $nameCulture='';
+            foreach ($cultureNames as $cultureName){
+                $nameCulture.=$cultureName.',';
             }
-            $productNames[] = Logic::BUTTON_BACK;
-        } else {
-            $productNames[] = Logic::BUTTON_ALL_PRODUCT;
+
+
+            $text[]=['technology'=>$textTechnology,'culture'=>$nameCulture];
         }
-
-dd($productNames    );
-        $this->bot->setText('Виберіть із списку препарат');
-
-        $this->bot->setKeyboard($productNames);
-        $this->bot->send(BaseBot::KEYBOARD);
+        dd($text);
     }
+
+    dd($baseBot);
 });
 
 Route::get('/MIGRATE', function () {

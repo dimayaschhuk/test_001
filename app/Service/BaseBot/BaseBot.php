@@ -150,6 +150,10 @@ class BaseBot
         $this->brandId = $brandId;
         $this->saveCache();
     }
+    public function getCurrentFlow()
+    {
+        return $this->currentFlow;
+    }
 
     public function setCurrentPageProduct(int $currentPageProduct): void
     {

@@ -62,6 +62,9 @@ class Logic
     public function runMethod()
     {
 
+        if($this->bot->getUserText()==BaseBot::BUTTON_GO_BACK){
+            $this->goBack();
+        }
         if ($this->bot->currentMethod == self::METHOD_WELCOME) {
             $this->welcome();
         }
@@ -131,6 +134,8 @@ class Logic
             ],
             self::FLOW_PRODUCT         => [
                 self::METHOD_PR_SEND_TEXT_PRODUCT_GROUP,
+                self::METHOD_PR_SEND_TEXT_PRODUCT,
+                self::METHOD_PR_SEND_TEXT_BRAND,
             ],
         ];
     }
