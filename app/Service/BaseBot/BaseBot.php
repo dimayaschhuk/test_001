@@ -50,6 +50,10 @@ class BaseBot
 
     public function send($typeMessage)
     {
+
+        if ($typeMessage == self::TEXT) {
+            $this->setKeyboard([]);
+        }
         send_keyboard($this->typeBot, $this);
 //        if ($typeMessage == self::KEYBOARD) {
 //            send_keyboard($this->typeBot, $this);
@@ -110,7 +114,7 @@ class BaseBot
 
     public function getKeyboard()
     {
-        if(!in_array(self::BUTTON_GO_BACK,$this->keyboard)){
+        if (!in_array(self::BUTTON_GO_BACK, $this->keyboard)) {
             $this->keyboard[] = self::BUTTON_GO_BACK;
         }
         return $this->keyboard;
@@ -152,6 +156,7 @@ class BaseBot
         $this->brandId = $brandId;
         $this->saveCache();
     }
+
     public function getCurrentFlow()
     {
         return $this->currentFlow;
