@@ -64,6 +64,7 @@ class Logic
 
         if($this->bot->getUserText()==BaseBot::BUTTON_GO_BACK){
             $this->goBack();
+            exit;
         }
         if ($this->bot->currentMethod == self::METHOD_WELCOME) {
             $this->welcome();
