@@ -110,7 +110,9 @@ class BaseBot
 
     public function getKeyboard()
     {
-        $this->keyboard[] = self::BUTTON_GO_BACK;
+        if(!in_array(self::BUTTON_GO_BACK,$this->keyboard)){
+            $this->keyboard[] = self::BUTTON_GO_BACK;
+        }
         return $this->keyboard;
     }
 
