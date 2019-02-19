@@ -100,8 +100,9 @@ trait Methods
 
     public function applicationCulture()
     {
-
-        if ($this->bot->getCultureId()) {
+        $text = $this->bot->getUserText();
+        if ($this->bot->getCultureId() && $text != 'По всіх культурах') {
+            $this->bot->setCurrentMethod(Logic::APPLICATION_CULTURE);
             $this->bot->setText('Вас цікавить?');
             $this->bot->setKeyboard([
                 'По всіх культурах',
@@ -113,83 +114,43 @@ trait Methods
             $text = [];
             foreach ($technologies as $technology) {
                 $textTechnology = '';
-                if ($technology->consumptionNormMin != NULL &&
-                    $technology->consumptionNormMin != '' &&
-                    $technology->consumptionNormMin != ' ' &&
-                    $technology->consumptionNormMin != '-') {
+                if (!$technology->isEmpty($technology->consumptionNormMin)) {
                     $textTechnology .= 'Споживання min: ' . $technology->consumptionNormMin . ",\n";
                 }
-                if ($technology->consumptionNormMax != NULL &&
-                    $technology->consumptionNormMax != '' &&
-                    $technology->consumptionNormMax != ' ' &&
-                    $technology->consumptionNormMax != '-') {
+                if (!$technology->isEmpty($technology->consumptionNormMax)) {
                     $textTechnology .= "Споживання max: " . $technology->consumptionNormMax . ",\n";
                 }
-
-                if ($technology->maxTreatmentCount != NULL &&
-                    $technology->maxTreatmentCount != '' &&
-                    $technology->maxTreatmentCount != ' ' &&
-                    $technology->maxTreatmentCount != '-') {
+                if (!$technology->isEmpty($technology->amountUnit) && !$technology->isEmpty($technology->areaUnit)) {
+                    $textTechnology .= "Одиниці: " . $technology->amountUnit . "/" . $technology->areaUnit . ",\n";
+                }
+                if (!$technology->isEmpty($technology->maxTreatmentCount)) {
                     $textTechnology .= "max кіл. лікування: " . $technology->maxTreatmentCount . ",\n";
                 }
-                if ($technology->amountUnit != NULL &&
-                    $technology->amountUnit != '' &&
-                    $technology->amountUnit != ' ' &&
-                    $technology->amountUnit != '-') {
-                    $textTechnology .= "Кількість одиниці: " . $technology->amountUnit . ",\n";
-                }
-                if ($technology->areaUnit != NULL &&
-                    $technology->areaUnit != '' &&
-                    $technology->areaUnit != ' ' &&
-                    $technology->areaUnit != '-') {
-                    $textTechnology .= "Площа одиниці: " . $technology->areaUnit . ",\n";
-                }
 
-                if ($technology->consumptionNormMinFluid != NULL &&
-                    $technology->consumptionNormMinFluid != '' &&
-                    $technology->consumptionNormMinFluid != ' ' &&
-                    $technology->consumptionNormMinFluid != '-') {
+
+                if (!$technology->isEmpty($technology->consumptionNormMinFluid)) {
                     $textTechnology .= "Споживання min Fluid: " . $technology->consumptionNormMinFluid . ",\n";
                 }
 
-                if ($technology->consumptionNormMaxFluid != NULL &&
-                    $technology->consumptionNormMaxFluid != '' &&
-                    $technology->consumptionNormMaxFluid != ' ' &&
-                    $technology->consumptionNormMaxFluid != '-') {
+                if (!$technology->isEmpty($technology->consumptionNormMaxFluid)) {
                     $textTechnology .= "Споживання max Fluid: " . $technology->consumptionNormMaxFluid . ",\n";
                 }
-                if ($technology->amountUnitFluid != NULL &&
-                    $technology->amountUnitFluid != '' &&
-                    $technology->amountUnitFluid != ' ' &&
-                    $technology->amountUnitFluid != '-') {
-                    $textTechnology .= "Кількість одиниці Fluid: " . $technology->amountUnitFluid . ",\n";
+                if (!$technology->isEmpty($technology->amountUnitFluid) &&
+                    !$technology->isEmpty($technology->areaUnitFluid)) {
+                    $textTechnology .=
+                        "Одиниці Fluid: " . $technology->amountUnitFluid ."/".$technology->areaUnitFluid. ",\n";
                 }
 
-                if ($technology->areaUnitFluid != NULL &&
-                    $technology->areaUnitFluid != '' &&
-                    $technology->areaUnitFluid != ' ' &&
-                    $technology->areaUnitFluid != '-') {
-                    $textTechnology .= "Площа одиниці Fluid: " . $technology->areaUnitFluid . ",\n";
-                }
 
-                if ($technology->watingTime != NULL &&
-                    $technology->watingTime != '' &&
-                    $technology->watingTime != ' ' &&
-                    $technology->watingTime != '-') {
+                if (!$technology->isEmpty($technology->watingTime)) {
                     $textTechnology .= "Час очікування: " . $technology->watingTime . ",\n";
                 }
 
-                if ($technology->watingTerms != NULL &&
-                    $technology->watingTerms != '' &&
-                    $technology->watingTerms != ' ' &&
-                    $technology->watingTerms != '-') {
-                    $textTechnology .= "Умови харчування: " . $technology->watingTerms . ",\n";
+                if (!$technology->isEmpty($technology->watingTerms)) {
+                    $textTechnology .= "Умови : " . $technology->watingTerms . ",\n";
                 }
 
-                if ($technology->features != NULL &&
-                    $technology->features != '' &&
-                    $technology->features != ' ' &&
-                    $technology->features != '-') {
+                if (!$technology->isEmpty($technology->features)) {
                     $textTechnology .= "Функции: " . $technology->features . ",\n";
                 }
 
@@ -217,7 +178,7 @@ trait Methods
                     $problemName .= $name . ',';
                 }
 
-                $text[] = ['technology' => $textTechnology, 'culture' => $nameCulture,'problem'=>$problemName];
+                $text[] = ['technology' => $textTechnology, 'culture' => $nameCulture, 'problem' => $problemName];
             }
 
             foreach ($text as $item) {
@@ -226,6 +187,11 @@ trait Methods
                 $this->bot->sendText('Застосування:' . $item['technology']);
             }
         }
+
+    }
+
+    public function getApplicationCulture()
+    {
 
     }
 
@@ -247,7 +213,7 @@ trait Methods
         $text = strip_tags($productDescription);
         if ($text != NULL && $text != '' && $text != ' ' && $text != '-') {
             $this->bot->sendText($text);
-        }else{
+        } else {
             $this->bot->sendText("Опис не найдено");
         }
 

@@ -118,6 +118,10 @@ class Logic
 
 
         }
+
+        if ($this->bot->currentMethod == self::APPLICATION_CULTURE) {
+            $this->applicationCulture();
+        }
     }
 
 

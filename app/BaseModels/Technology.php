@@ -46,4 +46,15 @@ class Technology extends Model
 
         return $problemGroups;
     }
+
+    public function isEmpty($item){
+        if ($item == NULL || $item == '' ||
+            $item == ' ' || $item == '-') {
+
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+
 }
