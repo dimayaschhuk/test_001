@@ -88,49 +88,117 @@ trait Methods
     public function applicationCulture()
     {
 
-        if($this->bot->getCultureId()){
+        if ($this->bot->getCultureId()) {
             $this->bot->setText('Вас цікавить?');
             $this->bot->setKeyboard([
                 'По всіх культурах',
                 'Вибраній культурі',
             ]);
             $this->bot->send(BaseBot::KEYBOARD);
-        }else{
+        } else {
             $technologies = Technology::where('productId', $this->bot->getProductId())->get();
             $text = [];
             foreach ($technologies as $technology) {
-                $textTechnology =
-                    'Споживання min:' . $technology->consumptionNormMin . ",\n"
-                    . "Споживання max:" . $technology->consumptionNormMax . ",\n"
-                    . "max кіл. лікування:" . $technology->consumptionNormMax . ",\n"
-                    ."Кількість одиниці" . $technology->amountUnit . ",\n"
-                    ."Площа одиниці" . $technology->areaUnit . ",\n"
-                    ."Споживання min Fluid " . $technology->consumptionNormMinFluid . ",\n"
-                    ."Споживання max Fluid" . $technology->consumptionNormMaxFluid . ",\n"
-                    ."Кількість одиниці Fluid" . $technology->amountUnitFluid . ",\n"
-                    ."Площа одиниці Fluid" . $technology->areaUnitFluid . ",\n"
-                    ."Час очікування" . $technology->watingTime . ",\n"
-                    ."Умови харчування". $technology->watingTerms . ",\n"
-                    ."Функции". $technology->features . ",\n";
-                $cultureId=\Illuminate\Support\Facades\DB::table('pd_CultureForCropProcessing')
-                    ->where('cropProcessingId',$technology->id)
+                $textTechnology = '';
+                if ($technology->consumptionNormMin != NULL &&
+                    $technology->consumptionNormMin != '' &&
+                    $technology->consumptionNormMin != ' ' &&
+                    $technology->consumptionNormMin != '-') {
+                    $textTechnology.= 'Споживання min:' . $technology->consumptionNormMin . ",\n";
+                }
+                if ($technology->consumptionNormMax != NULL &&
+                    $technology->consumptionNormMax != '' &&
+                    $technology->consumptionNormMax != ' ' &&
+                    $technology->consumptionNormMax != '-') {
+                    $textTechnology.= "Споживання max:" . $technology->consumptionNormMax . ",\n";
+                }
+
+                if ($technology->maxTreatmentCount != NULL &&
+                    $technology->maxTreatmentCount != '' &&
+                    $technology->maxTreatmentCount != ' ' &&
+                    $technology->maxTreatmentCount != '-') {
+                    $textTechnology.= "max кіл. лікування:" . $technology->maxTreatmentCount . ",\n";
+                }
+                if ($technology->amountUnit != NULL &&
+                    $technology->amountUnit != '' &&
+                    $technology->amountUnit != ' ' &&
+                    $technology->amountUnit != '-') {
+                    $textTechnology.= "Кількість одиниці" . $technology->amountUnit . ",\n";
+                }
+                if ($technology->areaUnit != NULL &&
+                    $technology->areaUnit != '' &&
+                    $technology->areaUnit != ' ' &&
+                    $technology->areaUnit != '-') {
+                    $textTechnology.= "Площа одиниці" . $technology->areaUnit . ",\n";
+                }
+
+                if ($technology->consumptionNormMinFluid != NULL &&
+                    $technology->consumptionNormMinFluid != '' &&
+                    $technology->consumptionNormMinFluid != ' ' &&
+                    $technology->consumptionNormMinFluid != '-') {
+                    $textTechnology.= "Споживання min Fluid " . $technology->consumptionNormMinFluid . ",\n";
+                }
+
+                if ($technology->consumptionNormMaxFluid != NULL &&
+                    $technology->consumptionNormMaxFluid != '' &&
+                    $technology->consumptionNormMaxFluid != ' ' &&
+                    $technology->consumptionNormMaxFluid != '-') {
+                    $textTechnology.= "Споживання max Fluid" . $technology->consumptionNormMaxFluid . ",\n";
+                }
+                if ($technology->amountUnitFluid != NULL &&
+                    $technology->amountUnitFluid != '' &&
+                    $technology->amountUnitFluid != ' ' &&
+                    $technology->amountUnitFluid != '-') {
+                    $textTechnology.= "Кількість одиниці Fluid" . $technology->amountUnitFluid . ",\n";
+                }
+
+                if ($technology->areaUnitFluid != NULL &&
+                    $technology->areaUnitFluid != '' &&
+                    $technology->areaUnitFluid != ' ' &&
+                    $technology->areaUnitFluid != '-') {
+                    $textTechnology.= "Площа одиниці Fluid" . $technology->areaUnitFluid . ",\n";
+                }
+
+                if ($technology->watingTime != NULL &&
+                    $technology->watingTime != '' &&
+                    $technology->watingTime != ' ' &&
+                    $technology->watingTime != '-') {
+                    $textTechnology.= "Час очікування" . $technology->watingTime . ",\n";
+                }
+
+                if ($technology->watingTerms != NULL &&
+                    $technology->watingTerms != '' &&
+                    $technology->watingTerms != ' ' &&
+                    $technology->watingTerms != '-') {
+                    $textTechnology.= "Умови харчування" . $technology->watingTerms . ",\n";
+                }
+
+                if ($technology->features != NULL &&
+                    $technology->features != '' &&
+                    $technology->features != ' ' &&
+                    $technology->features != '-') {
+                    $textTechnology.= "Функции" . $technology->features . ",\n";
+                }
+
+                $cultureId = \Illuminate\Support\Facades\DB::table('pd_CultureForCropProcessing')
+                    ->where('cropProcessingId', $technology->id)
                     ->pluck('cultureId')
                     ->toArray();
-                $cultureNames=Culture::whereIn('id',$cultureId)
+                $cultureNames = Culture::whereIn('id', $cultureId)
                     ->pluck('name')
                     ->toArray();
-                $nameCulture='';
-                foreach ($cultureNames as $cultureName){
-                    $nameCulture.=$cultureName.',';
+                $nameCulture = '';
+                foreach ($cultureNames as $cultureName) {
+                    $nameCulture .= $cultureName . ',';
                 }
 
 
-                $text[]=['technology'=>$textTechnology,'culture'=>$nameCulture];
+                $text[] = ['technology' => $textTechnology, 'culture' => $nameCulture];
             }
 
-            foreach ($text as $item){
-                $this->bot->sendText('Культури:'.$item['culture']);
-                $this->bot->sendText('Застосування:'.$item['technology']);
+            foreach ($text as $item) {
+                $this->bot->sendText('Культури:' . $item['culture']);
+                $this->bot->sendText('Застосування:' . $item['technology']);
             }
         }
 
