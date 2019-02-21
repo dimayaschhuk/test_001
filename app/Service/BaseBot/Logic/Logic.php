@@ -25,17 +25,17 @@ class Logic
     const BUTTON_ALL_PRODUCT_GROUP = 'Всі групи препаратів';
     const BUTTON_ALL_PRODUCT = 'Всі препарати';
 
-    const METHOD_WELCOME = 'welcome';
-    const METHOD_SELECT_FLOW = 'Вибір гілки';
+    const METHOD_WELCOME = 'Вибір гілки';
+    const METHOD_SELECT_FLOW = 'METHOD_SELECT_FLOW';
     const METHOD_SEND_TEXT_CULTURE = 'Вибір культури';
     const METHOD_SEARCH_CULTURE = 'searchCulture';
     const METHOD_SEND_TEXT_PROBLEM_GROUP = 'Вибір групи проблем';
     const METHOD_SEND_TEXT_PROBLEM = 'Вибір проблеми';
     const METHOD_SEND_TEXT_PRODUCT = 'Вибір Продукта';
 
-    const METHOD_PR_SEND_TEXT_PRODUCT_GROUP = 'Pr_sendTextProductGroup';
-    const METHOD_PR_SEND_TEXT_PRODUCT = 'Pr_sendTextProducts';
-    const METHOD_PR_SEND_TEXT_BRAND = 'Pr_sendTextBrand';
+    const METHOD_PR_SEND_TEXT_PRODUCT_GROUP = 'Вибір групи продуктів';
+    const METHOD_PR_SEND_TEXT_PRODUCT = 'Вибір продукта';
+    const METHOD_PR_SEND_TEXT_BRAND = 'Вибір бренда';
 
     const METHOD_AFTER_SELECTED_PRODUCT = 'afterSelectedProduct';
 
@@ -63,6 +63,9 @@ class Logic
 //        $this->bot->sendText('text: ' . $this->bot->getUserText());
 //        $this->bot->sendText('method' . $this->bot->currentMethod);
         if ($this->bot->getUserText() == BaseBot::BUTTON_GO_BACK) {
+            $this->goBack();
+        }
+        if ($this->bot->currentMethod == BaseBot::BUTTON_GO_BACK) {
             $this->goBack();
         }
         if ($this->bot->currentMethod == self::METHOD_WELCOME) {
@@ -141,6 +144,22 @@ class Logic
                 self::METHOD_PR_SEND_TEXT_PRODUCT,
                 self::METHOD_PR_SEND_TEXT_BRAND,
             ],
+        ];
+    }
+
+    public function getMethodAll()
+    {
+        return [
+            self::METHOD_WELCOME,
+            self::METHOD_SELECT_FLOW,
+            self::METHOD_SEND_TEXT_CULTURE,
+            self::METHOD_SEARCH_CULTURE,
+            self::METHOD_SEND_TEXT_PROBLEM_GROUP,
+            self::METHOD_SEND_TEXT_PROBLEM,
+            self::METHOD_PR_SEND_TEXT_PRODUCT_GROUP,
+            self::METHOD_PR_SEND_TEXT_PRODUCT,
+            self::METHOD_PR_SEND_TEXT_BRAND,
+
         ];
     }
 

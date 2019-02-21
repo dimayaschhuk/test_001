@@ -19,10 +19,20 @@ use Illuminate\Support\Facades\DB;
 trait Methods
 {
 
+
     public function goBack()
     {
-        $this->bot->setText("Куди саме ви хочете повернутися");
-        $keyboard = ['Виір гілки'];
+        $this->bot->setCurrentMethod(BaseBot::BUTTON_GO_BACK);
+        $userText = $this->bot->getUserText();
+
+        if (in_array($userText, $this->getMethodAll())) {
+            $this->bot->setCurrentMethod($userText);
+            $this->runMethod();
+            exit;
+        }
+
+        $this->bot->setText("Куди саме ви хочете повернутися?");
+        $keyboard = [Logic::METHOD_WELCOME];
         if ($this->bot->getCurrentFlow()) {
             $keyboard = array_merge($keyboard, $this->getMethod()[$this->bot->getCurrentFlow()]);
         }
@@ -127,11 +137,12 @@ trait Methods
     public function getApplicationCulture($flag = FALSE)
     {
 
-        if($flag){
-            $technologIDs=DB::table('pd_CultureForCropProcessing')
-                ->where('cultureId',$this->bot->getCultureId())->pluck('cropProcessingId')->toArray();
-            $technologies = Technology::where('productId', $this->bot->getProductId())->whereIn('id',$technologIDs)->get();
-        }else{
+        if ($flag) {
+            $technologIDs = DB::table('pd_CultureForCropProcessing')
+                ->where('cultureId', $this->bot->getCultureId())->pluck('cropProcessingId')->toArray();
+            $technologies = Technology::where('productId', $this->bot->getProductId())->whereIn('id',
+                $technologIDs)->get();
+        } else {
             $technologies = Technology::where('productId', $this->bot->getProductId())->get();
         }
 
