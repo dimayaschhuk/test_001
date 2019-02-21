@@ -36,7 +36,7 @@ class BaseBot
     const TYPE_VIBER = 'VIBER';
     const TYPE_TELGRAM = "TELEGRAM";
     const FIRST_METHOD = "welcome";
-    const TIME_CACHE = 1;
+    const TIME_CACHE = 60;
     const BUTTON_GO_BACK = 'Повернутися назад';
 
 
