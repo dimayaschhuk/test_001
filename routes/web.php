@@ -37,6 +37,9 @@ Route::post(\Telegram::getAccessToken(), function () {
 Route::post('/viber_bot', 'ViberController@webHook');
 Route::get('/viber_bot', 'ViberController@webHook');
 
+Route::post('/fb_bot', 'FBController@webHook');
+Route::get('/fb_bot', 'FBController@webHook');
+
 Route::get('/web_bot/{text?}', 'WebBotController@webHook');
 
 Route::get('/setWebHook', 'ViberController@setWebhook');
