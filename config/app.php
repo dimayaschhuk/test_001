@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Telegram\Bot\Laravel\TelegramServiceProvider::class,
+        Casperlaitw\LaravelFbMessenger\LaravelFbMessengerServiceProvider::class,
 
     ],
 
@@ -226,7 +227,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'Telegram'  => Telegram\Bot\Laravel\Facades\Telegram::class
+        'Telegram'  => Telegram\Bot\Laravel\Facades\Telegram::class,
+        'Menu' => Casperlaitw\LaravelFbMessenger\Facades\MessengerMenu::class,
 
     ],
 
