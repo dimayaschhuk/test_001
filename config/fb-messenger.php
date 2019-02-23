@@ -6,7 +6,7 @@ return [
     'app_secret' => env('MESSENGER_APP_SECRET'),
     'auto_typing' => true,
     'handlers' => [
-        Casperlaitw\LaravelFbMessenger\Contracts\DefaultHandler::class
+        App\MyHandler::class
     ],
     'custom_url' => '/webhook',
     'postbacks' => [],
