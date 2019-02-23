@@ -38,13 +38,12 @@ class FBController extends Controller
 
     }
 
-    public function verifyAccess()
+    public function verifyAccess(Request $request)
     {
-
         $localToken = env('FB_MESSENGER_WEBHOOK_TOKEN');
 
-        $hub_verify_token = request('hub_verify_token');
-        if ($localToken === $hub_verify_token) {
+        $hubVerifyToken = $request['hub_verify_token'];
+        if ($localToken === $hubVerifyToken) {
             echo request('hub_verify_token');
             exit;
         }
