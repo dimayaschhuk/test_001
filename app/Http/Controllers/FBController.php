@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 
 class FBController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $this->verifyAccess();
+        $this->verifyAccess($request);
         $input = json_decode(file_get_contents('php://input'), TRUE);
 
         $id = $input['entry'][0]['messaging'][0]['sender']['id'];
@@ -38,7 +38,7 @@ class FBController extends Controller
 
     }
 
-    public function verifyAccess(Request $request)
+    public function verifyAccess($request)
     {
         $localToken = env('FB_MESSENGER_WEBHOOK_TOKEN');
 
