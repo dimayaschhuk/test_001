@@ -10,6 +10,7 @@ namespace App;
 
 
 use Casperlaitw\LaravelFbMessenger\Contracts\BaseHandler;
+use Casperlaitw\LaravelFbMessenger\Messages\ButtonTemplate;
 use Casperlaitw\LaravelFbMessenger\Messages\ReceiveMessage;
 use Casperlaitw\LaravelFbMessenger\Messages\Text;
 
@@ -20,6 +21,12 @@ class MyHandler extends BaseHandler
 
     public function handle(ReceiveMessage $message)
     {
-        $this->send(new Text($message->getSender(), "Hello world"));
+        $button = new ButtonTemplate($message->getSender(), 'Default text');
+        $button
+            ->setText('Choose')
+            ->addPostBackButton('First Bbutton')
+            ->addPostBackButton('Second Button')
+            ->addPostBackButton('Third button');
+        $this->send($button);
     }
 }
