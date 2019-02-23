@@ -20,6 +20,6 @@ class MyHandler extends BaseHandler
 
     public function handle(ReceiveMessage $message)
     {
-        $this->send(new Text($message->getSender(), "hello world"));
+        $this->send(new Text($message->getSender(), "Hello world"));
     }
 }
