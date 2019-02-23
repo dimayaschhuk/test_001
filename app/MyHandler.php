@@ -32,6 +32,31 @@ class MyHandler extends BaseHandler
 
         $text = new Text($message->getSender(), "Default Handler: {$message->getMessage()}");
         $text->addQuick(new QuickReply('Red', 'PAYLOAD_RED'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+            ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'))
+
             ->addQuick(new QuickReply('Green', 'PAYLOAD_GREEN'));
 
         $this->send($text);
