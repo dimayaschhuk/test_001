@@ -101,7 +101,7 @@ if (!function_exists('send_keyboard')) {
 }
 
 if (!function_exists('send_keyboard_FB')) {
-    function send_text_FB(\App\Service\BaseBot\BaseBot $baseBot)
+    function send_keyboard_FB(\App\Service\BaseBot\BaseBot $baseBot)
     {
         (new MyHandler())->sendButton($baseBot->getId(),$baseBot->getKeyboard(),$baseBot->getText());
     }
