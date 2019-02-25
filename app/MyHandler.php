@@ -9,11 +9,14 @@
 namespace App;
 
 
+use App\Service\BaseBot\BaseBot;
 use Casperlaitw\LaravelFbMessenger\Contracts\BaseHandler;
+use Casperlaitw\LaravelFbMessenger\Contracts\Messages\Message;
 use Casperlaitw\LaravelFbMessenger\Messages\ButtonTemplate;
 use Casperlaitw\LaravelFbMessenger\Messages\QuickReply;
 use Casperlaitw\LaravelFbMessenger\Messages\ReceiveMessage;
 use Casperlaitw\LaravelFbMessenger\Messages\Text;
+use Illuminate\Support\Facades\Cache;
 
 
 class MyHandler extends BaseHandler
@@ -22,32 +25,46 @@ class MyHandler extends BaseHandler
 
     public function handle(ReceiveMessage $message)
     {
-        $button = new ButtonTemplate($message->getSender(), 'Default text');
-        $button
-            ->setText('Choose')
-            ->addPostBackButton('First Bbutton')
-            ->addPostBackButton('Second Button')
-            ->addPostBackButton('Third button');
+        $text = $message->getMessage();
+        $chatId = $message->getSender();
+        if (Cache::has(BaseBot::TYPE_FB . "/" . $chatId)) {
+            $baseBot = Cache::get(BaseBot::TYPE_FB . "/" . $chatId);
+            $baseBot->setUserText($text);
+            $baseBot->runMethod();
+
+        } else {
+            $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
+            $baseBot->setUserText($text);
+            $baseBot->runMethod();
+
+            Cache::put(BaseBot::TYPE_TELGRAM . "/" . $chatId, $baseBot, BaseBot::TIME_CACHE);
+        }
+
+
+    }
+
+    public function sendMessage($sender,$text)
+    {
+        $this->send(new Text($sender, $text));
+    }
+
+    public function sendButton($sender, $keyboards, $text)
+    {
+        $button = new ButtonTemplate($sender, $text);
+        $button->setText('Choose');
+        foreach ($keyboards as $keyboard) {
+            $button->addPostBackButton($keyboard);
+        }
+
         $this->send($button);
+    }
 
-        $text = new Text($message->getSender(), "Default Handler: {$message->getMessage()}");
-        $text
-            ->addQuick(new QuickReply('1', '1'))
-            ->addQuick(new QuickReply('2', '2'))
-            ->addQuick(new QuickReply('3', '3'));
-//            ->addQuick(new QuickReply('4', '4'))
-//            ->addQuick(new QuickReply('5', '5'))
-//            ->addQuick(new QuickReply('6', '6'))
-//            ->addQuick(new QuickReply('7', '7'))
-//            ->addQuick(new QuickReply('8', '8'))
-//            ->addQuick(new QuickReply('9', '9'))
-//            ->addQuick(new QuickReply('10','10'))
-//            ->addQuick(new QuickReply('11','11'))
-//            ->addQuick(new QuickReply('12','12'))
-//            ->addQuick(new QuickReply('13','13'))
-//            ->addQuick(new QuickReply('14','14'))
-//            ->addQuick(new QuickReply('15','15'));
-
+    public function sendKeyboard($sender, $keyboards, $textx)
+    {
+        $text = new Text($sender, $textx);
+        foreach ($keyboards as $keyboard) {
+            $text->addQuick(new QuickReply($keyboard, $keyboard));
+        }
 
         $this->send($text);
     }

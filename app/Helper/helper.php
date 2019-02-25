@@ -1,6 +1,7 @@
 <?php
 
 
+use App\MyHandler;
 use Viber\Api\Keyboard;
 use Viber\Api\Keyboard\Button;
 use Viber\Api\Sender;
@@ -33,6 +34,9 @@ use Viber\Bot;
 if (!function_exists('send_text')) {
     function send_text($typeBot, \App\Service\BaseBot\BaseBot $baseBot)
     {
+        if ($typeBot == \App\Service\BaseBot\BaseBot::TYPE_FB) {
+            send_text_FB($baseBot);
+        }
         if ($typeBot == \App\Service\BaseBot\BaseBot::TYPE_TELGRAM) {
             send_text_telegram($baseBot);
         }
@@ -40,6 +44,13 @@ if (!function_exists('send_text')) {
         if ($typeBot == \App\Service\BaseBot\BaseBot::TYPE_VIBER) {
             send_text_viber($baseBot);
         }
+    }
+}
+
+if (!function_exists('send_text_FB')) {
+    function send_text_FB(\App\Service\BaseBot\BaseBot $baseBot)
+    {
+        (new MyHandler())->sendMessage($baseBot->getId(),$baseBot->getText());
     }
 }
 
@@ -75,6 +86,9 @@ if (!function_exists('send_text_viber')) {
 if (!function_exists('send_keyboard')) {
     function send_keyboard($typeBot, \App\Service\BaseBot\BaseBot $baseBot)
     {
+        if ($typeBot == \App\Service\BaseBot\BaseBot::TYPE_FB) {
+            send_keyboard_FB($baseBot);
+        }
         if ($typeBot == \App\Service\BaseBot\BaseBot::TYPE_TELGRAM) {
             send_keyboard_telegram($baseBot);
         }
@@ -85,6 +99,15 @@ if (!function_exists('send_keyboard')) {
         }
     }
 }
+
+if (!function_exists('send_keyboard_FB')) {
+    function send_text_FB(\App\Service\BaseBot\BaseBot $baseBot)
+    {
+        (new MyHandler())->sendButton($baseBot->getId(),$baseBot->getKeyboard(),$baseBot->getText());
+    }
+}
+
+
 
 if (!function_exists('send_keyboard_telegram')) {
     function send_keyboard_telegram(\App\Service\BaseBot\BaseBot $baseBot)
