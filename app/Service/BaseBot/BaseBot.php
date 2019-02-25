@@ -52,17 +52,17 @@ class BaseBot
     public function send($typeMessage)
     {
 
-//        if ($typeMessage == self::TEXT) {
-//            $this->setKeyboard([]);
-//        }
-//        send_keyboard($this->typeBot, $this);
-        if ($typeMessage == self::KEYBOARD) {
-            send_keyboard($this->typeBot, $this);
-        }
-
         if ($typeMessage == self::TEXT) {
-            send_text($this->typeBot, $this);
+            $this->setKeyboard([]);
         }
+        send_keyboard($this->typeBot, $this);
+//        if ($typeMessage == self::KEYBOARD) {
+//            send_keyboard($this->typeBot, $this);
+//        }
+//
+//        if ($typeMessage == self::TEXT) {
+//            send_text($this->typeBot, $this);
+//        }
 
     }
 
