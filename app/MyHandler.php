@@ -60,21 +60,15 @@ class MyHandler extends BaseHandler
         $message->setMessage($text);
         $this->createBot(env('PAGE_ACCESS_TOKEN'));
 
-        $button = new ButtonTemplate($message->getSender(), $message->getMessage());
-        $button->setText($message->getMessage());
-        $button ->addElement('First item', 'description');
-
-
-        $this->send($button);
-//        $keyboards = array_chunk($keyboards, 3);
-//        foreach ($keyboards as $keyboard){
-//            $button = new ButtonTemplate($message->getSender(), $message->getMessage());
-//            $button->setText($message->getMessage());
-//            for ($i = 0; $i < count($keyboard); $i++) {
-//                $button->addPostBackButton($keyboard[$i]);
-//            }
-//            $this->send($button);
-//        }
+        $keyboards = array_chunk($keyboards, 3);
+        foreach ($keyboards as $keyboard){
+            $button = new ButtonTemplate($message->getSender(), $message->getMessage());
+            $button->setText($message->getMessage());
+            for ($i = 0; $i < count($keyboard); $i++) {
+                $button->addPostBackButton($keyboard[$i],'test');
+            }
+            $this->send($button);
+        }
     }
 
 //
