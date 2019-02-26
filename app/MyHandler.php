@@ -30,21 +30,21 @@ class MyHandler extends BaseHandler
         $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
         $baseBot->sendText('testMyFBBot');
 
-        if (Cache::has(BaseBot::TYPE_FB . "/" . $chatId)) {
-            $baseBot = Cache::get(BaseBot::TYPE_FB . "/" . $chatId);
-            $baseBot->sendText('RUN_2');
-//            $baseBot->setUserText($text);
-//            $baseBot->runMethod();
-//            $this->send(new Text($chatId, 'RUN'));
-//
-        } else {
-            $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
-//            $baseBot->setUserText($text);
-            $baseBot->sendText('START_2');
-//            $baseBot->runMethod();
-//
-            Cache::put(BaseBot::TYPE_FB . "/" . $chatId, $baseBot, BaseBot::TIME_CACHE);
-        }
+//        if (Cache::has(BaseBot::TYPE_FB . "/" . $chatId)) {
+//            $baseBot = Cache::get(BaseBot::TYPE_FB . "/" . $chatId);
+//            $baseBot->sendText('RUN_2');
+////            $baseBot->setUserText($text);
+////            $baseBot->runMethod();
+////            $this->send(new Text($chatId, 'RUN'));
+////
+//        } else {
+//            $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
+////            $baseBot->setUserText($text);
+//            $baseBot->sendText('START_2');
+////            $baseBot->runMethod();
+////
+//            Cache::put(BaseBot::TYPE_FB . "/" . $chatId, $baseBot, BaseBot::TIME_CACHE);
+//        }
 
 
     }
