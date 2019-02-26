@@ -36,12 +36,12 @@ class MyHandler extends BaseHandler
         } else {
             $this->send(new Text($chatId, 'START'));
 //            $this->send(new Text($chatId, 'false'));
-//            $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
+            $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
 //            $baseBot->setUserText($text);
 //            $baseBot->sendText('ddd');
 //            $baseBot->runMethod();
 //
-//            Cache::put(BaseBot::TYPE_TELGRAM . "/" . $chatId, $baseBot, BaseBot::TIME_CACHE);
+            Cache::put(BaseBot::TYPE_FB . "/" . $chatId, $baseBot, BaseBot::TIME_CACHE);
         }
 
 
