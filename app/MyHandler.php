@@ -27,8 +27,8 @@ class MyHandler extends BaseHandler
     {
         $this->send(new Text($message->getSender(), "test_0"));
 
-//        $chatId = $message->getSender();
-        $chatId = "2334437319914281";
+        $chatId = $message->getSender();
+
         $this->sendMessage($chatId,'test_1');
         $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
         $baseBot->sendText('test_2');
