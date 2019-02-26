@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Cache;
 class StartupPostback extends PostbackHandler
 {
 
-    protected $payload = 'test'; // You also can use regex!
+//    protected $payload = 'test'; // You also can use regex!
 
 
     public function handle(ReceiveMessage $message)
