@@ -23,24 +23,15 @@ use PhpParser\Node\Expr\Cast\Object_;
 
 class MyHandler extends BaseHandler
 {
-    protected $payload = 'test';
-
     public function handle(ReceiveMessage $message)
     {
 
         $chatId = $message->getSender();
         $text = $message->getMessage();
-        $this->sendMessage($chatId,'ffdd');
-
         if (Cache::has(BaseBot::TYPE_FB . "/" . $chatId)) {
             $baseBot = Cache::get(BaseBot::TYPE_FB . "/" . $chatId);
             $baseBot->setUserText($text);
             $baseBot->runMethod();
-
-//            $baseBot->setUserText($text);
-//            $baseBot->runMethod();
-//            $this->send(new Text($chatId, 'RUN'));
-//
         } else {
             $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
             $baseBot->setUserText($text);
@@ -69,17 +60,23 @@ class MyHandler extends BaseHandler
         $message->setMessage($text);
         $this->createBot(env('PAGE_ACCESS_TOKEN'));
 
+        $button = new ButtonTemplate($message->getSender(), $message->getMessage());
+        $button->setText($message->getMessage());
+        $button ->addElement('First item', 'description');
 
-        $keyboards = array_chunk($keyboards, 3);
-        foreach ($keyboards as $keyboard){
-            $button = new ButtonTemplate($message->getSender(), $message->getMessage());
-            $button->setText($message->getMessage());
-            for ($i = 0; $i < count($keyboard); $i++) {
-                $button->addPostBackButton($keyboard[$i]);
-            }
-            $this->send($button);
-        }
+
+        $this->send($button);
+//        $keyboards = array_chunk($keyboards, 3);
+//        foreach ($keyboards as $keyboard){
+//            $button = new ButtonTemplate($message->getSender(), $message->getMessage());
+//            $button->setText($message->getMessage());
+//            for ($i = 0; $i < count($keyboard); $i++) {
+//                $button->addPostBackButton($keyboard[$i]);
+//            }
+//            $this->send($button);
+//        }
     }
+
 //
     public function sendKeyboard($sender, $keyboards, $textx)
     {
@@ -87,8 +84,8 @@ class MyHandler extends BaseHandler
         $message->setMessage($textx);
         $this->createBot(env('PAGE_ACCESS_TOKEN'));
         $text = new Text($message->getSender(), "Default Handler: {$message->getMessage()}");
-        foreach ($keyboards as $keyboard){
-            $text->addQuick(new QuickReply($keyboard, $keyboard));
+        foreach ($keyboards as $keyboard) {
+            $text->addQuick(new QuickReply($keyboard, 'test'));
         }
 
 

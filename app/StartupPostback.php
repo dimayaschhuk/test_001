@@ -8,9 +8,11 @@
 
 namespace App;
 
+use App\Service\BaseBot\BaseBot;
 use Casperlaitw\LaravelFbMessenger\Contracts\PostbackHandler;
 use Casperlaitw\LaravelFbMessenger\Messages\ReceiveMessage;
 use Casperlaitw\LaravelFbMessenger\Messages\Text;
+use Illuminate\Support\Facades\Cache;
 
 class StartupPostback extends PostbackHandler
 {
@@ -20,6 +22,21 @@ class StartupPostback extends PostbackHandler
 
     public function handle(ReceiveMessage $message)
     {
-        $this->send(new Text($message->getSender(), "I got your payload"));
+        $chatId = $message->getSender();
+        $text = $message->getMessage();
+
+        if (Cache::has(BaseBot::TYPE_FB . "/" . $chatId)) {
+            $baseBot = Cache::get(BaseBot::TYPE_FB . "/" . $chatId);
+            $baseBot->setUserText($text);
+            $baseBot->runMethod();
+
+
+        } else {
+            $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
+            $baseBot->setUserText($text);
+            $baseBot->runMethod();
+
+            Cache::put(BaseBot::TYPE_FB . "/" . $chatId, $baseBot, BaseBot::TIME_CACHE);
+        }
     }
 }
