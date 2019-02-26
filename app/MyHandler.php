@@ -31,7 +31,10 @@ class MyHandler extends BaseHandler
 
         if (Cache::has(BaseBot::TYPE_FB . "/" . $chatId)) {
             $baseBot = Cache::get(BaseBot::TYPE_FB . "/" . $chatId);
-            $baseBot->sendText('RUN_2');
+            $baseBot->setText('RUN_2');
+            $baseBot->setKeyboard(['button_1', 'button_2', 'button_3']);
+            $baseBot->send(BaseBot::KEYBOARD);
+
 //            $baseBot->setUserText($text);
 //            $baseBot->runMethod();
 //            $this->send(new Text($chatId, 'RUN'));
@@ -39,7 +42,9 @@ class MyHandler extends BaseHandler
         } else {
             $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
 //            $baseBot->setUserText($text);
-            $baseBot->sendText('START_2');
+            $baseBot->setText('START_2');
+            $baseBot->setKeyboard(['button_1', 'button_2', 'button_3']);
+            $baseBot->send(BaseBot::KEYBOARD);
 //            $baseBot->runMethod();
 
             Cache::put(BaseBot::TYPE_FB . "/" . $chatId, $baseBot, BaseBot::TIME_CACHE);
@@ -50,30 +55,45 @@ class MyHandler extends BaseHandler
 
     public function sendMessage($sender, $text)
     {
+
         $message = new ReceiveMessage($sender, $sender);
         $message->setMessage($text);
         $this->createBot(env('PAGE_ACCESS_TOKEN'));
         $this->send(new Text($message->getSender(), $message->getMessage()));
+
     }
 
-//    public function sendButton($sender, $keyboards, $text)
-//    {
-//        $button = new ButtonTemplate($sender, $text);
-//        $button->setText('Choose');
-//        foreach ($keyboards as $keyboard) {
-//            $button->addPostBackButton($keyboard);
-//        }
+    public function sendButton($sender, $keyboards, $text)
+    {
+
+        $message = new ReceiveMessage($sender, $sender);
+        $message->setMessage($text);
+        $this->createBot(env('PAGE_ACCESS_TOKEN'));
+
+
+        $keyboards = array_chunk($keyboards, 3);
+        foreach ($keyboards as $keyboard){
+            $button = new ButtonTemplate($message->getSender(), $message->getMessage());
+            $button->setText($message->getMessage());
+            for ($i = 0; $i < count($keyboard); $i++) {
 //
-//        $this->send($button);
-//    }
+                $button->addPostBackButton($keyboard[0]);
+            }
+            $this->send($button);
+        }
+    }
 //
-//    public function sendKeyboard($sender, $keyboards, $textx)
-//    {
-//        $text = new Text($sender, $textx);
-//        foreach ($keyboards as $keyboard) {
-//            $text->addQuick(new QuickReply($keyboard, $keyboard));
-//        }
-//
-//        $this->send($text);
-//    }
+    public function sendKeyboard($sender, $keyboards, $textx)
+    {
+        $message = new ReceiveMessage($sender, $sender);
+        $message->setMessage($textx);
+        $this->createBot(env('PAGE_ACCESS_TOKEN'));
+        $text = new Text($message->getSender(), "Default Handler: {$message->getMessage()}");
+        foreach ($keyboards as $keyboard){
+            $text->addQuick(new QuickReply($keyboard, $keyboard));
+        }
+
+
+        $this->send($text);
+    }
 }

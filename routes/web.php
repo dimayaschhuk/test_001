@@ -132,7 +132,10 @@ Route::get('/testMyFBBot', function () {
         $chatId = "2334437319914281";
         $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
 //        $baseBot->setUserText($text);
-        $baseBot->sendText('testMyTelegramBot');
+
+        $baseBot->setText('START_2');
+        $baseBot->setKeyboard(['button_1','button_2','button_3']);
+        $baseBot->send(BaseBot::KEYBOARD);
         dd('testMyTelegramBot');
     }
 });
