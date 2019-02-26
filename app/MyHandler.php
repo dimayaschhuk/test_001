@@ -72,8 +72,7 @@ class MyHandler extends BaseHandler
             $button = new ButtonTemplate($message->getSender(), $message->getMessage());
             $button->setText($message->getMessage());
             for ($i = 0; $i < count($keyboard); $i++) {
-//
-                $button->addPostBackButton($keyboard[0]);
+                $button->addPostBackButton($keyboard[$i]);
             }
             $this->send($button);
         }
