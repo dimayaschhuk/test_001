@@ -34,7 +34,7 @@ class MyHandler extends BaseHandler
             $this->send(new Text($chatId, 'RUN'));
 //
         } else {
-            $this->send(new Text($chatId, 'START_1'));
+//            $this->send(new Text($chatId, 'START_1'));
 //            $this->send(new Text($chatId, 'false'));
             $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
 //            $baseBot->setUserText($text);
