@@ -25,36 +25,32 @@ class MyHandler extends BaseHandler
 {
     public function handle(ReceiveMessage $message)
     {
-        $this->send(new Text($message->getSender(), "test_0"));
 
         $chatId = $message->getSender();
+        $text = $message->getMessage();
 
-        $this->sendMessage($chatId,'test_1');
-        $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
-        $baseBot->sendText('test_2');
+        if (Cache::has(BaseBot::TYPE_FB . "/" . $chatId)) {
+            $baseBot = Cache::get(BaseBot::TYPE_FB . "/" . $chatId);
+            $baseBot->sendText('RUN_2');
+//            $baseBot->setUserText($text);
+//            $baseBot->runMethod();
+//            $this->send(new Text($chatId, 'RUN'));
+//
+        } else {
+            $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
+//            $baseBot->setUserText($text);
+            $baseBot->sendText('START_2');
+//            $baseBot->runMethod();
 
-//        if (Cache::has(BaseBot::TYPE_FB . "/" . $chatId)) {
-//            $baseBot = Cache::get(BaseBot::TYPE_FB . "/" . $chatId);
-//            $baseBot->sendText('RUN_2');
-////            $baseBot->setUserText($text);
-////            $baseBot->runMethod();
-////            $this->send(new Text($chatId, 'RUN'));
-////
-//        } else {
-//            $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
-////            $baseBot->setUserText($text);
-//            $baseBot->sendText('START_2');
-////            $baseBot->runMethod();
-////
-//            Cache::put(BaseBot::TYPE_FB . "/" . $chatId, $baseBot, BaseBot::TIME_CACHE);
-//        }
+            Cache::put(BaseBot::TYPE_FB . "/" . $chatId, $baseBot, BaseBot::TIME_CACHE);
+        }
 
 
     }
 
     public function sendMessage($sender, $text)
     {
-        $message = new ReceiveMessage($sender,$sender);
+        $message = new ReceiveMessage($sender, $sender);
         $message->setMessage($text);
         $this->createBot(env('PAGE_ACCESS_TOKEN'));
         $this->send(new Text($message->getSender(), "Test Handler: {$message->getMessage()}"));
