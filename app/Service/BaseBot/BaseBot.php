@@ -69,7 +69,7 @@ class BaseBot
     public function sendText($text)
     {
         $this->text = $text;
-        $this->send(self::TEXT);
+        send_text($this->typeBot, $this);
     }
 
 

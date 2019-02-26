@@ -10,13 +10,14 @@ namespace App;
 
 
 use App\Service\BaseBot\BaseBot;
-use Casperlaitw\LaravelFbMessenger\Contracts\BaseHandler;
+
 use Casperlaitw\LaravelFbMessenger\Contracts\Messages\Message;
 use Casperlaitw\LaravelFbMessenger\Messages\ButtonTemplate;
 use Casperlaitw\LaravelFbMessenger\Messages\QuickReply;
 use Casperlaitw\LaravelFbMessenger\Messages\ReceiveMessage;
 use Casperlaitw\LaravelFbMessenger\Messages\Text;
 use Illuminate\Support\Facades\Cache;
+use PhpParser\Node\Expr\Cast\Object_;
 
 
 class MyHandler extends BaseHandler
@@ -29,13 +30,11 @@ class MyHandler extends BaseHandler
         if (Cache::has(BaseBot::TYPE_FB . "/" . $chatId)) {
             $baseBot = Cache::get(BaseBot::TYPE_FB . "/" . $chatId);
             $baseBot->sendText('RUN_2');
-            $baseBot->setUserText($text);
+//            $baseBot->setUserText($text);
 //            $baseBot->runMethod();
 //            $this->send(new Text($chatId, 'RUN'));
 //
         } else {
-//            $this->send(new Text($chatId, 'START_1'));
-//            $this->send(new Text($chatId, 'false'));
             $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
 //            $baseBot->setUserText($text);
             $baseBot->sendText('START_2');
@@ -47,9 +46,12 @@ class MyHandler extends BaseHandler
 
     }
 
-    public function sendMessage($sender,$text)
+    public function sendMessage($sender, $text)
     {
-        $this->send(new Text($sender, $text));
+        $message = new ReceiveMessage($sender,$sender);
+        $message->setMessage('fff');
+        $this->createBot(env('PAGE_ACCESS_TOKEN'));
+        $this->send(new Text($message->getSender(), "Test Handler: {$message->getMessage()}"));
     }
 
     public function sendButton($sender, $keyboards, $text)
