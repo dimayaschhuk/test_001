@@ -27,7 +27,7 @@ class MyHandler extends BaseHandler
     {
         $text = $message->getMessage();
         $chatId = $message->getSender();
-//        $this->send(new Text($chatId, 'start'));
+        $this->send(new Text($chatId, $chatId));
         if (Cache::has(BaseBot::TYPE_FB . "/" . $chatId)) {
             $baseBot = Cache::get(BaseBot::TYPE_FB . "/" . $chatId);
             $baseBot->sendText('True');
