@@ -23,6 +23,8 @@ use PhpParser\Node\Expr\Cast\Object_;
 
 class MyHandler extends BaseHandler
 {
+    protected $payload = 'test';
+
     public function handle(ReceiveMessage $message)
     {
 
