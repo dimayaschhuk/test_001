@@ -11,6 +11,7 @@ namespace App;
 
 use App\Service\BaseBot\BaseBot;
 
+use Casperlaitw\LaravelFbMessenger\Contracts\BaseHandler;
 use Casperlaitw\LaravelFbMessenger\Contracts\Messages\Message;
 use Casperlaitw\LaravelFbMessenger\Messages\ButtonTemplate;
 use Casperlaitw\LaravelFbMessenger\Messages\QuickReply;
@@ -24,7 +25,7 @@ class MyHandler extends BaseHandler
 {
     public function handle(ReceiveMessage $message)
     {
-        $this->send(new Text($message->getSender(), "Default Handler: {$message->getMessage()}"));
+        $this->send(new Text($message->getSender(), "test_0"));
 
 //        $chatId = $message->getSender();
         $chatId = "2334437319914281";

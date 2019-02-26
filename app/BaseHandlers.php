@@ -18,7 +18,7 @@ use Casperlaitw\LaravelFbMessenger\Messages\ReceiveMessage;
  * Class BaseHandler
  * @package Casperlaitw\LaravelFbMessenger\Contracts
  */
-abstract class BaseHandler implements HandlerInterface
+abstract class BaseHandlers implements HandlerInterface
 {
     /**
      * @var Bot
