@@ -57,24 +57,24 @@ class MyHandler extends BaseHandler
         $this->send(new Text($message->getSender(), "Test Handler: {$message->getMessage()}"));
     }
 
-    public function sendButton($sender, $keyboards, $text)
-    {
-        $button = new ButtonTemplate($sender, $text);
-        $button->setText('Choose');
-        foreach ($keyboards as $keyboard) {
-            $button->addPostBackButton($keyboard);
-        }
-
-        $this->send($button);
-    }
-
-    public function sendKeyboard($sender, $keyboards, $textx)
-    {
-        $text = new Text($sender, $textx);
-        foreach ($keyboards as $keyboard) {
-            $text->addQuick(new QuickReply($keyboard, $keyboard));
-        }
-
-        $this->send($text);
-    }
+//    public function sendButton($sender, $keyboards, $text)
+//    {
+//        $button = new ButtonTemplate($sender, $text);
+//        $button->setText('Choose');
+//        foreach ($keyboards as $keyboard) {
+//            $button->addPostBackButton($keyboard);
+//        }
+//
+//        $this->send($button);
+//    }
+//
+//    public function sendKeyboard($sender, $keyboards, $textx)
+//    {
+//        $text = new Text($sender, $textx);
+//        foreach ($keyboards as $keyboard) {
+//            $text->addQuick(new QuickReply($keyboard, $keyboard));
+//        }
+//
+//        $this->send($text);
+//    }
 }
