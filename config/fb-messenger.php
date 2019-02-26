@@ -9,7 +9,9 @@ return [
         App\MyHandler::class
     ],
     'custom_url' => '/webhook',
-    'postbacks' => [],
+    'postbacks' => [
+        App\MyHandler::class
+    ],
     'home_url' => [
         'url' => env('APP_URL'),
          'webview_share_button' => 'show',
