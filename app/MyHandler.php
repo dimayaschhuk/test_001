@@ -24,6 +24,8 @@ class MyHandler extends BaseHandler
 {
     public function handle(ReceiveMessage $message)
     {
+        $this->send(new Text($message->getSender(), "Default Handler: {$message->getMessage()}"));
+
 //        $chatId = $message->getSender();
         $chatId = "2334437319914281";
         $this->sendMessage($chatId,'test_1');
