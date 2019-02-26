@@ -10,7 +10,7 @@ return [
     ],
     'custom_url' => '/webhook',
     'postbacks' => [
-        App\MyHandler::class
+        App\StartupPostback::class
     ],
     'home_url' => [
         'url' => env('APP_URL'),
