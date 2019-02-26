@@ -102,8 +102,6 @@ Route::get('/deleteMyCacheFB', function () {
 });
 
 
-
-
 Route::get('/testMyViberBot', function () {
     {
         $text = '1111';
@@ -127,17 +125,19 @@ Route::get('/testMyTelegramBot', function () {
 });
 
 Route::get('/testMyFBBot', function () {
-    {
-        $text = '1111';
-        $chatId = "2334437319914281";
-        $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
+
+    $text = '1111';
+    $chatId = "2334437319914281";
+    $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
 //        $baseBot->setUserText($text);
 
-        $baseBot->setText('START_2');
-        $baseBot->setKeyboard(['button_1','button_2','button_3']);
-        $baseBot->send(BaseBot::KEYBOARD);
-        dd('testMyTelegramBot');
-    }
+    $baseBot->setText('START_2');
+    $baseBot->setKeyboard(['test_1', 'test_2']);
+    $baseBot->send(BaseBot::KEYBOARD);
+//        $baseBot->setKeyboard(['button_1','button_2','button_3','button_4','button_5','button_6','button_7']);
+//        $baseBot->send(BaseBot::KEYBOARD);
+    dd('testMyTelegramBot');
+
 });
 
 
@@ -154,29 +154,29 @@ Route::get('/testBot', function () {
             $textTechnology = 'consumptionNormMin:' . $technology->consumptionNormMin . ","
                 . "consumptionNormMax:" . $technology->consumptionNormMax . ","
                 . "maxTreatmentCount:" . $technology->consumptionNormMax . ","
-                ."amountUnit" . $technology->amountUnit . ","
-                ."areaUnit" . $technology->areaUnit . ","
-                ."consumptionNormMinFluid" . $technology->consumptionNormMinFluid . ","
-                ."consumptionNormMaxFluid" . $technology->consumptionNormMaxFluid . ","
-                ."amountUnitFluid" . $technology->amountUnitFluid . ","
-                ."areaUnitFluid" . $technology->areaUnitFluid . ","
-                ."watingTime" . $technology->watingTime . ","
-                ."watingTerms". $technology->watingTerms . ","
-                ."features". $technology->features . ",";
-            $cultureId=\Illuminate\Support\Facades\DB::table('pd_CultureForCropProcessing')
-                ->where('cropProcessingId',$technology->id)
+                . "amountUnit" . $technology->amountUnit . ","
+                . "areaUnit" . $technology->areaUnit . ","
+                . "consumptionNormMinFluid" . $technology->consumptionNormMinFluid . ","
+                . "consumptionNormMaxFluid" . $technology->consumptionNormMaxFluid . ","
+                . "amountUnitFluid" . $technology->amountUnitFluid . ","
+                . "areaUnitFluid" . $technology->areaUnitFluid . ","
+                . "watingTime" . $technology->watingTime . ","
+                . "watingTerms" . $technology->watingTerms . ","
+                . "features" . $technology->features . ",";
+            $cultureId = \Illuminate\Support\Facades\DB::table('pd_CultureForCropProcessing')
+                ->where('cropProcessingId', $technology->id)
                 ->pluck('cultureId')
                 ->toArray();
-            $cultureNames=Culture::whereIn('id',$cultureId)
+            $cultureNames = Culture::whereIn('id', $cultureId)
                 ->pluck('name')
                 ->toArray();
-            $nameCulture='';
-            foreach ($cultureNames as $cultureName){
-                $nameCulture.=$cultureName.',';
+            $nameCulture = '';
+            foreach ($cultureNames as $cultureName) {
+                $nameCulture .= $cultureName . ',';
             }
 
 
-            $text[]=['technology'=>$textTechnology,'culture'=>$nameCulture];
+            $text[] = ['technology' => $textTechnology, 'culture' => $nameCulture];
         }
         dd($text);
     }
