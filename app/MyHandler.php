@@ -26,21 +26,21 @@ class MyHandler extends BaseHandler
         $text = $message->getMessage();
         $chatId = $message->getSender();
         $this->send(new Text($chatId, $chatId));
-        if (Cache::has(BaseBot::TYPE_FB . "/" . $chatId)) {
-            $baseBot = Cache::get(BaseBot::TYPE_FB . "/" . $chatId);
-            $baseBot->sendText('True');
-            $baseBot->setUserText($text);
-            $baseBot->runMethod();
-
-        } else {
-            $this->send(new Text($chatId, 'false'));
-            $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
-            $baseBot->setUserText($text);
-            $baseBot->sendText('ddd');
-            $baseBot->runMethod();
-
-            Cache::put(BaseBot::TYPE_TELGRAM . "/" . $chatId, $baseBot, BaseBot::TIME_CACHE);
-        }
+//        if (Cache::has(BaseBot::TYPE_FB . "/" . $chatId)) {
+//            $baseBot = Cache::get(BaseBot::TYPE_FB . "/" . $chatId);
+//            $baseBot->sendText('True');
+//            $baseBot->setUserText($text);
+//            $baseBot->runMethod();
+//
+//        } else {
+//            $this->send(new Text($chatId, 'false'));
+//            $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
+//            $baseBot->setUserText($text);
+//            $baseBot->sendText('ddd');
+//            $baseBot->runMethod();
+//
+//            Cache::put(BaseBot::TYPE_TELGRAM . "/" . $chatId, $baseBot, BaseBot::TIME_CACHE);
+//        }
 
 
     }
