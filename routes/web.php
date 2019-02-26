@@ -126,6 +126,17 @@ Route::get('/testMyTelegramBot', function () {
     }
 });
 
+Route::get('/testMyFBBot', function () {
+    {
+        $text = '1111';
+        $chatId = "2334437319914281";
+        $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
+//        $baseBot->setUserText($text);
+        $baseBot->sendText('testMyTelegramBot');
+        dd('testMyTelegramBot');
+    }
+});
+
 
 Route::get('/testBot', function () {
 

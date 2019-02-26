@@ -49,7 +49,7 @@ class MyHandler extends BaseHandler
     public function sendMessage($sender, $text)
     {
         $message = new ReceiveMessage($sender,$sender);
-        $message->setMessage('fff');
+        $message->setMessage($text);
         $this->createBot(env('PAGE_ACCESS_TOKEN'));
         $this->send(new Text($message->getSender(), "Test Handler: {$message->getMessage()}"));
     }
