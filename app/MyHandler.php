@@ -31,9 +31,8 @@ class MyHandler extends BaseHandler
 
         if (Cache::has(BaseBot::TYPE_FB . "/" . $chatId)) {
             $baseBot = Cache::get(BaseBot::TYPE_FB . "/" . $chatId);
-            $baseBot->setText('RUN_2');
-            $baseBot->setKeyboard(['button_1', 'button_2', 'button_3']);
-            $baseBot->send(BaseBot::KEYBOARD);
+            $baseBot->setUserText($text);
+            $baseBot->runMethod();
 
 //            $baseBot->setUserText($text);
 //            $baseBot->runMethod();
@@ -41,11 +40,8 @@ class MyHandler extends BaseHandler
 //
         } else {
             $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
-//            $baseBot->setUserText($text);
-            $baseBot->setText('START_2');
-            $baseBot->setKeyboard(['button_1', 'button_2', 'button_3']);
-            $baseBot->send(BaseBot::KEYBOARD);
-//            $baseBot->runMethod();
+            $baseBot->setUserText($text);
+            $baseBot->runMethod();
 
             Cache::put(BaseBot::TYPE_FB . "/" . $chatId, $baseBot, BaseBot::TIME_CACHE);
         }
