@@ -88,6 +88,21 @@ Route::get('/getMyCacheViber', function () {
     }
 });
 
+Route::get('/getMyCacheFB', function () {
+    {
+        dd(Cache::get(BaseBot::TYPE_FB . "/" . "2334437319914281"));
+    }
+});
+
+Route::get('/deleteMyCacheFB', function () {
+    {
+        Cache::pull(BaseBot::TYPE_FB . "/" . "2334437319914281");
+        dd('delete FB...done');
+    }
+});
+
+
+
 
 Route::get('/testMyViberBot', function () {
     {

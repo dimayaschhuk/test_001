@@ -21,8 +21,6 @@ use Illuminate\Support\Facades\Cache;
 
 class MyHandler extends BaseHandler
 {
-    protected $payload = 'USER_DEFINED_PAYLOAD';
-
     public function handle(ReceiveMessage $message)
     {
         $text = $message->getMessage();
