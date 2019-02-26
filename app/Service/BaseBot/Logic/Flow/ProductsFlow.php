@@ -48,13 +48,13 @@ trait ProductsFlow
         }
 
         $this->bot->setText('Виберіть із списку групу в яку входить препарат');
-        $prodGroupNames = ProductGroup::where("name", "LIKE", "{$userText}%")->limit(7)->pluck('name')->toArray();
+        $prodGroupNames = ProductGroup::where("name", "LIKE", "{$userText}%")->limit(14)->pluck('name')->toArray();
 
         if (empty($prodGroupNames)) {
             $this->bot->setText('Введіть перші 3 букви назви препарату або виберіть із списку групу в яку входить препарат');
-            $prodGroupNames = ProductGroup::offset(($currentPage - 1) * 7)->limit($currentPage * 7)->pluck('name')->toArray();
+            $prodGroupNames = ProductGroup::offset(($currentPage - 1) * 15)->limit($currentPage * 15)->pluck('name')->toArray();
 
-            if (count($prodGroupNames) > 7 || $currentPage != 1) {
+            if (count($prodGroupNames) > 14 || $currentPage != 1) {
                 if (!empty($prodGroupNames)) {
                     $prodGroupNames[] = Logic::BUTTON_FORWARD;
                 }
@@ -73,7 +73,7 @@ trait ProductsFlow
     {
         $userText = $this->bot->getUserText();
         $productNames = Product::where("name", "LIKE", "{$userText}%")
-            ->limit(7)
+            ->limit(15)
             ->pluck('name')
             ->toArray();
         $this->bot->setText('Виберіть із списку препарат');
@@ -133,7 +133,7 @@ trait ProductsFlow
 
         $productNames = Product::where("name", "LIKE", "{$userText}%")
             ->where('brandId', $brandId)
-            ->limit(7)
+            ->limit(12)
             ->pluck('name')
             ->toArray();
 
@@ -147,13 +147,13 @@ trait ProductsFlow
         if (empty($productNames)) {
             $productNames = Product::where('groupId', $productGroupId)
                 ->where('brandId', $brandId)
-                ->offset(($currentPage - 1) * 7)->limit($currentPage * 7)
+                ->offset(($currentPage - 1) * 15)->limit($currentPage * 15)
                 ->pluck('name')->toArray();
 
-            if(count($productNames)>7 || $currentPage!=1)
-            if (!empty($productNames)) {
-                $productNames[] = Logic::BUTTON_FORWARD;
-            }
+            if(count($productNames)>14 || $currentPage!=1)
+                if (!empty($productNames)) {
+                    $productNames[] = Logic::BUTTON_FORWARD;
+                }
             $productNames[] = Logic::BUTTON_BACK;
         } else {
             $productNames[] = Logic::BUTTON_ALL_PRODUCT;
