@@ -24,11 +24,11 @@ class MyHandler extends BaseHandler
 {
     public function handle(ReceiveMessage $message)
     {
-        $text = $message->getMessage();
-        $chatId = $message->getSender();
-
+//        $chatId = $message->getSender();
+        $chatId = "2334437319914281";
+        $this->sendMessage($chatId,'test_1');
         $baseBot = new BaseBot(BaseBot::TYPE_FB, $chatId);
-        $baseBot->sendText('testMyFBBot');
+        $baseBot->sendText('test_2');
 
 //        if (Cache::has(BaseBot::TYPE_FB . "/" . $chatId)) {
 //            $baseBot = Cache::get(BaseBot::TYPE_FB . "/" . $chatId);
