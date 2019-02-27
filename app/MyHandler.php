@@ -71,7 +71,6 @@ class MyHandler extends BaseHandler
             for ($i = 0; $i < count($keyboard); $i++) {
                 $button->addPostBackButton($keyboard[$i]);
             }
-            dump($button);
             $this->send($button);
         }
     }
