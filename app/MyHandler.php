@@ -19,6 +19,7 @@ use Casperlaitw\LaravelFbMessenger\Messages\ReceiveMessage;
 use Casperlaitw\LaravelFbMessenger\Messages\Text;
 use Illuminate\Support\Facades\Cache;
 use PhpParser\Node\Expr\Cast\Object_;
+use function PHPSTORM_META\elementType;
 
 
 class MyHandler extends BaseHandler
@@ -66,6 +67,8 @@ class MyHandler extends BaseHandler
             $button = new ButtonTemplate($message->getSender());
             if($q===0){
                 $button->setText($message->getMessage());
+            }else{
+                $button->setText('');
             }
             $q++;
             for ($i = 0; $i < count($keyboard); $i++) {
