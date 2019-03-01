@@ -64,7 +64,7 @@ class MyHandler extends BaseHandler
         $q = 0;
         foreach ($keyboards as $keyboard) {
             $button = new ButtonTemplate($message->getSender());
-            $textMessage = ($q === 0) ? $message->getMessage() : 'або';
+            $textMessage = ($q === 0) ? $message->getMessage() : '-';
             $q++;
             $button->setText($textMessage);
             for ($i = 0; $i < count($keyboard); $i++) {
