@@ -61,9 +61,12 @@ class MyHandler extends BaseHandler
         $this->createBot(env('PAGE_ACCESS_TOKEN'));
         $message->setMessage($text);
         $keyboards = array_chunk($keyboards, 3);
+        $q = 0;
         foreach ($keyboards as $keyboard) {
             $button = new ButtonTemplate($message->getSender());
-            $button->setText($message->getMessage());
+            $textMessage = ($q === 0) ? $message->getMessage() : 'або';
+            $q++;
+            $button->setText($textMessage);
             for ($i = 0; $i < count($keyboard); $i++) {
                 $button->addPostBackButton($keyboard[$i]);
             }
