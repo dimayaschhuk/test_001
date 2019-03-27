@@ -225,4 +225,8 @@ Route::get('/MIGRATE', function () {
     }
 });
 
+Route::get('/rand', function () {
+    dd(floor(collect([rand(1, 2), rand(2, 3), rand(3, 2), rand(2, 1), rand(1, 4)])->avg()));
+});
+
 
