@@ -26,6 +26,7 @@ use Viber\Api\Sender;
 use Viber\Bot;
 
 Route::get('/', function () {
+    dd('welcome');
     return view('welcome');
 });
 
