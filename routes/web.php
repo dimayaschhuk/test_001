@@ -46,7 +46,7 @@ Route::get('/web_bot/{text?}', 'WebBotController@webHook');
 Route::get('/setWebHook', 'ViberController@setWebhook');
 
 Route::get('/set', 'TestController@setWebHook');
-Route::get('/get', 'TestController@getWebHookInfo');
+Route::get('/getWebHookInfo', 'TestController@getWebHookInfo');
 
 Route::get('/deleteMyCacheViber', function () {
     {
